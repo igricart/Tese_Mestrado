@@ -1,0 +1,9 @@
+Antoniadis, A.; G. Oppenheim, Eds. (1995), Wavelets and statistics, 103, Lecture Notes in Statistics, Springer Verlag.
+
+Donoho, D.L. (1993), “Progress in wavelet analysis and WVD: a ten minute tour,” in Progress in wavelet analysis and applications, Y. Meyer, S. Roques, pp. 109–128. Frontières Ed.
+
+Donoho, D.L.; I.M. Johnstone (1994), “Ideal spatial adaptation by wavelet shrinkage,” Biometrika, Vol. 81, pp. 425–455.
+
+Donoho, D.L. (1995), “De-noising by soft-thresholding,” IEEE Trans. on Inf. Theory, 42 3, pp. 613– 627.
+
+Donoho, D.L.; I.M. Johnstone, G. Kerkyacharian, D. Picard (1995), “Wavelet shrinkage: asymptotia,” Jour. Roy. Stat. Soc., series B, Vol. 57, No. 2, pp. 301–369.

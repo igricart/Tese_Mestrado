@@ -1,0 +1,4 @@
+%% Open graphics from GaitData
+
+filename = 'GaitData.xlsx';
+A = xlsread(filename)
