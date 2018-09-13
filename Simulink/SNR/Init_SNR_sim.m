@@ -10,7 +10,7 @@ simulation_step = 1e-3;
 step_period = 1;
 
 % Empirical SNR estimation parameters 
-window_size = [10 10 10 10];
+window_size = [60 20 20 40];
 bufferNSR=zeros(0.05/simulation_step,1);
 
 %% Load control signal data
