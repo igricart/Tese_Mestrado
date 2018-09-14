@@ -55,18 +55,18 @@ h_ctrl = [ ez -ey -ey -ey ];
 G_ctrl = g*ez;
 
 %% PD
-%
-wn = 2*pi*8;
-zeta = 0.9;
-kd = 2*zeta*wn;
-ki = 0;
-kp = wn^2;
-Kp = kp*eye(n); Kd = kd*eye(n); Ki = ki*eye(n);
+% %
+% wn = 2*pi*8;
+% zeta = 0.9;
+% kd = 2*zeta*wn;
+% ki = 0;
+% kp = wn^2;
+% Kp = kp*eye(n); Kd = kd*eye(n); Ki = ki*eye(n);
 %% PID
 
 wn = 2*pi*8;
 zeta = 0.9;
-p = 2*wn;
+p = 3*wn;
 ki = p*wn^2;
 kp = 2*zeta*wn*p + wn^2;
 kd = p + 2*zeta*wn;
@@ -112,7 +112,7 @@ tau = 0.001;
 q0 = qInit;
 
 %% Computed Torque parameter mismatch
-param_error = (1 + 0.5*(rand()-1/2));
+param_error = (1 + 0.1*(rand()-1/2));
 
 Mass_ctrl = Mass_ctrl.*param_error;
 Inertia_ctrl = Inertia_ctrl.*param_error;

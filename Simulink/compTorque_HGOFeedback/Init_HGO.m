@@ -12,7 +12,7 @@ Lc3 = [P(2:end)]';
 Lc4 = [P(2:end)]';
 L1 = [Lc1 Lc2 Lc3 Lc4];
 
-Mu = 1e-3;
+Mu = 1*(1e-3);
 
 L_hgo = [2*eye(4);6*eye(4)];
 %L_hgo = L1;
