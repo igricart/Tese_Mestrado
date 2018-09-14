@@ -201,4 +201,16 @@ The SNR estimation was implemented today and the estimation error has to be impl
 
 Tests with SNR estimation have been done in order to set an average SNR for each control signal. A problem regarding the noise has arised as the noise is calculated subtracting real signal from the filtered one and the second is dependent on window size, in other words, the raw SNR changes according to the window size as well. It becomes tricky to set this size, so a script will be run changing the window size values to relate accordingly to the SNR.
 
-\textbf{2018-09-11}
+\textbf{2018-09-13}
+
+After trying to run the simulation with HGO state feedback one could see a noisy control signal due to a high parametrical error (25\%), the solution was a reduction to 10\%.
+
+After a meeting with Jacoud, it was decided that no proper SNR will be measured. The noise measure is $u_{max} - u_{min}$ and some other parameters will com from that. The idea is to create a noise measure block where the control signal is the input and there will be 4 outputs:
+\begin{itemize}
+    \item $abs(u_{max} - u_{min}) = \Delta$
+    \item $\Delta$ filtered with $\frac{1}{s + 1}$
+    \item $\frac{\Delta}{control\_signal_{mean}}$
+    \item $\frac{\Delta}{control\_signal_{mean}}$ filtered with $\frac{1}{s + 1}$
+\end{itemize}
+
+After ploting the results, it can be seen that the filtered signals have smoothier behaviours and therefore are more likely to be used, otherwise the $\mu$ from observer will change its values in high frequency.
