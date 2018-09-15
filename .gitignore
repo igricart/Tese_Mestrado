@@ -59,8 +59,8 @@ octave-workspace
 *.log
 *.toc
 
-# PDF output - usually a bad idea to keep this in Git
-*.pdf
+# DS_Store
+*.DS_Store
 
 # Latexmk
 *.fdb_latexmk
