@@ -1,0 +1,904 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%closed-loop%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out
+                                                          % if you need a4paper
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
+                                                          % paper
+
+\IEEEoverridecommandlockouts                              % This command is only
+                                                          % needed if you want to
+                                                          % use the \thanks command
+\overrideIEEEmargins
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+%\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{epsfig} % for postscript graphics files
+\usepackage{mathptmx} % assumes new font selection scheme installed
+\usepackage{times} % assumes new font selection scheme installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{lmodern}
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{graphicx}     % 
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{epsfig} % for postscript graphics files
+\usepackage{epstopdf}     % conversion to .pdf
+\usepackage{url}
+\usepackage{calc}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{xspace}
+\usepackage{standalone}
+\let\proof\relax 
+\let\endproof\relax 
+\usepackage{amsthm}
+\let\labelindent\relax
+\usepackage{enumitem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{cite}
+\bibliographystyle{IEEEtran}
+%
+\usepackage{hyperref}
+\hypersetup{plainpages = {false},
+			bookmarksopen = {true},
+			bookmarksnumbered = {true},
+			breaklinks = {true},
+			pdfstartview={FitH},
+			pdfcreator={PDFtime-varyingLaTeX-DPD},	
+			pdfproducer={PDFLaTeX-DPD},	
+			colorlinks=true,
+			citecolor=black,
+			linkcolor=black,
+			urlcolor=black,
+			filecolor=black,
+			bookmarksopen=true
+} % links em preto
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphical path
+\graphicspath{{./figs/}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TIKZ % ---
+% Defining string as labels of certain blocks.
+\newcommand{\suma}{\Large$+$}
+\newcommand{\sumb}{\Large$\Sigma$}
+\newcommand{\minusa}{\Large$-$}
+\newcommand{\timesa}{\Large$\times$}
+\newcommand{\inte}{$\displaystyle \int$}
+\newcommand{\derv}{\huge$\frac{d}{dt}$}
+
+\newcommand{\dd}[1]{ %Marca uma revisão
+    {\color{red}[\![} {\color{blue}\bf#1\xspace} {\color{red}]\!]}
+}
+\def\re{{\rm I}\! {\rm R}}
+\newcommand{\mref}[1]{(\ref{#1})}
+\newcommand{\sat}[1]{\mbox{sat}\,}
+\renewcommand{\t}{^{\mbox{\tiny\sf T}}} % transposto 
+\newcommand\norm[1]{\ensuremath{\lVert#1\rVert}}
+\newcommand\abs[1]{\ensuremath{\lvert#1\rvert}}
+\newcommand{\matx}[1]{{\textbf #1}}
+\def\QED{\mbox{\rule[0pt]{1.0ex}{1.0ex}}} 
+\def\proof{\noindent\hspace{2em}{\it Proof: }}
+\def\endproof{\hspace*{\fill}~\QED\par\endtrivlist\unskip}
+%
+\newcommand{\rd}[1]{\textcolor{red}{#1}}
+\newcommand{\unit}[1]{\si{#1}}
+\newcommand{\myunit}[2]{\num{#1}\,\si{#2}}
+%----------------------------------------------------
+%  Cross references
+%----------------------------------------------------
+\newcommand{\tabref}[1]{Tabela~\ref{#1}}
+\renewcommand{\eqref}[1]{Eq.~(\ref{#1})}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\figuref}[1]{Figure~\ref{#1}}
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{-10pt} % reduce space
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem*{cor}{Corollary}
+%
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{conj}{Conjecture}
+\newtheorem{exmp}{Example}
+%
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\title{\LARGE \bf
+Smooth Sliding Control Applied to Prosthetic Legs via Variable High Gain Observer}
+
+
+\author{Alessandro J. Peixoto, %
+        Ign\'{a}cio de A. M. Ricart and
+        Matheus Ferreira dos Reis %and
+		%Diego Pereira Dias%		 <-this % stops a space
+		%
+% <-this % stops a space
+}
+
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\onecolumn
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg,.mps,.ps,.eps}
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}%
+In this draft note, we focused on the state estimation of a robot/prosthesis control system with vertical hip displacement, thigh angle and knee angle. The ankle joint is disregarded just to simplify the presentation of the key idea.  The dynamic model and the motivation for state estimation were inspired from \cite{Fakoorian2016, Azimi2015, Warner2016, Richter2015}, where it was mentioned that there are several drawbacks regarding the usage of load cells and/or sensors in robots and prosthetic legs to capture gait data, external forces (GRFs) and moments during walking. Thus, state estimation via Extended Kalman Filter (EKF) \cite{Fakoorian2016, Huang2009}, High Gain Observer (HGO) \cite{Zhang2016, Khalil2008, Foss2003} and  Sliding Mode Observer (SMO) are promising as well as the estimation of forces acting on the prosthetic foot. We propose the implementation of an HGO with variable dynamic gain. The key idea is to design a time-varying HGO gain synthesized from measurable signals. This dynamic gain can be designed to: (i) reduce the amount of noise in the control signal while keeping an acceptable tracking error  transient performance; (ii) guarantee global/semi-global stability properties of the closed-loop system. The main focus is given to the HGO design while the smooth sliding control scheme is left for a future draft of this note. 
+\end{abstract}
+%%%
+%%%\keywords{Smooth sliding mode control, extremum seeking control, wind power generation.}
+%=============================================================
+% INTRODUCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preliminaries}
+
+
+The following notations and terminology are used:% in the paper:
+
+
+%\subsection{Notation and Terminology}
+
+%Let $[0,t_M)$ be the maximal time interval of definition of a
+%given (plant or controller) solution of system
+%(\ref{eq:planta_state}), where $t_M$ may be finite or infinite.
+%For any $t_*\!\in\![0,t_M)$ let $\mathcal{I}\!:=\![t_*,t_M)$.
+
+\begin{itemize}
+
+\item The 2-norm (Euclidean) of a vector $x$ and the corresponding
+induced norm of a matrix $A$ are denoted by $|x|$ and $|A|$,
+respectively. The symbol $\lambda[A]$ denotes the spectrum of $A$
+and $\lambda_m[A]=-\max_i\{Re\{\lambda[A]\}\}$.
+
+
+\item The ${\mathcal{L}}_{\infty e}$ norm of a signal
+$x(t)\!\in\!\re^n$ is defined as
+$\|x_{t}\|\!:=\!\sup_{0\!\leq\!\tau\!\leq\!t} |x(\tau)|$.
+
+
+\item  The symbol  ``$s$'' represents either the
+Laplace variable or the differential operator ``$d/dt$'', according
+to the context. 
+
+\item As in \cite{IS:96} the output $y$ of a linear time invariant (LTI) system with transfer function
+$H(s)$ and input $u$ is given by $y=H(s)u$. Convolution operations $h(t)*u(t)$, with $h(t)$ being the impulse response from $H(s)$, will be eventually written, for simplicity, as $H(s)*u$.
+
+
+\item Classes of $\mathcal{K}, \mathcal{K}_\infty$ functions are
+defined according to \cite[p.~144]{K:02}. ISS, OSS and IOSS mean
+Input-State-Stable (or Stability), Output-State-Stable (or
+Stability) and Input-Output-State-Stable, respectively
+\cite{SW:95}.
+
+
+\item The symbol $\pi$ denotes class-$\mathcal{KL}$ functions. Eventually, we denote by $\pi (t)$ any exponentially decreasing signal, i.e., a signal satisfying $|\pi(t)| \leq \Pi(t)$, where $\Pi(t):=R e^{-\lambda t}$, $\forall t$, for  some scalars $R,\lambda>0$.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{System Model}
+The dynamics of the machine/prosthesis system composed by a $3$-link rigid body robot\footnote{A more general framework with a $n$-link rigid body robot can also be considered. However, in order to keep this note close to \cite{Richter2015}, for simplicity, we have set $n=3$.}  with prismatic-revolute-revolute (PRR) configuration, following the notation in \cite{Richter2015}, is given by:
+%
+\begin{equation}
+D(q)\ddot{q} + C(q,\dot{q})\dot{q}+B(q,\dot{q}) + P(\dot{q}) + J_e^T F_e+g(q) = F_a\,,
+\label{eq:Dinamica}
+\end{equation}
+%
+where  $q^T= \left [ \begin{array}{ccc} q_1 & q_2 & q_3\end{array} \right ]$ is the vector of joint displacements ($q_1$ is the vertical displacement, $q_2$ is the thigh angle and $q_3$ is the knee angle), $D(q)$ is the inertia matrix, $C(q,\dot{q})$ is the matrix of Coriolis and centrifugal forces, $B(q,\dot{q})$ is the knee  damper nonlinear matrix, $J_e$ is the kinematic Jacobian relative to the point of application of external forces $F_e$, $g(q)$ is the term of gravitational forces and $F_a$ is the torque/force produced by the actuators. Here, in contrast to \cite{Richter2015}, we have included the term  $P(\dot{q})$ in order to take explicitly into account the Coulomb friction as in \cite{LeeKhalil2015}. 
+Note that,   inertial and frictional effects in the actuators can be included in this model. 
+
+To establish a basis for dynamic model derivations and to verify the leg geometry during simulations, the set of reference frames used for forward kinematics problems are the same as the ones assigned in \cite{Richter2015}. Matrices $D(q)\ddot{q}$, $C(q,\dot{q})$ and $g(q)$ are obtained using the standard Newton-Euler/Euler-Lagrange approach and are given in Appendix~\ref{ap:system} with the plant parameters  extracted from \cite{Richter2015}.
+
+\subsection{A Simplified Model}
+
+
+In order to illustrate the observer design proposed in this note, consider a simplified version of the machine/prosthesis system (\ref{eq:DinamicaSimp}) where no external forces are considered ($F_e \equiv 0$), the specific leg prosthesis damping matrix is disregarded ($B(q,\dot{q}) \equiv 0$) and the  Coulomb friction is neglected  ($P(\dot{q}) \equiv 0$). In this case, the machine/prosthesis system is described by:
+%
+\begin{equation}
+D(q)\ddot{q} + C(q,\dot{q})\dot{q}+g(q) = F_a\,.
+\label{eq:DinamicaSimp}
+\end{equation}
+%
+The system matrices $D(q), C(q,\dot{q})$ and $g(q)$ are supposed to be uncertain, but the corresponding nominal matrices  $D_n(q), C_n(q,\dot{q})$ and $g_n(q)$ are assumed known. In particular, the inertia matrix $D(q)$ which is invertible, since $D(q)=D^T(q)$ is strictly positive definite.
+
+Introducing the variables $x_1:=q \in \re^3$ and $x_2:=\dot{q}\in \re^3$, the model (\ref{eq:DinamicaSimp}) can be rewritten in the state-space form as:
+%
+\begin{eqnarray}
+\dot{x}_1&=& x_2\,, \\
+\dot{x}_2 &=& k_p(x,t) \left[u+d(x,t)\right]\,, \quad u:=F_a \in \re^{3 \times 1}\,,\\
+y &=&  x_1\,,
+\end{eqnarray}
+%
+or, equivalently, 
+%
+\begin{eqnarray}
+\dot{x} &=& A_\rho x +  B_\rho k_p(x,t) [u + d(x,t)]\,, \label{eq:plantSS} \\
+y &=& C_\rho x\,,\label{eq:plantSaida} 
+\end{eqnarray}
+%
+where $x^T= \left [ \begin{array}{cc} x_1 & x_2\end{array} \right ]$ is the state vector, $k_p(x,t)=D(x_1)^{-1} \in \re^{3 \times 3}$, $d(x,t):=-C(x_1,x_2) x_2-g(x_1) \in \re^{3 \times 1}$, $C_\rho=\left[\begin{array}{cc} I_{3 \times 3} & 0_{3 \times 3}\end{array} \right] \in \re^{3 \times 6}$ and the pair $(A_\rho, B_\rho)$ is in Brunovskys canonical controllable form and is given by:
+%
+$$A_\rho=\left[\begin{array}{cccc} 0_{3 \times 3} & I_{3 \times 3}\\
+0_{3 \times 3} & 0_{3 \times 3}\end{array} \right] \in \re^{6 \times 6}\,,$$
+%
+and
+%
+$$B_\rho=\left[\begin{array}{cc}  0_{3 \times 3} & I_{3 \times 3} \end{array} \right]^T \in \re^{6 \times 3}\,.$$
+%
+For each solution of (\ref{eq:plantSS}) there exists a maximal
+time interval of definition given by $[0,t_M)$, where $t_M$ may be
+finite or infinite. Thus, finite-time escape is not precluded, {\em
+a priori}.
+
+\medskip
+
+ 
+\begin{remark}({\bf Nominal Values})
+Nominal terms can be used in the HGO implementation in order to reduce conservatism in the HGO design. The plant could be rewritten as:
+%
+\begin{eqnarray}
+\dot{x}_1&=& x_2\,, \\
+\dot{x}_2 &=& f(x_1,x_2,u,t) + \delta_f(x_1,x_2,u,t)\,, \quad u:=F_a\,,\\
+y &=&  x_1\,,
+\end{eqnarray}
+%
+where the nominal part of the system dynamics is represented by
+%
+%
+\begin{eqnarray}
+f(x_1,x_2,u,t):=D_n^{-1}(x_1) u - D_n^{-1}(x_1) \left[ C_n(x_1,x_2) x_2+g_n(x_1)\right]\,,
+\end{eqnarray}
+%
+while the uncertainties are concentrated in the term 
+%
+\begin{equation}
+\delta_f(x_1,x_2,u,t)\!\!:=\!\! \left[D^{-1}(x_1)-D_n^{-1}(x_1)\right]  u + \left[D_n^{-1}(x_1)C_n(x_1,x_2)-D^{-1}(x_1)C(x_1,x_2)\right] x_2+D_n^{-1}(x_1)g_n(x_1) - D^{-1}(x_1)g(x_1)\,.
+\end{equation}
+%
+However, to simplify this presentation while keeping the main HGO design methodology, consider $C_n \equiv 0$, $g_n \equiv 0$ and, since $D$ is assumed known, we also have $D_n=D$.
+\end{remark}
+
+
+
+
+
+%--------------------------------------------------------------------
+\section{High Gain Observer with Variable Gain}
+\label{sec:HGO}
+%--------------------------------------------------------------------
+
+The HGO \cite{Khalil2008} is given by
+%
+\begin{equation}
+\dot{\hat{x}}=A_\rho \hat{x} +  B_\rho k_p^n u +H_\mu L_o (y-C_\rho
+\hat{x})\,,\label{eq:reducedHGO}
+\end{equation}
+%
+where $k_p^n$ is a nominal value of the plant high frequency gain (HFG) $k_p$ and $L_o$ and $H_\mu$ are given by:
+
+%
+\begin{equation}
+L_o=\left[\begin{array}{cc}  l_1 I_{3 \times 3} & l_2 I_{3 \times 3} \end{array} \right]^T \in \re^{6 \times 3} \ \mbox{and} \
+H_\mu\!:=\!\mbox{diag}(\mu^{-1}  I_{3 \times 3}, \ \mu^{-2} I_{3 \times 3}) \in \re^{6 \times 6}\,.
+\label{eq:defLhgo_and_Hhgo}
+\end{equation}
+%
+%%
+%\begin{remark}({\bf A Temporary Restriction})
+%In order to simplify the  HGO (with variable gain) design, without loss of generality, we assume that $k_p$ is {\em known}, i.e., $k_p^{n}=k_p$. Indeed, this restriction can relaxed following a similar procedure as in \cite{jacoud2011}.
+%\end{remark}
+%
+%
+The observer gain $L_o$ is such that $s^{2}+l_1
+s+ l_2$ is Hurwitz. In this paper,
+instead of using a constant $\mu$, we introduce a {\em variable}
+parameter $\mu=\mu(t)\neq\!0, \forall t\in[0,t_M)$, %which allows
+%us to obtain {\em global} practical tracking. We propose a time
+%varying $\mu$
+of the form
+%
+\begin{equation}
+\mu(\omega,t):=\frac{\bar{\mu}}{1+
+\psi_\mu(\omega,t)}\,,\label{eq:def_mu}
+\end{equation}
+%
+where $\psi_\mu$, named \textbf{adapting function}, is a
+non-negative function continuous in its
+arguments and $\omega$ is an available signal, both to be designed later on. The parameter $\bar{\mu}\!>\!0$ is a design constant. For each
+system trajectory, $\mu$ is absolutely continuous and
+$\mu\!\leq\!\bar{\mu}$. Note that $\mu$ is bounded for $t$ in any
+finite sub-interval of $[0,t_M)$. Therefore,
+%
+\begin{equation}
+\mu(\omega,t)\in[\underline{\mu},\bar{\mu}]\,, \quad \forall
+t\!\in\![t_*,t_M)\,, \label{eq:P3}
+\end{equation}
+%
+for some $t_* \in [0,t_M)$ and
+$\underline{\mu}\!\in\!(0,\bar{\mu})$. 
+
+
+
+%--------------------------------------------------------------------
+\subsection{High Gain Observer Error Dynamics}
+%--------------------------------------------------------------------
+
+The transformation \cite{OK:97}
+%
+\begin{equation}
+\zeta:=T_{\mu}\tilde{x}\,, \quad T_\mu:=[\mu^2
+H_\mu]^{-1} \in \re^{6 \times 6}\,, \quad \tilde{x}:= x-\hat{x}\,,\label{eq:defT_HGO}
+\end{equation}
+%
+is fundamental to represent the $\tilde{x}$-dynamics in 
+convenient coordinates allowing us to show that $\tilde{x}$ is
+arbitrarily small, {\em modulo} exponentially decaying term. First,
+note that:
+%
+$$(i) \ T_\mu(A_\rho-H_\mu L_o
+C_\rho)T_\mu^{-1}\!=\!\frac{1}{\mu}A_o\,, \quad (ii) \ T_\mu B_\rho\!=\!B_\rho\,, \quad \mbox{and} \quad
+(iii) \ \dot{T}_\mu T_\mu^{-1}\!=\!\frac{\dot{\mu}}{\mu}
+\Delta\,,$$
+%
+where $A_o\!:=\!A_\rho\!-\!L_o C_\rho$ and
+$\Delta\!:=\!\mbox{diag}(-I_{3 \times 3}, \ 0_{3 \times 3}) \in \re^{6 \times 6}$.
+%
+Then, subtracting (\ref{eq:reducedHGO}) from
+(\ref{eq:plantSS}) and applying the above
+relationships (i),
+(ii) and (iii), the dynamics of $\tilde{x}$ 
+in the new coordinates $\zeta$ (\ref{eq:defT_HGO}) is given by:
+%
+\begin{equation}
+\mu \dot{\zeta} = [A_o+ \dot{\mu}(t) \Delta] \zeta + B_\rho [\mu
+\nu]\,, \label{eq:HGO_error_eta}
+\end{equation}
+%
+where %$\Delta(t)\!:=\!\dot{\mu}(t) A_\delta$ and
+%
+\begin{equation}
+\nu:=(k_p-k_p^n)u+k_p d\,,\label{eq:def_nu}
+\end{equation}
+%
+and
+%
+\begin{equation}
+\dot{\mu}(t)\!=\!-\frac{\mu^2}{\bar{\mu}} \left[\frac{\partial
+\psi_\mu}{\partial \omega} \dot{\omega}+\frac{\partial
+\psi_\mu}{\partial t}\right]\,. \label{eq:def_mudot}
+\end{equation}
+%
+%Colocar em funcao de $u_{av}$.
+The HGO gain ($H_\mu L_o$) is inversely proportional to the small parameter $\mu$,
+allowed to be time-varying. % in order to guarantee global tracking. 
+Our task is to establish properties for the adapting
+function $\psi_\mu(\omega,t)$ in (\ref{eq:def_mu}) so that $\mu
+|\nu|$ and $|\dot{\mu}|$ are arbitrarily small, at least after a
+finite time interval. In fact, we design $\psi_\mu$ so that the following inequalities hold
+%
+\begin{equation}
+|\dot{\mu}(t)|\,, \ \mu |\nu| \leq \mathcal{O}(\bar{\mu})\,, \quad
+\forall t \in [t_\mu,t_M)\,. \label{eq:mudotmunu}
+\end{equation}
+%
+for  some finite $t_\mu \in [0,t_M)$.  Consequently, $\dot{\mu}$ does not {\em
+ultimately} affect the stability of $A_o$ in
+(\ref{eq:HGO_error_eta}) and $\zeta$  can be made
+arbitrarily small, {\em modulo} an exponentially decaying term, by applying a time scale changing in (\ref{eq:HGO_error_eta}). In addition, since $\tilde{x} = T_\mu^{-1} \zeta$ and $\|T_\mu^{-1}\|$ is of order $\mathcal{O}(1)$, then one can conclude that $\tilde{x}$ can also be made
+arbitrarily small, {\em modulo} an exponentially decaying term.
+
+It is clear that inequalities in (\ref{eq:mudotmunu}) depend on the choice of the control signal $u$ in (\ref{eq:def_nu}), the disturbance and the signal $\omega$. 
+
+\subsection{The Adapting Function $\psi_\mu$}
+
+The adapting function $\psi_\mu(\omega,t)$ used in the time-varying parameter 
+%
+\begin{equation}
+\mu(\omega,t):=\frac{\bar{\mu}}{1+
+\psi_\mu(\omega,t)}\,,%\label{eq:def_mu}
+\end{equation}
+%
+defined in (\ref{eq:def_mu}), can assume different forms depending on the choice of the signal $\omega$ and the available information about the plant. 
+
+As an example, consider the following cases:
+%
+\begin{enumerate}
+
+\item {\bf From a theoretical point of view}: the adapting function $\psi_\mu$ can be chosen in order to allow global/semi-global stability (or only convergence) properties for the closed-loop control system. 
+
+\begin{enumerate}
+
+\item {\bf Norm Observability}: The plant
+(\ref{eq:plantSS})--(\ref{eq:plantSaida}) admits a norm observer which provides an upper bound for the plant state norm by using only  available signals: plant input ($u$) and plant output ($y$). In this case, global or semi-global results could be obtained when, for example, a sliding mode based control is employed, as in \cite{POH:2011}.  
+
+
+More precisely, a norm observer for system
+(\ref{eq:plantSS})--(\ref{eq:plantSaida})  is a $m$-order
+dynamic system of the form:
+%
+\begin{align}
+\tau_1 \dot{\omega}_1 &= -\omega_1+u\,, \label{eq:defuav} \\
+%\tau_2 \dot{\omega}_2 &= - \gamma_o(\omega_2) + \tau_2
+%\varphi_o(\omega_1,y,t)\,,\label{eq:normobsgeneric}
+\tau_2 \dot{\omega}_2 &=
+\gamma_o(\omega_2)+\tau_2\varphi_o(\omega_1,y,t)\,,\label{eq:normobsgeneric}
+\end{align}
+%
+with states $\omega_1\!\in\!\re$, $\omega_2\!\in\!\re^{m\!-\!1}$ and
+positive constants $\tau_1, \tau_2$ such that for $t\in[0,t_M)$: (i)
+if $|\varphi_o|$ is uniformly bounded by a constant $c_o\!>\!0$,
+then $|\omega_2|$ can escape at most exponentially and there exists
+$\tau_2^*(c_o)$ such that the $\omega_2$-dynamics is BIBS
+(Bounded-Input-Bounded-State) stable w.r.t. $\varphi_o$ for
+$\tau_2\leq \tau_2^*$; (ii)
+for each $x(0),\omega_1(0),\omega_2(0)$, there exists $\bar{\varphi}_o$ such that
+%
+\begin{equation}
+|x(t)| \leq \bar{\varphi}_o(\omega(t),t) + \pi_o(t) \,, \quad
+\omega:=[\omega_1 \ \omega_2^T \ y]^T\,,\label{eq:xboundfromw}
+\end{equation}
+%
+where
+$\pi_o:=\beta_o(|\omega_1(0)|\!+\!|\omega_2(0)|\!+\!|x(0)|)e^{-\lambda_o
+t}$ with some $\beta_o \in \mathcal{K}_\infty$ and positive
+constant $\lambda_o$.
+
+
+
+\item {\bf The system states can be assumed bounded}: The plant state, in particular the unavailable state $x_2$, is uniformly bounded. Such assumption of the state boundedness is true, for example, when (\ref{eq:plantSS}) is BIBS stable, and the control input is bounded. Moreover, by considering that the acceleration ($\dot{x}_2$) in the mechanical system is bounded by a known constant, then a constant  upper bound for the velocity $x_2$ can be found by using the ``dirty derivative'':
+%
+\begin{equation}
+\eta := \frac{\tau}{\tau s+1} y\,.
+\end{equation}
+%
+Indeed, by noting that 
+%
+\begin{equation}
+x_2=\eta + \frac{\tau}{\tau s+1} \dot{x}_2\,,
+\end{equation}
+%
+one can obtain the following norm bound  
+%
+$$|x_2| \leq |\eta| + \mathcal{O}(\tau) \|\dot{x}_2\|\,.$$
+%
+In this case, we can use this rough estimate for $x_2$ and less conservative estimates for the terms depending on $y$, so that $\omega$ can be implemented.
+
+
+\end{enumerate}
+
+
+\item {\bf From a practical point of view}: one can select a time-varying adapting function $\psi_\mu$ to assure an acceptable level of noise in the control signal while keeping a good transient for the output tracking error. 
+
+\begin{enumerate}
+
+\item {\bf Signal-to-Noise Ratio in $|u|$ \  $\times$ \ Tracking Error Norm}: By using some measurement of the amount of noise in the control signal, for example, the Signal-to-Noise Ratio (SNR), the adapting function can be implemented as a function of the SNR and the tracking error, so that $\mu$ increases when the SNR in the control effort increases and $\mu$ decreases when the tracking error norm increases. This can be accomplished, for example, by defining a cost function depending on the control signal-to-noise ratio and the output tracking error, so that the time-varying $\mu$ reaches an optimum value.
+\end{enumerate}
+
+ 
+\end{enumerate}
+
+
+
+%--------------------------------------------------------------------
+\subsection{One Particular Design for $\psi_\mu$ via Domination Techniques}
+%--------------------------------------------------------------------
+
+When the plant (\ref{eq:plantSS})--(\ref{eq:plantSaida}) admits a norm observer with $\omega$ defined in (\ref{eq:xboundfromw}) such that 
+%
+\begin{equation}
+|x(t)| \leq \bar{\varphi}_o(\omega(t),t) + \pi_o(t)\,,\label{eq:xboundfromw1}
+\end{equation}
+%
+and a sliding mode based control is employed, then the signal $\nu$ satisfies (see \cite{POH:2011} for details):
+%
+\begin{equation}
+|\nu| \leq \psi_\nu(\omega,t)+\pi_3\,,\label{eq:boundonnu}
+\end{equation}
+%
+for some non-negative function $\psi_\omega$ and vanishing term $\pi_3$ depending on  initial conditions.  Moreover, the signal $\omega$ is such that the following inequality holds (see \cite{POH:2011} for details):
+%
+\begin{equation}\label{eq:boundonomegadot}
+\left|\dot{\omega}\right| \leq \psi_\omega(\omega,t)+\pi_1\,,
+\end{equation}
+%
+respectively, for some non-negative functions $\psi_\omega$  and vanishing terms $\pi_1$ depending on  initial conditions. 
+%
+In order to obtain a norm bound for the time derivative of $\mu$
+(\ref{eq:def_mu}) we calculate $\dot{\mu}$ by the expression:
+%
+\begin{equation}
+\dot{\mu}(t)\!=\!-\frac{\mu^2}{\bar{\mu}} \left[\frac{\partial
+\psi_\mu}{\partial \omega} \dot{\omega}+\frac{\partial
+\psi_\mu}{\partial t}\right]\,. \label{eq:def_mudot2}
+\end{equation}
+%
+Note that, $\dot{\mu}$ is a piecewise continuous time signal which
+can be upperbounded by
+%
+\begin{equation}
+|\dot{\mu}(t)|\!\leq\!\frac{\left|\frac{\partial
+\psi_\mu}{\partial \omega}\right|}{1+\psi_\mu} \mu
+|\dot{\omega}|+\frac{\left|\frac{\partial \psi_\mu}{\partial
+t}\right|}{1+\psi_\mu}\mu\,. \label{eq:mudotbound}
+\end{equation}
+%
+Hence, one has that:
+%
+\begin{equation}
+\mu|\nu| \leq
+\frac{\psi_\nu}{1+\psi_\mu}\bar{\mu}+\mu\pi_3\,,\label{eq:boundonmunu}
+\end{equation}
+%
+and
+%
+\begin{equation}
+\mu|\dot{\omega}| \leq
+\frac{\psi_\omega}{1+\psi_\mu}\bar{\mu}+\mu\pi_1\,.\label{eq:boundonmudotomega}
+\end{equation}
+%
+Now, choose the adapting function $\psi_\mu$ in
+(\ref{eq:def_mu}) so that the following property holds with
+$\psi_\nu$ in (\ref{eq:boundonnu}) and $\psi_\omega$ in
+(\ref{eq:boundonomegadot}):
+
+\medskip
+%
+\begin{description}
+\item[(P0)] $\psi_\nu\,, \
+\psi_\omega \leq c_{\mu 0}(1+\psi_\mu)$, $\forall t \in [0,t_M)$,
+where $c_{\mu 0}\geq 0$ is a {\em known} constant.
+\end{description}
+%
+\medskip
+
+If  $\psi_\mu$ satisfies (P0) then, from (\ref{eq:boundonmunu})
+and (\ref{eq:boundonmudotomega}), $\mu|\nu|$ and
+$\mu|\dot{\omega}|$ can be bounded by
+%
+\begin{align}
+\mu|\nu| &\leq
+\mathcal{O}(\bar{\mu})+\mu\pi_3\,.\label{eq:boundonmunu1}\\
+\mu|\dot{\omega}| &\leq
+\mathcal{O}(\bar{\mu})+\mu\pi_1\,.\label{eq:boundonmudotomega1}
+\end{align}
+%
+Moreover, our strategy is to design $\psi_\mu(\omega,t)$ such that the
+following  property holds:
+
+\medskip
+%
+\begin{description}
+\item[(P1)] $\left|\frac{\partial \psi_\mu}{\partial
+\omega}\right|\,, \ \left|\frac{\partial \psi_\mu}{\partial
+t}\right|\leq c_{\mu 1}(1+\psi_\mu)$, $\forall t \in [0,t_M)$, where
+$c_{\mu 1}\geq 0$ is a {\em known} constant.
+\end{description}
+%
+\medskip
+
+This property is trivially satisfied by polynomial $\psi_\mu$ with
+positive coefficients. Now, with $\psi_\mu$ satisfying (P1), one has that:
+%
+\begin{equation}
+|\dot{\mu}(t)|\!\leq\!c_{\mu 1} \mu |\dot{\omega}|+c_{\mu 1}
+\mu\,. \label{eq:mudotbound1}
+\end{equation}
+%
+Therefore, from (\ref{eq:mudotbound1}), (\ref{eq:boundonmunu1})
+and (\ref{eq:boundonmudotomega1}) the following holds:
+%
+\begin{equation}
+|\dot{\mu}(t)|\,, \ \mu|\nu| \leq \mathcal{O}(\bar{\mu}) + \mu
+\pi_4\,, \label{eq:mudotandmunu1}
+\end{equation}
+%
+where $\pi_4:=c_{\mu 1} \pi_1 +\pi_3$.
+
+Finally, if $\psi_\mu$ is designed so that (P0)--(P1) hold and {\em finite escape is avoided}\footnote{This can be guaranteed if an additional technical Property is satisfied, see \cite{POH:2011} for details. Here, we omitted this property just to simplify the paper presentation.}, then
+from (\ref{eq:mudotandmunu1})  one can verify
+that there exists a finite $t_\mu \in [0,t_M)$ such that:
+%
+\begin{equation}
+|\dot{\mu}(t)|\,, \ \mu |\nu| \leq \mathcal{O}(\bar{\mu})\,, \quad
+\forall t \in [t_\mu,t_M)\,. \label{eq:mudotmunu1}
+\end{equation}
+%
+In this case, the stability and/or convergence analysis  can be carried out by noting that the output tracking error dynamics (and the full error system dynamics) is ISS w.r.t. HGO estimate error $\tilde{x}$ which is of order $\mathcal{O}(\bar{\mu})$ after the small finite time instant $t_\mu$.
+
+
+\section{Numerical Simulations}
+
+The control objective is to reduce the tracking error 
+%
+\begin{align}
+e(t) := & y_{d} - y\,,
+\end{align}
+%
+where the desired trajectory is defined as:
+%
+\begin{align}
+y_d(t) := & \left[\begin{array}{cccc} 0.02 \cos\left(\frac{2\pi}{0.55} t\right)  & 0.9 \sin\left(\frac{2\pi}{1.5} t\right) +1 & \sin\left(\frac{2\pi}{0.45} t\right) + 1.8\end{array} \right ]^T\,.
+\end{align}
+%
+The reference trajectory was defined in order to approximate the desired trajectories appearing  in \cite{Richter2015}. For simplicity, the time-varying derivatives ($\dot{y}_d$ and $\ddot{y}_d$) were obtained by using a ``dirty derivative'' of the   desired trajectory  $y_d$. The plant initial conditions are: $y(0)=x_1(0)=\left[\begin{array}{ccc} 0  & \pi/4 & \pi/4\end{array} \right ]^T$ and $x_2(0)=\left[\begin{array}{ccc} 0  & 0 & 0\end{array} \right ]^T$.
+
+
+A simple PD controller with feedforward is employed just to validate the time-varying HGO proposed in this note. By recalling that we  consider $D_n(y)=D(y)$ to simplify the paper presentation, the control  signal is given by
+%
+\begin{align}
+u(t) := & D(y) u_v + C_{n}(y,\hat{x}_2) \hat{x}_2+g_{n}(y)\,, \\
+u_v(t):= &\ddot{q}_d + K_p e(t) + \underbrace{K_d (\dot{y}_d - \hat{x}_2)}_{\approx K_d \frac{de(t)}{dt}}\,,
+\label{eq:defu}
+\end{align}
+%
+where $\hat{x}_2$ is the estimate for $x_2$ obtained from the HGO and
+%
+$$K_p=K_d=\left[\begin{array}{ccc} 10   & 0 & 0\\ 0 & 10 & 0\\ 0 & 0 & 10\end{array} \right ]\,.$$
+%
+Note that, in the ideal case when the nominal matrices $C_n$ and $g_n$ match the real values and $\hat{x}_2=x_2$, the following closed-loop equation holds
+%
+\begin{align}
+\ddot{e} + K_d \dot{e}+K_p e =0\,,
+\label{eq:closed}
+\end{align}
+%
+which assures that $|e(t)| \rightarrow 0$ as $t \rightarrow \infty$. When  there are uncertainties in the plant parameters and/or errors in the HGO estimate, the tracking error converges to some residual set.  The nominal matrix $D_n$ is given by (\ref{eq:defD}) replacing: $I_2$ by $I_2^n$,  $C_2$ by $C_2^n$, $C_3$ by $C_3^n$ and $m_1,m_2,m_3$ by $m_1^n, m_2^n, m_3^n$, respectively,  where  $I_2^n, C_2^n, C_3^n, m_1^n, m_2^n$ and $m_3^n$ are  the ``known'' nominal values of the parameters given in Table~\ref{table:nominal}. The nominal value of the HFG is given by $k_p^n=D_n^{-1}$. The nominal matrix $C_n$ is given by (\ref{eq:defC}) replacing: $C_2$ by $C_2^n$, $C_3$ by $C_3^n$ and $m_1,m_2,m_3$ by $m_1^n,m_2^n,m_3^n$, respectively. The nominal matrix $g_n$ is given by (\ref{eq:defg}) replacing  $m_1,m_2,m_3$ by $m_1^n, m_2^n, m_3^n$, respectively.  
+
+The {\em actual} plant parameters, assumed partially unknown, are given in Table~\ref{table:actual}. We consider that  the real parameters differ from the known values by not more than $1\%$ or $5\%$. 
+
+
+The HGO is implemented with $l_1=2$, $l_2=1$ and with a constant $\mu=\bar{\mu}=0.01$.
+%
+\begin{table}[h!]
+\centering
+\caption{Nominal Values.} 
+\begin{tabular}{ |p{2cm} p{3.5cm} p{1cm}|  }
+ \hline
+ %\multicolumn{4}{|c|}{Plant parameters} \\
+ %\hline
+ Parameter & Value & Units\\
+ \hline
+%	$K_p$ & $10 \ I_{3x3}$ & \\
+%	$K_d$ & $10 \ I_{3x3}$ & \\
+	$m_1^n,m_2^n, m_3^n$ & +1\% error w.r.t. $m_1,m_2, m_3$ & $Kg$\\
+	$C_2^n$ & +5\% error w.r.t. $C_2$ & $m$\\
+	$C_3^n$ & -5\% error  w.r.t. $C_3$  & $m$\\
+	$I_2^n$ & -5\% error  w.r.t. $I_2$  & $Kg \ m^2$ \\
+\hline
+\end{tabular}
+\label{table:nominal}
+\end{table}
+%
+Fig.~\ref{fig:hip} depicts the hip displacement and its estimation via HGO converging before $20$ms with an undershoot less than $0.01$ meters. A similar behavior for the thigh and knee angle can be observed in Fig.~\ref{fig:thigh} and Fig.~\ref{fig:knee}, respectively, with their HGO estimates. Both estimates converge before $15$ms with transient error less than $0.4$rad (approximately  $22^o$). The corresponding hip, thigh and knee velocities are illustrated in Fig.~\ref{fig:dhip}, Fig.~\ref{fig:dthigh} and Fig.~\ref{fig:dknee}, respectively. 
+%
+%As the system's response time is greater than the overshoot peak interval of 3 ms, the overshoot peak effects can be disregarded.
+%
+%In Fig.~\ref{fig:dhip}, Fig.~\ref{fig:dthigh} and Fig.~\ref{fig:dknee} it can be seen that 
+%
+%
+%
+%
+%had a similiar estimation convergence time of nearly 15 ms. However, they had different overshoot peaks of 20 m/s, 800 rad/s and 1200 rad/s respectively.
+%
+%The overshoot peak effects for velocities can also be disregarded as the system's dynamics don't respond as fast as the estimative settling time.
+%
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{vq1}
+\caption{Hip displacement. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\label{fig:hip}
+\end{center}
+\end{figure}
+%
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{vq2}
+\caption{Thigh angle. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\label{fig:thigh}
+\end{center}
+\end{figure}
+%
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{vq3}
+\caption{Knee angle. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\label{fig:knee}
+\end{center}
+\end{figure}
+%
+
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{vdq1}
+\caption{Hip velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\label{fig:dhip}
+\end{center}
+\end{figure}
+%
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{vdq2}
+\caption{Thigh angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\label{fig:dthigh}
+\end{center}
+\end{figure}
+%
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{vdq3}
+\caption{Knee angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\label{fig:dknee}
+\end{center}
+\end{figure}
+%
+Now, in order to illustrate one possible scenario in which the time-varying HGO parameter can be used, consider that the plant parameters are known and that the HGO is implemented to obtain an estimate for the state $x_2$. 
+
+
+In order to observe the effect of the input disturbance, a large but unknown constant input disturbance is employed at $t=3$, vanishing at $t=10$, with small plant initial conditions  $y(0)=x_1(0)=\left[\begin{array}{ccc} 0  & \pi/36 & 0\end{array} \right ]^T$ and $x_2(0)=\left[\begin{array}{ccc} 0  & 0 & 0\end{array} \right ]^T$. Since no integral action is implemented in the control scheme, the input disturbance causes a considerable large transient in the tracking error. This transient increases as $\mu$ increases and it is useful to illustrate the usage of the time-varying parameter $\mu$.
+
+
+By applying a constant and large value of $\mu(t)=\bar{\mu}\!=\!0.1$ an apparent degradation in the closed-loop tracking error transient is observed in Fig.~\ref{fig:timevarying1}~(a). On the other hand, the noise amplitude in the control signal is acceptable as can be observed in Fig.~\ref{fig:timevarying1}~(b) with the corresponding measurement of the noise amplitude illustrated in Fig.~\ref{fig:timevarying1}~(c). The noise amplitude was obtained by filtering the control input $u$ with a high-pass filter. 
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{mu0dot1-30sec.eps}
+\caption{Simulation results with a constant HGO parameter $\mu(t)=\bar{\mu}\!=\!0.1$.}
+\label{fig:timevarying1}
+\end{center}
+\end{figure}
+%
+By reducing $\mu$ to the constant small value $\mu(t)=\bar{\mu}\!=\!0.01$, the  tracking error transient is improved in exchange of an increase on the control signal noise, see  Fig.~\ref{fig:timevarying2}~(a), (b) and (c).
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{mu0dot01-30sec.eps}
+\caption{Simulation results with a constant HGO parameter $\mu(t)=\bar{\mu}\!=\!0.01$.}
+\label{fig:timevarying2}
+\end{center}
+\end{figure}
+%
+On the other hand, when the time-varying $\mu(t)$ is implemented starting with the same large value for
+$\bar{\mu}\!=\!0.1$,
+the tracking error transient is improved, see Fig.~\ref{fig:timevarying3}~(a), without reducing $\mu$ to a prohibitive value which can cause a large noise in the control signal, as illustrated in Fig.~\ref{fig:timevarying3}~(b) and (c). 
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{muVar-30sec.eps}
+\caption{Simulation results with the time-varying HGO parameter $\mu(t)$.}
+\label{fig:timevarying3}
+\end{center}
+\end{figure}
+%
+In this case, the time
+evolution of $\mu(t)$ is shown in Fig.~\ref{fig:timevarying4}~(a), from which one can verify
+that $\mu$ reaches a minimum value of $\mu_{min}=0.02$. 
+This value is not known {\em a priori}. It is clear that care must be taken while reducing $\bar{\mu}$, since there exists a trade off
+between noise reduction and tracking accuracy.
+%
+%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width = 13cm]{mu.eps}
+\caption{Simulation results. The time-varying HGO parameter $\mu(t)$.}
+\label{fig:timevarying4}
+\end{center}
+\end{figure}
+%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{CONCLUSIONS}
+
+%\subsection{Conclusions}
+
+In this note, we considered the state estimation problem of a robot/prosthesis control system with vertical hip displacement, thigh angle and knee angle.  It was verified that it is possible to apply HGO with dynamic gain in order to reduce the amount of noise in the control signal while assuring an reasonable output tracking error transient. Moreover, when a norm observer is available, domination techniques can be used to design the HGO dynamic gain to obtain global/semi-global practical tracking. An illustrative academic simulation example was presented.
+
+
+Future possible topics of research are: (i) consider the full robot/prosthesis model including the ground reaction forces and the ankle joint and its estimation; (ii) verify if it is possible to obtain a norm bound for the system state in order to assure global/semi-global stability properties; (iii) design and implementation of the smooth sliding control scheme and (iv) perform experimental results.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{footnotesize}
+%%%
+
+\bibliography{IEEEabrv,BibProtese,TVHGO} 
+%
+%\bibliographystyle{unsrt}
+%\bibliography{BibProtese}
+%
+
+
+%===============================================================
+
+\appendix
+
+
+\subsection{System Matrices and Parameters}\label{ap:system}
+
+
+The plant parameters are given in Table~\ref{table:actual}, while the matrices $D(q), C(q,\dot{q})$ and $g(q)$, appearing in (\ref{eq:Dinamica}), are given by:
+%
+\begin{eqnarray}
+C(1,1) &=&  C(2,1) = C(3,1)=C(3,3)=0\,, \nonumber\\
+C(1,2) & =& -\dot{q_2}(L_2m_3+m_2(C_2+L_2)) \sin(q_2)-C_3m_3(\dot{q_2}+\dot{q_3}) \sin(q_2+q_3)\,, \nonumber\\
+C(1,3) &=&  -C_3 m_3 \sin(q_2+q_3)(\dot{q_2}+\dot{q_3})\,, \nonumber\\
+C(2,2) &=&  -C_3 L_2 m_3\dot{q_3} \sin(q3)\,, \nonumber\\
+C(2,3) &=&  -C_3 L_2 m_3 \sin(q_3)(\dot{q_2}+\dot{q_3})\,, \nonumber\\
+C(3,2) &=&  C_3 L_2 m_3\dot{q_2} \sin(q_3)\,,\label{eq:defC}
+\end{eqnarray}
+%
+%
+\begin{eqnarray}
+D(1,1) &=& m_1 + m_2 + m_3 \,, \nonumber \\
+D(1,2) &=& D(2,1) = (c_3 \cos(q_2+q_3) + l_2 \cos(q_2)) + m_2 (c_2 \cos(q_2) + l_2 \cos (q_2) )\,, \nonumber \\
+D(1,3) &=& D(3,1) = c_3 m_3 \cos( q_2 + q_3) \,, \nonumber \\
+D(2,2) &=& I_{2z} + I_{3z} + c_2^2 m_2 + c_3^2 m_3 + I_2^2 (m_2 + m_3) + 2 c_2 l_2 m_2 + 2 c_3 l_2 m_3 \cos (q_3)\,, \nonumber\\
+D(2,3) &=& D(3,2) m_3 c_3^2 + l_2 m_3 \cos (q_3 ) c_3 + I_{3z} \,,\nonumber \\
+D(3,3) &=&  m_3 c_3^2 + I_{3z}\,,\label{eq:defD}
+\end{eqnarray}
+%
+\begin{eqnarray}
+g(1,1) &=&  -g(m_1+m_2+m_3)\,, \nonumber\\
+g(2,1) &=&  -C_3 g m_3 \cos(q_2+q_3)-g (m_2(C_2+L_2)+L_2 m_3) \cos(q_2)\,, \nonumber\\
+g(3,1) &=&  -C_3 g m_3 \cos(q_2+q_3)\,.
+\label{eq:defg}
+\end{eqnarray}
+%
+\begin{table}[h!]
+\centering
+\caption{Plant parameters table}
+\begin{tabular}{ |p{3cm} p{3cm} p{3cm}|  }
+ \hline
+ %\multicolumn{4}{|c|}{Plant parameters} \\
+ %\hline
+ Parameter & Value & Units\\
+ \hline
+	$m_1$ & 21.29 & $Kg$\\
+	$m_2$ & 8.57 & $Kg$\\
+	$m_3$ & 2.33 & $Kg$\\
+	$I_2$ & 0.435 & $Kg-m^2$\\
+	$I_3$ & 0.062 & $Kg-m^2$\\
+	$d_0$ & 0.5 & $m$ \\
+	$L_2$ & 0.425 & $m$ \\
+	$L_3$ & 0.527 & $m$ \\
+	$C_2$ & -0.339 & $m$ \\
+	$C_3$ & 0.320 & $m$ \\
+	$g$ & 9.81 & $m/s^2$ \\
+\hline
+\end{tabular}
+\label{table:actual} 
+\end{table}
+
+
+
+\end{document}
+%%%%%%%%%%%%%%%%%%% E N D  O F   F I L E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

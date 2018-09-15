@@ -1,0 +1,779 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The  56th IEEE Conference on Decision and Control
+%
+%  December 12-15, 2017 
+%  Melbourne Convention Center, Melbourne, Australia
+% 
+% http://cdc2017.ieeecss.org/index.php
+%-------------------------------------------------
+% AUTHORS: 
+% 			Diego Pereira Dias        (PIN 104928) 
+%			Alessandro Jacoud Peixoto (PIN 35936)
+% 			Carolina Calvo Bosi Santos Neves (121831)
+% 			Gabriel Felippe da Cruz Pacheco  (121834)
+%-------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out
+                                                          % if you need a4paper
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
+                                                          % paper
+
+\IEEEoverridecommandlockouts                              % This command is only
+                                                          % needed if you want to
+                                                          % use the \thanks command
+\overrideIEEEmargins
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+%\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{epsfig} % for postscript graphics files
+\usepackage{mathptmx} % assumes new font selection scheme installed
+\usepackage{times} % assumes new font selection scheme installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{lmodern}
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{graphicx}     % 
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{epsfig} % for postscript graphics files
+\usepackage{epstopdf}     % conversion to .pdf
+\usepackage{url}
+\usepackage{calc}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{xspace}
+\usepackage{standalone}
+\let\proof\relax 
+\let\endproof\relax 
+\usepackage{amsthm}
+\let\labelindent\relax
+\usepackage{enumitem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{cite}
+\bibliographystyle{IEEEtran}
+%
+\usepackage{hyperref}
+\hypersetup{plainpages = {false},
+			bookmarksopen = {true},
+			bookmarksnumbered = {true},
+			breaklinks = {true},
+			pdfstartview={FitH},
+			pdfcreator={PDFLaTeX-DPD},	
+			pdfproducer={PDFLaTeX-DPD},	
+			colorlinks=true,
+			citecolor=black,
+			linkcolor=black,
+			urlcolor=black,
+			filecolor=black,
+			bookmarksopen=true
+} % links em preto
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphical path
+\graphicspath{{./figs/}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TIKZ % ---
+% Defining string as labels of certain blocks.
+\newcommand{\suma}{\Large$+$}
+\newcommand{\sumb}{\Large$\Sigma$}
+\newcommand{\minusa}{\Large$-$}
+\newcommand{\timesa}{\Large$\times$}
+\newcommand{\inte}{$\displaystyle \int$}
+\newcommand{\derv}{\huge$\frac{d}{dt}$}
+
+\newcommand{\dd}[1]{ %Marca uma revisão
+    {\color{red}[\![} {\color{blue}\bf#1\xspace} {\color{red}]\!]}
+}
+\def\re{{\rm I}\! {\rm R}}
+\newcommand{\mref}[1]{(\ref{#1})}
+\newcommand{\sat}[1]{\mbox{sat}\,}
+\renewcommand{\t}{^{\mbox{\tiny\sf T}}} % transposto 
+\newcommand\norm[1]{\ensuremath{\lVert#1\rVert}}
+\newcommand\abs[1]{\ensuremath{\lvert#1\rvert}}
+\newcommand{\matx}[1]{{\textbf #1}}
+\def\QED{\mbox{\rule[0pt]{1.0ex}{1.0ex}}} 
+\def\proof{\noindent\hspace{2em}{\it Proof: }}
+\def\endproof{\hspace*{\fill}~\QED\par\endtrivlist\unskip}
+%
+\newcommand{\rd}[1]{\textcolor{red}{#1}}
+\newcommand{\unit}[1]{\si{#1}}
+\newcommand{\myunit}[2]{\num{#1}\,\si{#2}}
+%----------------------------------------------------
+%  Cross references
+%----------------------------------------------------
+\newcommand{\tabref}[1]{Tabela~\ref{#1}}
+\renewcommand{\eqref}[1]{Eq.~(\ref{#1})}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\figuref}[1]{Figure~\ref{#1}}
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{-10pt} % reduce space
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem*{cor}{Corollary}
+%
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{conj}{Conjecture}
+\newtheorem{exmp}{Example}
+%
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\title{\LARGE \bf
+Smooth Sliding Control Applied to 
+Power Optimization via Extremum Seeking in Variable Speed Wind Turbines}
+
+
+\author{Alessandro J. Peixoto, %
+        Diego Pereira-Dias\textsuperscript{*},
+        Gabriel F. Pacheco and
+		Carolina C. Neves %		 <-this % stops a space
+		%
+\thanks{A.~J.~Peixoto, G.~F.~Pacheco and C.~C.~Neves are with the Department of
+Electrical Engineering, Federal University of Rio de Janeiro, P.O. BOX 68.504, Rio de Janeiro/RJ , 21945-970, Brazil.~D.~Pereira-Dias is with Non-destructive, Corrosion and Welding Laboratory (LNDC/COPPE/UFRJ) of the Federal University of Rio de Janeiro, Av. Pedro Calmon s/n - LNDC, Rio de Janeiro/RJ, 21.941-956, Brazil (*corresponding author), {\tt\footnotesize \{diego.dias@lndc.com.br\}}.~This work is partially supported by COPPE/UFRJ~(Brazil).}% <-this % stops a space
+}
+
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\onecolumn
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg,.mps,.ps,.eps}
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}% % Carolina
+%
+Different methods have been examined regarding power optimization and control for wind energy conversion systems (WECS) due to the economical interest and the sustainable need for energy growth.
+% 
+%
+Here, we apply extremum seeking control (ESC) in an outer loop to perform the maximum power point tracking (MPPT) and we also design a nonlinear robust controller for the inner loop.
+%
+To maximize power capture, the turbine speed is tuned by the outer ESC loop for all speeds within sub-rated power operating conditions.
+%
+%
+The robust part of the controller, which maintains fast transient response, is based on sliding mode control that features a smooth control signal, free of \emph{chattering}, previously designed for linear plants.
+%
+In this sense, this work presents the first generalization of this controller for the class of nonlinear plants representing the turbine.
+%
+The complete stability analysis is provided and the effectiveness of the proposed scheme is supported by analysis and simulation results.
+%
+\end{abstract}
+
+
+
+%%%
+%%%\keywords{Smooth sliding mode control, extremum seeking control, wind power generation.}
+%=============================================================
+% INTRODUCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{INTRODUCTION}
+A method to estimate ground reaction forces (GRFs) in a robot/prosthesis system is presented in \cite{Fakoorian} using kalman filters instead of bulky load cells. The system includes a robot that emulates human hip and thigh motion, along with a powered (active) prosthesis left for transfemoral amputees, and includes four degrees of freedom (DOF): vertical hip displacement, thigh angle, knee angle and ankle angle.
+
+Bulky load cells and sensors are often employed in robots and prosthetic legs to capture gait data, external forces (GRFs) and moments during walking \textbf{Referenciar 9 do Paper}, which will be used as feedback measurements to control the robot and prosthesis. The control parameters depend on the gait mode, which is determined on the basis of the external forces. However there are several drawbacks to the use of load cells \cite{Fakoorian}. Another approach would be to estimate the external forces acting on the prosthetic foot.
+
+In \cite{Fakoorian}, the use of Extended Kalman Filter (EKF) is proposed to estimate the GRF. However it is acknowledged two important potential drawbacks. First, the derivation of the Jacobian matrix for the linearization of the system can be complex and can cause numerical implementation  difficulties. Second, linearization can lead to cumulative errors which may affect the accuracy  of the estimation and consequently the stability of the estimation-based control loop.
+
+In this paper, we propose the implementation of a High Order Observer to estimate the states of a 3DOF Robot (vertical hip displacement, thigh angle and knee angle) developed for prostesis parameters estimation and compare the results with \cite{Fakoorian}.
+
+
+%--------------------------------------------------------------------
+\section{Preliminaries}% and Notation}
+\label{sec:preliminaries}
+%--------------------------------------------------------------------
+The following notations and terminology are used:% in the paper:
+
+
+%\subsection{Notation and Terminology}
+
+%Let $[0,t_M)$ be the maximal time interval of definition of a
+%given (plant or controller) solution of system
+%(\ref{eq:planta_state}), where $t_M$ may be finite or infinite.
+%For any $t_*\!\in\![0,t_M)$ let $\mathcal{I}\!:=\![t_*,t_M)$.
+
+\begin{itemize}
+
+\item The 2-norm (Euclidean) of a vector $x$ and the corresponding
+induced norm of a matrix $A$ are denoted by $|x|$ and $|A|$,
+respectively. The symbol $\lambda[A]$ denotes the spectrum of $A$
+and $\lambda_m[A]=-\max_i\{Re\{\lambda[A]\}\}$.
+
+
+\item The ${\mathcal{L}}_{\infty e}$ norm of a signal
+$x(t)\!\in\!\re^n$ is defined as
+$\|x_{t}\|\!:=\!\sup_{0\!\leq\!\tau\!\leq\!t} |x(\tau)|$.
+
+
+%The symbol $``s"$ represents either the Laplace variable or the
+%differential operator $``d/dt"$, according to the context. As in
+%\cite{IS:96}, $H(s)u$ denotes the output of a linear time
+%invariant system with transfer function $H(s)$ and input $u$. Pure
+%convolutions $h(t)*u(t)$, with $h(t)$ being the impulse response
+%from $H(s)$, will be eventually written as $H(s)*u$.
+
+
+%\item The {\em extended equivalent control}, see \cite{U:78} and
+%\cite[Section~2.3]{HCCL:2002a}, is denoted by $u_{eq}(t)$. When we
+%use only the symbol $u$, without the argument $t$, it represents a
+%switching control law, then it is not a usual function of time
+%during sliding mode. However, $u$ can always be replaced by
+%$u_{eq}(t)$ in the right-hand side of the system differential
+%equations.
+
+\item Classes of $\mathcal{K}, \mathcal{K}_\infty$ functions are
+defined according to \cite[p.~144]{K:02}. ISS, OSS and IOSS mean
+Input-State-Stable (or Stability), Output-State-Stable (or
+Stability) and Input-Output-State-Stable, respectively
+\cite{SW:95}.
+
+
+\item (i) $\alpha$ denotes class-$\mathcal{K}$ functions; (ii)
+$\beta$ denotes class-$\mathcal{K}_\infty$ functions; (iii) $\pi$
+denotes class-$\mathcal{KL}$ functions; (iv) $\Psi$ denotes {\em
+known} class-$\mathcal{K}$ functions; (v) $\varphi, \bar{\varphi}$
+denotes {\em known} non-negative functions.
+\end{itemize}
+
+% ------------- paragraph 04 ---
+ 
+\subsection{Notation and Terminology} \label{sub:notation}
+%
+The following notation and basic concepts are employed:
+%
+\textbf{(1)} ISS means Input-to-State-Stable and classes
+$\mathcal{K}$, $\mathcal{K}_{\infty}$ functions are defined as in
+\cite{K:02}.
+%
+\textbf{(2)}  The Euclidean norm of a vector $x$ and the corresponding induced
+norm of a matrix $A$ are denoted by $|x|$ and $|A|$,
+respectively. 
+%
+\textbf{(3)} The symbol  ``$s$'' represents either the
+Laplace variable or the differential operator ``$d/dt$'', according
+to the context. 
+%
+\textbf{(4)} As in \cite{HLA:97,IS:96} the output
+$y$ of a linear time invariant (LTI) system with transfer function
+$H(s)$ and input $u$ is given by $y=H(s)u$. 
+%
+Convolution operations $h(t)*u(t)$, with $h(t)$ being the impulse response from $H(s)$, will be eventually written, for simplicity, as $H(s)*u$.
+%
+%
+\textbf{(5)} As usual in SMC, Filippov's definition for solution
+of discontinuous differential equations is adopted \cite{F:64}.
+%
+\textbf{(6)} We denote by $\pi (t)$ any exponentially decreasing signal, i.e., a signal satisfying $|\pi(t)| \leq \Pi(t)$, where $\Pi(t):=R e^{-\lambda t}$, $\forall t$, for  some scalars $R,\lambda>0$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{System Model}
+The dynamics of the machine/prosthesis system composed by a 3-link rigid body robot with prismatic-revolute-revolute (PRR) configuration, following the notation in \cite{Richter2015}, is given by:
+%
+\begin{equation}
+D(q)\ddot{q} + C(q,\dot{q})\dot{q}+B(q,\dot{q}) + P(\dot{q}) + J_e^T F_e+g(q) = F_a\,,
+\label{eq:Dinamica}
+\end{equation}
+%
+where  $q^T= \left [ \begin{array}{ccc} q_1 & q_2 & q_3\end{array} \right ]$ is the vector of joint displacements ($q_1$ is the vertical displacement, $q_2$ is the thigh angle and $q_3$ is the knee angle), $D(q)$ is the inertia matrix, $C(q,\dot{q})$ is the matrix of Coriolis and centrifugal forces, $B(q,\dot{q})$ is the knee  damper nonlinear matrix, $J_e$ is the kinematic Jacobian relative to the point of application of external forces $F_e$, $g(q)$ is the term of gravitational forces and $F_a$ is the torque/force produced by the actuators. Here, in contrast to \cite{Richter2015}, we have included the term  $P(\dot{q})$ in order to take explicitly into account the Coulomb friction as in \cite{LeeKhalil2015}. 
+Note that,   inertial and frictional effects in the actuators can be included in this model. 
+
+To establish a basis for dynamic model derivations and to verify the leg geometry during simulations, the set of reference frames used for forward kinematics problems are the same as the ones assigned in \cite{Richter2015}. Matrices $D(q)\ddot{q}$, $C(q,\dot{q})$ and $g(q)$ are obtained using the standard Newton-Euler approach and are given in Appendix~\ref{ap:system}, where the plant parameters were extracted from \cite{Richter2015}.
+
+\subsection{A Simplified Model}
+
+
+In order to illustrate the observer design proposed in this note, consider a simplified version of the machine/prosthesis system (\ref{eq:DinamicaSimp}) where no external forces are considered ($F_e \equiv 0$), the specific leg prosthesis damping matrix is disregarded ($B(q,\dot{q}) \equiv 0$) and the  Coulomb friction is neglected  ($P(\dot{q}) \equiv 0$). In this case, the machine/prosthesis system is described by:
+%
+\begin{equation}
+D(q)\ddot{q} + C(q,\dot{q})\dot{q}+g(q) = F_a\,.
+\label{eq:DinamicaSimp}
+\end{equation}
+%
+The system matrices $D(q), C(q,\dot{q})$ and $g(q)$ are supposed to be uncertain, but the corresponding nominal matrices  $D_n(q), C_n(q,\dot{q})$ and $g_n(q)$ are assumed known. In particular, the inertia matrix $D(q)$ which is invertible, since $D(q)=D^T(q)$ is strictly positive definite.
+
+Introducing the variables $\xi_1:=q$ and $\xi_2:=\dot{q}$, the model (\ref{eq:DinamicaSimp}) can be rewritten in the state-space form as:
+%
+\begin{eqnarray}
+\dot{\xi}_1&=& \xi_2\,, \\
+\dot{\xi}_2 &=& k_p(\xi,t) \left[u+d(\xi,t)\right]\,, \quad u:=F_a\,,\\
+y &=&  \xi_1\,,
+\end{eqnarray}
+%
+or, equivalently, 
+%
+\begin{eqnarray}
+\dot{\xi} &=& A_\rho \xi +  B_\rho k_p(\xi,t) [u + d(\xi,t)]\,, \label{eq:plantSS} \\
+y &=& C_\rho \xi\,,\label{eq:plantSaida} 
+\end{eqnarray}
+%
+where $\xi^T= \left [ \begin{array}{cc} \xi_1 & \xi_2\end{array} \right ]$ is the state vector, $k_p(\xi,t)=D(\xi_1)^{-1}$, $d(\xi,t):=-C(\xi_1,\xi_2) \xi_2-g(\xi_1)$, $C_\rho=\left[\begin{array}{cccc} 1 & 0 & \ldots & 0\end{array} \right ]$ and the pair $(A_\rho, B_\rho)$ is in Brunovsky?s canonical controllable form. For each solution of (\ref{eq:plantSS}) there exists a maximal
+time interval of definition given by $[0,t_M)$, where $t_M$ may be
+finite or infinite. Thus, finite-time escape is not precluded, {\em
+a priori}.
+
+\medskip
+
+ 
+\begin{remark}({\bf Nominal Values})
+Nominal terms can be used in the HGO implementation in order to reduce conservatism in the HGO design. The plant could be rewritten as:
+%
+\begin{eqnarray}
+\dot{x}_1&=& x_2\,, \\
+\dot{x}_2 &=& f(x_1,x_2,u,t) + \delta_f(x_1,x_2,u,t)\,, \quad u:=F_a\,,\\
+y &=&  x_1\,,
+\end{eqnarray}
+%
+where the nominal part of the system dynamics is represented by
+%
+%
+\begin{eqnarray}
+f(x_1,x_2,u,t):=D_n^{-1}(x_1) u - D_n^{-1}(x_1) \left[ C_n(x_1,x_2) x_2+g_n(x_1)\right]\,,
+\end{eqnarray}
+%
+while the uncertainties are concentrated in the term 
+%
+\begin{equation}
+\delta_f(x_1,x_2,u,t)\!\!:=\!\! \left[D^{-1}(x_1)-D_n^{-1}(x_1)\right]  u + \left[D_n^{-1}(x_1)C_n(x_1,x_2)-D^{-1}(x_1)C(x_1,x_2)\right] x_2+D_n^{-1}(x_1)g_n(x_1) - D^{-1}(x_1)g(x_1)\,.
+\end{equation}
+%
+However, to simplify this presentation while keeping the main HGO design methodology, consider $C_n \equiv 0$, $g_n \equiv 0$ and, since $D$ is assumed known, we also have $D_n=D$.
+\end{remark}
+
+
+
+
+
+%--------------------------------------------------------------------
+\section{High Gain Observer with Variable Gain}
+\label{sec:HGO}
+%--------------------------------------------------------------------
+
+The HGO is given by
+%
+\begin{equation}
+\dot{\hat{\xi}}=A_\rho \hat{\xi} +  B_\rho u +H_\mu L_o (y-C_\rho
+\hat{\xi})\,,\label{eq:reducedHGO}
+\end{equation}
+%
+where $C_\rho:=[1 \ 0 \ \ldots \ 0]$ and $L_o$ and $H_\mu$ are
+given by
+%
+\begin{equation}
+L_o\!:=\![\begin{array}{ccc} l_{1} & \ldots &
+l_{\rho}\end{array}]^T \ \mbox{and} \
+H_\mu\!:=\!\mbox{diag}(\mu^{-1},\ldots,\mu^{-\rho})\,.
+\label{eq:defLhgo_and_Hhgo}
+\end{equation}
+%
+%%
+%\begin{remark}({\bf A Temporary Restriction})
+%In order to simplify the  HGO (with variable gain) design, without loss of generality, we assume that $k_p$ is {\em known}, i.e., $k_p^{n}=k_p$. Indeed, this restriction can relaxed following a similar procedure as in \cite{jacoud2011}.
+%\end{remark}
+%
+%
+The observer gain $L_o$ is such that $s^{\rho}\!+\!l_1
+s^{\rho-1}\!+\!\ldots\!+\!l_{\rho}$ is Hurwitz. In this paper,
+instead of using a constant $\mu$, we introduce a {\em variable}
+parameter $\mu=\mu(t)\neq\!0, \forall t\in[0,t_M)$, %which allows
+%us to obtain {\em global} practical tracking. We propose a time
+%varying $\mu$
+of the form
+%
+\begin{equation}
+\mu(\omega,t):=\frac{\bar{\mu}}{1+
+\psi_\mu(\omega,t)}\,,\label{eq:def_mu}
+\end{equation}
+%
+where $\psi_\mu$, named \textbf{domination function}, is a
+non-negative function (to be designed later on) continuous in its
+arguments, $\omega$ is an available signal obtained from a norm observer for (\ref{eq:plantSS}) and $\bar{\mu}\!>\!0$ is a design constant. For each
+system trajectory, $\mu$ is absolutely continuous and
+$\mu\!\leq\!\bar{\mu}$. Note that $\mu$ is bounded for $t$ in any
+finite sub-interval of $[0,t_M)$. Therefore,
+%
+\begin{equation}
+\mu(\omega,t)\in[\underline{\mu},\bar{\mu}]\,, \quad \forall
+t\!\in\![t_*,t_M)\,, \label{eq:P3}
+\end{equation}
+%
+for some $t_* \in [0,t_M)$ and
+$\underline{\mu}\!\in\!(0,\bar{\mu})$. 
+
+
+
+%--------------------------------------------------------------------
+\subsection{High Gain Observer Error Dynamics}
+%--------------------------------------------------------------------
+
+The transformation \cite{CHCL:2005}\cite{OK:97}
+%
+\begin{equation}
+\zeta:=T_{\mu}\tilde{\xi}\,, \quad T_\mu:=[\mu^\rho
+H_\mu]^{-1}\,, \quad \tilde{\xi}:= \xi-\hat{\xi}\,,\label{eq:defT_HGO}
+\end{equation}
+%
+is fundamental to represent the $\tilde{\xi}$-dynamics in
+convenient coordinates to allow us show that $\tilde{\xi}$ is
+arbitrarily small, {\em modulo} exponentially decaying term. First,
+note that:
+%
+$$(i) \ T_\mu(A_\rho-H_\mu L_o
+C_\rho)T_\mu^{-1}\!=\!\frac{1}{\mu}A_o\,, \quad (ii) \ T_\mu B_\rho\!=\!B_\rho\,, \quad \mbox{and} \quad
+(iii) \ \dot{T}_\mu T_\mu^{-1}\!=\!\frac{\dot{\mu}}{\mu}
+\Delta\,,$$
+%
+where $A_o\!:=\!A_\rho\!-\!L_o C_\rho$ and
+$\Delta\!:=\!\mbox{diag}(1-\rho,2-\rho,\ldots,0)$.
+%
+Then, subtracting (\ref{eq:reducedHGO}) from
+(\ref{eq:plantSS}) and applying the above
+relationships (i),
+(ii) and (iii), the dynamics of $\tilde{\xi}$ 
+in the new coordinates $\zeta$ (\ref{eq:defT_HGO}) is given by:
+%
+\begin{equation}
+\mu \dot{\zeta} = [A_o+ \dot{\mu}(t) \Delta] \zeta + B_\rho [\mu
+\nu]\,, \label{eq:HGO_error_eta}
+\end{equation}
+%
+where %$\Delta(t)\!:=\!\dot{\mu}(t) A_\delta$ and
+%
+\begin{equation}
+\nu:=(k_p-1)u+k_p d\,.\label{eq:def_nu}
+\end{equation}
+%
+%Colocar em funcao de $u_{av}$.
+
+
+The HGO gain is inversely proportional to the small parameter $\mu$,
+allowed to be time-varying in order to guarantee global tracking.Our task is to establish properties for the domination
+function $\psi_\mu(\omega,t)$ in (\ref{eq:def_mu}) so that $\mu
+|\nu|$ and $|\dot{\mu}|$ are arbitrarily small, at least after a
+finite time interval. Consequently, $\dot{\mu}$ does not {\em
+ultimately} affect the stability of $A_o$ in
+(\ref{eq:HGO_error_eta}) and $\zeta$ or $\tilde{\xi}$ can be made
+arbitrarily small, {\em modulo} exponentially decaying term.
+
+
+
+
+In order to obtain a norm bound for the time derivative of $\mu$
+(\ref{eq:def_mu}) we calculate $\dot{\mu}$ by the expression:
+%
+\begin{equation}
+\dot{\mu}(t)\!=\!-\frac{\mu^2}{\bar{\mu}} \left[\frac{\partial
+\psi_\mu}{\partial \omega} \dot{\omega}+\frac{\partial
+\psi_\mu}{\partial t}\right]\,. \label{eq:def_mudot}
+\end{equation}
+%
+Note that, $\dot{\mu}$ is a piecewise continuous time signal which
+can be upperbounded by
+%
+\begin{equation}
+|\dot{\mu}(t)|\!\leq\!\frac{\left|\frac{\partial
+\psi_\mu}{\partial \omega}\right|}{1+\psi_\mu} \mu
+|\dot{\omega}|+\frac{\left|\frac{\partial \psi_\mu}{\partial
+t}\right|}{1+\psi_\mu}\mu\,. \label{eq:mudotbound}
+\end{equation}
+%
+Now, assume that the control strategy and the norm observer are such that the following inequalities hold:
+%
+\begin{equation}
+|\nu| \leq \psi_\nu(\omega,t)+\pi_3\,,\label{eq:boundonnu}
+\end{equation}
+%
+%
+\begin{equation}\label{eq:boundonomegadot}
+\left|\dot{\omega}\right| \leq \psi_\omega(\omega,t)+\pi_1\,,
+\end{equation}
+%
+respectively, for some non-negative functions $\psi_\omega$ and $\psi_\omega$ and vanishing terms $\pi_3, \pi_1$ depending on  initial conditions. Hence, one has that:
+%
+\begin{equation}
+\mu|\nu| \leq
+\frac{\psi_\nu}{1+\psi_\mu}\bar{\mu}+\mu\pi_3\,,\label{eq:boundonmunu}
+\end{equation}
+%
+and
+%
+\begin{equation}
+\mu|\dot{\omega}| \leq
+\frac{\psi_\omega}{1+\psi_\mu}\bar{\mu}+\mu\pi_1\,.\label{eq:boundonmudotomega}
+\end{equation}
+%
+Now, choose the domination function $\psi_\mu$ in
+(\ref{eq:def_mu}) so that the following property holds with
+$\psi_\nu$ in (\ref{eq:boundonnu}) and $\psi_\omega$ in
+(\ref{eq:boundonomegadot}):
+%
+\begin{description}
+\item[(P0)] $\psi_\nu\,, \
+\psi_\omega \leq c_{\mu 0}(1+\psi_\mu)$, $\forall t \in [0,t_M)$,
+where $c_{\mu 0}\geq 0$ is a {\em known} constant.
+\end{description}
+%
+If  $\psi_\mu$ satisfies (P0) then, from (\ref{eq:boundonmunu})
+and (\ref{eq:boundonmudotomega}), $\mu|\nu|$ and
+$\mu|\dot{\omega}|$ can be bounded by
+%
+\begin{align}
+\mu|\nu| &\leq
+\mathcal{O}(\bar{\mu})+\mu\pi_3\,.\label{eq:boundonmunu1}\\
+\mu|\dot{\omega}| &\leq
+\mathcal{O}(\bar{\mu})+\mu\pi_1\,.\label{eq:boundonmudotomega1}
+\end{align}
+%
+Moreover, our strategy is to design $\psi_\mu(\omega,t)$ such that the
+following  property holds:
+%
+\begin{description}
+\item[(P1)] $\left|\frac{\partial \psi_\mu}{\partial
+\omega}\right|\,, \ \left|\frac{\partial \psi_\mu}{\partial
+t}\right|\leq c_{\mu 1}(1+\psi_\mu)$, $\forall t \in [0,t_M)$, where
+$c_{\mu 1}\geq 0$ is a {\em known} constant.
+\end{description}
+%
+This property is trivially satisfied by polynomial $\psi_\mu$ with
+positive coefficients.
+
+
+Now, with $\psi_\mu$ satisfying (P1), one has that:
+%
+\begin{equation}
+|\dot{\mu}(t)|\!\leq\!c_{\mu 1} \mu |\dot{\omega}|+c_{\mu 1}
+\mu\,. \label{eq:mudotbound1}
+\end{equation}
+%
+Therefore, from (\ref{eq:mudotbound1}), (\ref{eq:boundonmunu1})
+and (\ref{eq:boundonmudotomega1}) the following holds:
+%
+\begin{equation}
+|\dot{\mu}(t)|\,, \ \mu|\nu| \leq \mathcal{O}(\bar{\mu}) + \mu
+\pi_4\,, \label{eq:mudotandmunu1}
+\end{equation}
+%
+where $\pi_4:=c_{\mu 1} \pi_1 +\pi_3$.
+
+Finally, if $\psi_\mu$ is designed so that (P0)--(P1) hold and {\em finite escape is avoided}\footnote{This can be guaranteed if an additional technical Property is satisfied, see \cite{jacoud} for details. Here, we omitted this property just to simplify the paper presentation.}, then
+from (\ref{eq:mudotandmunu1})  one can verify
+that there exists a finite $t_\mu \in [0,t_M)$ such that:
+%
+\begin{equation}
+|\dot{\mu}(t)|\,, \ \mu |\nu| \leq \mathcal{O}(\bar{\mu})\,, \quad
+\forall t \in [t_\mu,t_M)\,. \label{eq:mudotmunu}
+\end{equation}
+%
+
+
+
+
+
+\section{Control}
+
+A simple PD controller is used as control approach in order to minimize the error $e(t)$ over time between a given joint position reference vector and the actual joint position. The control variable $v(t)$ is determined by:
+
+\begin{align}
+e(t) = & q_{ref} - q \\
+\dot{e}(t) = & \dot{q}_{ref} - \dot{q}_{est} \\
+x(t) = & K_pe(t) + K_d\dfrac{de(t)}{dt}\\
+v(t) = & \ddot{q}_{ref} + x(t) \\
+\label{eq:PD}
+\end{align}
+
+Given a control variable, the control output signal is expressed as 
+
+\begin{align}
+u(t) = & M_{est}(q)v + C_{est}(q,\dot{q})\dot{q}+g_{est}(q)
+%v = ddq_ref + Kp*q_error + Kd*dq_error;
+\label{eq:u}
+\end{align}
+
+The matrices $M_{est}(q)$, $C_{est}(q,\dot{q})$ and $g_{est}$ are $M(q)$, $C(q,\dot{q})$ and $g$ with a given measure error according to table \ref{table:2}.
+
+\section{Simulation}
+
+The parameters used for the robot plant are listed in tables \ref{table:1}, \ref{table:2} and \ref{table:3}. The reference joint position vector $q_{ref}$ is given by 
+$[0.02cos(2\pi/0.55)t \quad 0.9sin(2\pi/1.5)t + 1 \quad sin(2\pi/0.45)t + 1.8]'$ an approximation of those presented in \cite{Richter2015}. It's derivatives were obtained using a 'dirty' derivative formula
+
+\begin{equation}
+\hat{q} = \left\{ \dfrac{s}{\epsilon s + 1}\right\}
+\label{eq:dirtyDerivative}
+\end{equation}
+
+and then used as joint position, velocity and acceleration references in the controller transfer function
+
+The Proportional-Derivative control has parameters defined in table \ref{table:2}
+
+\begin{table}[h!]
+\centering
+\caption{Control parameters table} 
+\begin{tabular}{ |p{3cm} p{3cm} p{3cm}|  }
+ \hline
+ %\multicolumn{4}{|c|}{Plant parameters} \\
+ %\hline
+ Parameter & Value & Units\\
+ \hline
+	$K_p$ & $10I_{3x3}$ & \\
+	$K_d$ & $10I_{3x3}$ & \\
+	$Mass \ vector$ & +1\% error & $Kg$\\
+	$C_2$ & +5\% error in $C(q,\dot{q})$ and $M(q)$ & $m$\\
+	$C_3$ & -5\% error in $C(q,\dot{q})$ and $M(q)$ & $m$\\
+	$I_2$ & -5\% error & $Kg-m^2$ \\
+\hline
+\end{tabular}
+\label{table:2}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{HGO parameters table} 
+\begin{tabular}{ |p{3cm} p{3cm} p{3cm}|  }
+ \hline
+ %\multicolumn{4}{|c|}{Plant parameters} \\
+ %\hline
+ Parameter & Value & Units\\
+ \hline
+	$\mu$ & $10^{-3}$ & \\
+	$l_1$ & 1 & \\
+	$l_2$ & 2  & \\
+	\hline
+\end{tabular}
+\label{table:3}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{CONCLUSIONS}
+
+%\subsection{Conclusions}
+
+In this work, we considered the control of a wind energy conversion system (WECS) to extract its maximum power, by applying extremum seeking control (ESC) in an outer control loop to perform the maximum power point tracking (MPPT) and  a nonlinear robust controller in an inner control loop.
+%
+The key idea of the method is to maximize an auxiliary output which is an estimate of the aerodynamic torque, with a real-time control to handle cut-in wind speed to rated wind speed. 
+%
+%For the studied scenario, the ESC with anti-windup solution performs significantly better than the classic controls applied. This fits the motivation to use ESC with SSC.
+%
+A sliding mode control with smooth control (SSC) effort was implemented in the inner  loop, resulting in a \emph{chattering} free control law. The complete stability analysis, including the ESC employed in the outer loop, was provided. Numerical simulations illustrated the performance of the proposed scheme.
+
+Future possible topics of research are: the evaluation of the generator's active power feedback or the usage of accelerometers in order to avoid the need of time differentiation of the rotor speed; and consider more general class of nonlinear plants representing the WECS, since the SSC can also be applied for linear plants with arbitrary relative degree. %and the combination of the presented strategy with a scheme that does not rely on the rotor speed measurement, as well as an estimator of the delivered power based on these two techniques are under development.
+\addtolength{\textheight}{-3cm}   % This command serves to balance the column lengths
+                                  % on the last page of the document manually.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{footnotesize}
+%%%
+
+\bibliography{IEEEabrv,BibProtese} 
+%
+%\bibliographystyle{unsrt}
+%\bibliography{BibProtese}
+%
+
+
+%===============================================================
+
+\appendix
+
+
+\section{System Matrices and Parameters}\label{ap:system}
+%
+\begin{align}
+C(1,1) = & 0 \nonumber\\
+C(1,2) = & -\dot{q_2}(L_2m_3+m_2(C_2+L_2))sin(q_2)-C_3m_3(\dot{q_2}+\dot{q_3})sin(q_2+q_3) \nonumber\\
+C(1,3) = & -C_3m_3sin(q_2+q_3)(\dot{q_2}+\dot{q_3}) \nonumber\\
+C(2,1) = & 0 \nonumber\\
+C(2,2) = & -C_3L_2m_3\dot{q_3}sin(q3) \nonumber\\
+C(2,3) = & -C_3L_2m_3sin(q_3)(\dot{q_2}+\dot{q_3}) \nonumber\\
+C(3,1) = & 0 \nonumber\\
+C(3,2) = & C_3L_2m_3\dot{q_2}sin(q_3) \nonumber\\
+C(3,3) = & 0 
+\label{eq:Cq}
+\end{align}
+%
+\begin{align*}
+	D(1,1) & = m_1 + m_2 + m_3 \,, \\
+	D(1,2) & = D(2,1) = (c_3 \cos(q_2+q_3) + l_2 \cos(q_2)) \, + \\
+	       & m_2 (c_2 \cos(q_2) + l_2 \cos (q_2) )\,, \\
+	D(1,3) & = D(3,1) = c_3 m_3 \cos( q_2 + q_3) \,, \\
+	D(2,2) & = I_{2z} + I_{3z} + c_2^2 m_2 + c_3^2 m_3 \, + \\
+	       & I_2^2 (m_2 + m_3) + 2 c_2 l_2 m_2 + 2 c_3 l_2 m_3 \cos (q_3)\,, \\
+	D(2,3) & = D(3,2) m_3 c_3^2 + l_2 m_3 \cos (q_3 ) c_3 + I_{3z} \,,\\
+	D(3,3) & =  m_3 c_3^2 + I_{3z}\,. \\
+\end{align*}
+%\begin{align}
+%\nonumber\\
+%D(1,2) = & D(2,1) = (c_3cos(q_2+q_3) + l_2cos(q_2)) \nonumber\\ 
+%& + m_2(c_2cos(q_2) + l_2cos(q_2)),\\
+%\label{eq:D(q)}
+%\end{align}
+
+
+%
+%%
+%\begin{align}
+%D(1,1) = & m_1+m_2+m_3 \nonumber\\
+%D(1,2) = & m_3(C_3cos(q_2+q_3)+L_2cos(q_2) ) + m_2( C_2cos(q_2) + L_2cos(q_2)) \nonumber\\
+%D(1,3) = & C_3m_3cos(q_2+q_3) \nonumber\\
+%D(2,1) = & D(1,2) \nonumber\\
+%D(2,2) = & I_2+I_3+(C_2^2)m_2+(C_3^2)m_3+(L_2^2)(m_2+m_3)+2C_2L_2m_2+2C_3L_2m_3cos(q_3) \nonumber\\
+%D(2,3) = & m_3C_3^2+L_2m_3cos(q_3)C_3+I_3 \nonumber\\
+%D(3,1) = & D(1,3) \nonumber\\
+%D(3,2) = & D(2,3) \nonumber\\
+%D(3,3) = & m_3C_3^2+I_3
+%\label{eq:Mq}
+%\end{align}
+%%
+\begin{align}
+g(1,1) = & -g(m_1+m_2+m_3) \nonumber\\
+g(2,1) = & -C_3gm_3cos(q_2+q_3)-g(m_2(C_2+L_2)+L_2m_3)cos(q_2) \nonumber\\
+g(3,1) = & -C_3gm_3cos(q_2+q_3)
+\label{eq:g}
+\end{align}
+
+\begin{table}[h!]
+\centering
+\caption{Plant parameters table}
+\begin{tabular}{ |p{3cm} p{3cm} p{3cm}|  }
+ \hline
+ %\multicolumn{4}{|c|}{Plant parameters} \\
+ %\hline
+ Parameter & Value & Units\\
+ \hline
+	$m_1$ & 21.29 & $Kg$\\
+	$m_2$ & 8.57 & $Kg$\\
+	$m_3$ & 2.33 & $Kg$\\
+	$I_2$ & 0.435 & $Kg-m^2$\\
+	$I_3$ & 0.062 & $Kg-m^2$\\
+	$d_0$ & 0.5 & $m$ \\
+	$L_2$ & 0.425 & $m$ \\
+	$L_3$ & 0.527 & $m$ \\
+	$C_2$ & -0.339 & $m$ \\
+	$C_3$ & 0.320 & $m$ \\
+	$g$ & 9.81 & $m/s^2$ \\
+\hline
+\end{tabular}
+\label{table:1} 
+\end{table}
+
+
+
+\end{document}
+%%%%%%%%%%%%%%%%%%% E N D  O F   F I L E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
