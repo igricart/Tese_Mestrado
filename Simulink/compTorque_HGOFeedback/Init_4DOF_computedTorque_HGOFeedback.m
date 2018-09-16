@@ -66,7 +66,7 @@ G_ctrl = g*ez;
 
 wn = 2*pi*8;
 zeta = 0.9;
-p = 3*wn;
+p = 2*wn;
 ki = p*wn^2;
 kp = 2*zeta*wn*p + wn^2;
 kd = p + 2*zeta*wn;
@@ -125,3 +125,6 @@ Init_HGO;
 
 %% Computes INITIAL force state vector
 [ ~, Fstate0 ] = ground_model( qInit, BodyContactPositions, s_z, L, h, beta,  k_b, joint_type );
+
+%% Save command
+% save('protese_PID_HGOFeedback','ki','kd','kp','u','Mu','q_error','dq_error','q_est_error','dq_est_error','simulation_step','step_period','param_error')
