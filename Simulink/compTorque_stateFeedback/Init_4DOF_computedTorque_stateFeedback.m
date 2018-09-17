@@ -48,11 +48,11 @@ h = [ ez -ey -ey -ey ]; % axes
 G = g*ez; % gravity
 
 %% Control parameters
-Mass_ctrl = [ mass_base mass_hip mass_thigh mass_shin mass_foot ].*(1 + 0.5*(rand()-1/2));
-Inertia_ctrl = [ I_base I_hip I_thigh I_shin I_foot ].*(1 + 0.5*(rand()-1/2));
-R_ctrl = [ r_base r_hip r_thigh r_shin r_foot ].*(1 + 0.5*(rand()-1/2));
-L_ctrl = [ l_base_hip l_hip_thigh l_thigh_shin l_shin_foot ].*(1 + 0.5*(rand()-1/2));
-h_ctrl = [ ez -ey -ey -ey ].*(1 + 0.5*(rand()-1/2));
+Mass_ctrl = [ mass_base mass_hip mass_thigh mass_shin mass_foot ];
+Inertia_ctrl = [ I_base I_hip I_thigh I_shin I_foot ];
+R_ctrl = [ r_base r_hip r_thigh r_shin r_foot ];
+L_ctrl = [ l_base_hip l_hip_thigh l_thigh_shin l_shin_foot ];
+h_ctrl = [ ez -ey -ey -ey ];
 G_ctrl = g*ez;
 
 %% PD
@@ -113,6 +113,14 @@ dqInit = [ 0 0 0 0 ]';
 tau = 0.001;
 q0 = qInit;
 
+%% Computed Torque parameter mismatch
+param_error = (1 + 0.1*(rand()-1/2));
+
+Mass_ctrl = Mass_ctrl.*param_error;
+Inertia_ctrl = Inertia_ctrl.*param_error;
+R_ctrl = R_ctrl.*param_error;
+L_ctrl = L_ctrl.*param_error;
+h_ctrl = h_ctrl.*param_error;
 
 %% Computes INITIAL force state vector
 [ ~, Fstate0 ] = ground_model( qInit, BodyContactPositions, s_z, L, h, beta,  k_b, joint_type );
