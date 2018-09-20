@@ -145,7 +145,7 @@ Smooth Sliding Control Applied to Prosthetic Legs via Variable High Gain Observe
 \pagestyle{empty}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}%
-In this draft note, we focused on the state estimation of a robot/prosthesis control system with vertical hip displacement, thigh angle and knee angle. The ankle joint is disregarded just to simplify the presentation of the key idea.  The dynamic model and the motivation for state estimation were inspired from \cite{Fakoorian2016, Azimi2015, Warner2016, Richter2015}, where it was mentioned that there are several drawbacks regarding the usage of load cells and/or sensors in robots and prosthetic legs to capture gait data, external forces (GRFs) and moments during walking. Thus, state estimation via Extended Kalman Filter (EKF) \cite{Fakoorian2016, Huang2009}, High Gain Observer (HGO) \cite{Zhang2016, Khalil2008, Foss2003} and  Sliding Mode Observer (SMO) are promising as well as the estimation of forces acting on the prosthetic foot. We propose the implementation of an HGO with variable dynamic gain. The key idea is to design a time-varying HGO gain synthesized from measurable signals. This dynamic gain can be designed to: (i) reduce the amount of noise in the control signal while keeping an acceptable tracking error  transient performance; (ii) guarantee global/semi-global stability properties of the closed-loop system. The main focus is given to the HGO design while the smooth sliding control scheme is left for a future draft of this note. 
+This draft focus on state estimation and control of a robot/prosthesis control system with four joints: vertical hip displacement, thigh, knee and ankle angles. The motivation was inspired in several drawbacks regarding the usage of load cells and/or sensors in robots and prosthetic legs to capture gait data, external forces (GRFs) and moments during walking. Thus, state estimation via Extended Kalman Filter (EKF), High Gain Observer (HGO) and Sliding Mode Observer (SMO) are promising as well as the estimation of forces acting on the prosthetic foot. We propose the implementation of an HGO with variable dynamic gain. The key idea is to design a time-varying HGO gain synthesized from measurable signals. This dynamic gain can be designed to: (i) reduce the amount of noise in the control signal while keeping an acceptable tracking error  transient performance; (ii) guarantee global/semi-global stability properties of the closed-loop system. The main focus is given to the HGO design while the smooth sliding control scheme is left for a future draft of this note. 
 \end{abstract}
 %%%
 %%%\keywords{Smooth sliding mode control, extremum seeking control, wind power generation.}
@@ -237,14 +237,14 @@ or, equivalently,
 y &=& C_\rho x\,,\label{eq:plantSaida} 
 \end{eqnarray}
 %
-where $x^T= \left [ \begin{array}{cc} x_1 & x_2\end{array} \right ]$ is the state vector, $k_p(x,t)=D(x_1)^{-1} \in \re^{4 \times 4}$, $d(x,t):=-C(x_1,x_2) x_2-g(x_1) \in \re^{4 \times 1}$, $C_\rho=\left[\begin{array}{cc} I_{3 \times 3} & 0_{3 \times 3}\end{array} \right] \in \re^{3 \times 6}$ and the pair $(A_\rho, B_\rho)$ is in Brunovskys canonical controllable form and is given by:
+where $x^T= \left [ \begin{array}{cc} x_1 & x_2\end{array} \right ]$ is the state vector, $k_p(x,t)=D(x_1)^{-1} \in \re^{4 \times 4}$, $d(x,t):=-C(x_1,x_2) x_2-g(x_1) \in \re^{4 \times 1}$, $C_\rho=\left[\begin{array}{cc} I_{4 \times 4} & 0_{4 \times 4}\end{array} \right] \in \re^{4 \times 8}$ and the pair $(A_\rho, B_\rho)$ is in Brunovskys canonical controllable form and is given by:
 %
 $$A_\rho=\left[\begin{array}{cccc} 0_{4 \times 4} & I_{4 \times 4}\\
 0_{4 \times 4} & 0_{4 \times 4}\end{array} \right] \in \re^{8 \times 8}\,,$$
 %
 and
 %
-$$B_\rho=\left[\begin{array}{cc}  0_{6 \times 6} & I_{6 \times 6} \end{array} \right]^T \in \re^{8 \times 8}\,.$$
+$$B_\rho=\left[\begin{array}{cc}  0_{4 \times 4} & I_{4 \times 4} \end{array} \right]^T \in \re^{8 \times 4}\,.$$
 %
 For each solution of (\ref{eq:plantSS}) there exists a maximal
 time interval of definition given by $[0,t_M)$, where $t_M$ may be
@@ -635,36 +635,66 @@ The control objective is to reduce the tracking error
 e(t) := & y_{d} - y\,,
 \end{align}
 %
-where the desired trajectory compose the human gait.
+where the desired trajectory $y_d$ is a set of joint angles acquired for human gait analysis \cite{Schwartz2008}.
 %
-The reference trajectory was defined in order to approximate the desired trajectories appearing  in \cite{Richter2015}. For simplicity, the time-varying derivatives ($\dot{y}_d$ and $\ddot{y}_d$) were obtained by using a ``dirty derivative'' of the   desired trajectory  $y_d$. The plant initial conditions are: $y(0)=x_1(0)=\left[\begin{array}{ccc} 0  & \pi/4 & \pi/4\end{array} \right ]^T$ and $x_2(0)=\left[\begin{array}{ccc} 0  & 0 & 0\end{array} \right ]^T$.
+For simplicity, the time-varying derivatives ($\dot{y}_d$ and $\ddot{y}_d$) were obtained by using a ``dirty derivative'' of $y_d$. The plant initial conditions are: $y(0)=x_1(0)=\left[\begin{array}{cccc} 0.0216  & 0.5675 & -0.13 & -0.39\end{array} \right ]^T$ and $x_2(0)=\left[\begin{array}{cccc} 0  & 0 & 0 & 0\end{array} \right ]^T$.
 
 
-A simple PD controller with feedforward is employed just to validate the time-varying HGO proposed in this note. By recalling that we  consider $D_n(y)=D(y)$ to simplify the paper presentation, the control  signal is given by
+A  PID controller with feedforward is employed just to validate the time-varying HGO proposed in this note. By recalling that we  consider $D_n(y)=D(y)$ to simplify the paper presentation, the control  signal is given by
 %
 \begin{align}
 u(t) := & D(y) u_v + C_{n}(y,\hat{x}_2) \hat{x}_2+g_{n}(y)\,, \\
-u_v(t):= &\ddot{q}_d + K_p e(t) + \underbrace{K_d (\dot{y}_d - \hat{x}_2)}_{\approx K_d \frac{de(t)}{dt}}\,,
+u_v(t):= &\ddot{q}_d + K_p e(t) + \underbrace{K_d (\dot{y}_d - \hat{x}_2)}_{\approx K_d \frac{de(t)}{dt}} + K_i\int_{t_o}^{t}e \, dt\,,
 \label{eq:defu}
 \end{align}
 %
-where $\hat{x}_2$ is the estimate for $x_2$ obtained from the HGO and
+where $\hat{x}_2$ is the estimate for $x_2$ obtained from the HGO and the gains were designed in order to match the following equations
 %
-$$K_p=K_d=\left[\begin{array}{ccc} 10   & 0 & 0\\ 0 & 10 & 0\\ 0 & 0 & 10\end{array} \right ]\,.$$
+\begin{align}
+	s^3 + K_ds^2 + K_ps + K_i &= 0 \\
+	(s^2 + 2\zeta \omega_n + \omega_n^2)(s + p) &= 0 \\
+\end{align}
+%
+Therefore the controller gains are designed in order to approximate the erro third order dynamics to a second order system added to a fast pole. That will accomplished if
+\begin{align}
+	k_i &:= \omega_n^2p \\
+	k_p &:= \omega_n^2 + 2\zeta \omega_np \\
+	k_d &:= p + 2\zeta \omega_n 
+\end{align}
+
+Where $\omega_n = 16\pi$, $\zeta = 0.9$, $p = 2\omega_n$, $K_i := k_i(I_{4 \times 4})$, $K_p := k_p(I_{4 \times 4})$ and $K_d := k_d(I_{4 \times 4})$.
+
+\begin{align}
+	M\ddot{\theta} + C\dot{\theta} + G &= \tau \\
+	\tau &:= C\dot{\theta} + G + \bar{\tau} \\
+	\bar{\tau} &:= M(u)\\
+	\ddot{\theta} &= u \\
+	e &= \theta - \theta_d \\
+	\ddot{e} &= u - \ddot{\theta_d} \\
+	u &:= \ddot{\theta_d} - K_pe - K_d\dot{e} - K_i\int_{t_o}^{t}e \, dt \\
+	\dddot{e} + K_d\ddot{e} + K_p\dot{e} + K_ie &= 0 \\
+	s^3 + K_ds^2 + K_ps + K_i &= 0 \\
+	(s^2 + 2\zeta \omega_n + \omega_n^2)(s + p) &= 0 \\
+	Ki &= \omega_n^2p \\
+	K_p &= \omega_n^2 + 2\zeta \omega_np \\
+	K_d &= p + 2\zeta \omega_n 
+\end{align}
+
+$$K_p=K_d=\left[\begin{array}{cccc} 10   & 0 & 0\\ 0 & 10 & 0\\ 0 & 0 & 10\end{array} \right ]\,.$$
 %
 Note that, in the ideal case when the nominal matrices $C_n$ and $g_n$ match the real values and $\hat{x}_2=x_2$, the following closed-loop equation holds
 %
 \begin{align}
-\ddot{e} + K_d \dot{e}+K_p e =0\,,
+\dddot{e} + K_d \ddot{e} + K_p \dot{e} + K_i e =0\,,
 \label{eq:closed}
 \end{align}
 %
 which assures that $|e(t)| \rightarrow 0$ as $t \rightarrow \infty$. When  there are uncertainties in the plant parameters and/or errors in the HGO estimate, the tracking error converges to some residual set.  The nominal matrix $D_n$ is given by (\ref{eq:defD}) replacing: $I_2$ by $I_2^n$,  $C_2$ by $C_2^n$, $C_3$ by $C_3^n$ and $m_1,m_2,m_3$ by $m_1^n, m_2^n, m_3^n$, respectively,  where  $I_2^n, C_2^n, C_3^n, m_1^n, m_2^n$ and $m_3^n$ are  the ``known'' nominal values of the parameters given in Table~\ref{table:nominal}. The nominal value of the HFG is given by $k_p^n=D_n^{-1}$. The nominal matrix $C_n$ is given by (\ref{eq:defC}) replacing: $C_2$ by $C_2^n$, $C_3$ by $C_3^n$ and $m_1,m_2,m_3$ by $m_1^n,m_2^n,m_3^n$, respectively. The nominal matrix $g_n$ is given by (\ref{eq:defg}) replacing  $m_1,m_2,m_3$ by $m_1^n, m_2^n, m_3^n$, respectively.  
 
-The {\em actual} plant parameters, assumed partially unknown, are given in Table~\ref{table:actual}. We consider that  the real parameters differ from the known values by not more than $1\%$ or $5\%$. 
+The {\em actual} plant parameters, assumed partially unknown, are given in Table~\ref{table:actual}. We consider that  the real parameters differ from the known values by not more than $10\%$. 
 
 
-The HGO is implemented with $l_1=2$, $l_2=1$ and with a constant $\mu=\bar{\mu}=0.01$.
+The HGO is implemented with $l_1=2$, $l_2=6$ and with a constant $\mu=\bar{\mu}=0.001$.
 %
 \begin{table}[h!]
 \centering
@@ -686,6 +716,7 @@ The HGO is implemented with $l_1=2$, $l_2=1$ and with a constant $\mu=\bar{\mu}=
 \label{table:nominal}
 \end{table}
 %
+
 Fig.~\ref{fig:hip} depicts the hip displacement and its estimation via HGO converging before $20$ms with an undershoot less than $0.01$ meters. A similar behavior for the thigh and knee angle can be observed in Fig.~\ref{fig:thigh} and Fig.~\ref{fig:knee}, respectively, with their HGO estimates. Both estimates converge before $15$ms with transient error less than $0.4$rad (approximately  $22^o$). The corresponding hip, thigh and knee velocities are illustrated in Fig.~\ref{fig:dhip}, Fig.~\ref{fig:dthigh} and Fig.~\ref{fig:dknee}, respectively. 
 %
 %As the system's response time is greater than the overshoot peak interval of 3 ms, the overshoot peak effects can be disregarded.
