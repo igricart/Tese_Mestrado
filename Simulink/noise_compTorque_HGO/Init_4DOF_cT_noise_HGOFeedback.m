@@ -67,7 +67,7 @@ G_ctrl = g*ez;
 
 wn = 2*pi*8;
 zeta = 0.9;
-p = 3*wn;
+p = 2*wn;
 ki = p*wn^2;
 kp = 2*zeta*wn*p + wn^2;
 kd = p + 2*zeta*wn;
@@ -111,6 +111,10 @@ dqInit = [ 0 0 0 0 ]';
 %% Dirty derivative
 tau = 0.001;
 q0 = qInit;
+
+%% Model reference
+wn_ref = 8*5;
+zeta_ref = 0.7;
 
 %% Computed Torque parameter mismatch
 param_error = (1 + 0.1*(rand()-1/2));
