@@ -76,7 +76,7 @@
 \newcommand{\inte}{$\displaystyle \int$}
 \newcommand{\derv}{\huge$\frac{d}{dt}$}
 
-\newcommand{\dd}[1]{ %Marca uma revisão
+\newcommand{\dd}[1]{ %Marca uma revisï¿½o
     {\color{red}[\![} {\color{blue}\bf#1\xspace} {\color{red}]\!]}
 }
 \def\re{{\rm I}\! {\rm R}}
@@ -199,15 +199,14 @@ Stability) and Input-Output-State-Stable, respectively
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{System Model}
-The dynamics of the machine/prosthesis system composed by a $3$-link rigid body robot\footnote{A more general framework with a $n$-link rigid body robot can also be considered. However, in order to keep this note close to \cite{Richter2015}, for simplicity, we have set $n=3$.}  with prismatic-revolute-revolute (PRR) configuration, following the notation in \cite{Richter2015}, is given by:
+The dynamics of the machine/prosthesis system composed by a $4$-link rigid body robot\footnote{A more general framework with a $n$-link rigid body robot can also be considered. However, in order to keep this note close to \cite{Richter2015}, for simplicity, we have set $n=4$.}  with prismatic-revolute-revolute-revolute (PRRR) configuration, following the notation in \cite{Richter2015}, is given by:
 %
 \begin{equation}
 D(q)\ddot{q} + C(q,\dot{q})\dot{q}+B(q,\dot{q}) + P(\dot{q}) + J_e^T F_e+g(q) = F_a\,,
 \label{eq:Dinamica}
 \end{equation}
 %
-where  $q^T= \left [ \begin{array}{ccc} q_1 & q_2 & q_3\end{array} \right ]$ is the vector of joint displacements ($q_1$ is the vertical displacement, $q_2$ is the thigh angle and $q_3$ is the knee angle), $D(q)$ is the inertia matrix, $C(q,\dot{q})$ is the matrix of Coriolis and centrifugal forces, $B(q,\dot{q})$ is the knee  damper nonlinear matrix, $J_e$ is the kinematic Jacobian relative to the point of application of external forces $F_e$, $g(q)$ is the term of gravitational forces and $F_a$ is the torque/force produced by the actuators. Here, in contrast to \cite{Richter2015}, we have included the term  $P(\dot{q})$ in order to take explicitly into account the Coulomb friction as in \cite{LeeKhalil2015}. 
-Note that,   inertial and frictional effects in the actuators can be included in this model. 
+where  $q$ represents the vector of joints positions ($q_1$ represents the hip vertical displacement, $q_2$ is the thigh angle, $q_3$ is the knee angle and $q_4$ represents ankle angle), $D(q)$ is the inertia matrix, $C(q,\dot{q})$ is the matrix of Coriolis and centrifugal forces, $B(q,\dot{q})$ is the knee  damper nonlinear matrix, $J_e$ is the kinematic Jacobian relative to the point of application of external forces $F_e$, $g(q)$ is the term of gravitational forces and $F_a$ is the torque/force produced by the actuators. Here, in contrast to \cite{Richter2015}, we have included the term  $P(\dot{q})$ in order to take explicitly into account the Coulomb friction as in \cite{LeeKhalil2015}. Note that, inertial and frictional effects in the actuators can be included in this model. 
 
 To establish a basis for dynamic model derivations and to verify the leg geometry during simulations, the set of reference frames used for forward kinematics problems are the same as the ones assigned in \cite{Richter2015}. Matrices $D(q)\ddot{q}$, $C(q,\dot{q})$ and $g(q)$ are obtained using the standard Newton-Euler/Euler-Lagrange approach and are given in Appendix~\ref{ap:system} with the plant parameters  extracted from \cite{Richter2015}.
 
@@ -223,11 +222,11 @@ D(q)\ddot{q} + C(q,\dot{q})\dot{q}+g(q) = F_a\,.
 %
 The system matrices $D(q), C(q,\dot{q})$ and $g(q)$ are supposed to be uncertain, but the corresponding nominal matrices  $D_n(q), C_n(q,\dot{q})$ and $g_n(q)$ are assumed known. In particular, the inertia matrix $D(q)$ which is invertible, since $D(q)=D^T(q)$ is strictly positive definite.
 
-Introducing the variables $x_1:=q \in \re^3$ and $x_2:=\dot{q}\in \re^3$, the model (\ref{eq:DinamicaSimp}) can be rewritten in the state-space form as:
+Introducing the variables $x_1:=q \in \re^4$ and $x_2:=\dot{q}\in \re^4$, the model (\ref{eq:DinamicaSimp}) can be rewritten in the state-space form as:
 %
 \begin{eqnarray}
 \dot{x}_1&=& x_2\,, \\
-\dot{x}_2 &=& k_p(x,t) \left[u+d(x,t)\right]\,, \quad u:=F_a \in \re^{3 \times 1}\,,\\
+\dot{x}_2 &=& k_p(x,t) \left[u+d(x,t)\right]\,, \quad u:=F_a \in \re^{4 \times 1}\,,\\
 y &=&  x_1\,,
 \end{eqnarray}
 %
@@ -238,14 +237,14 @@ or, equivalently,
 y &=& C_\rho x\,,\label{eq:plantSaida} 
 \end{eqnarray}
 %
-where $x^T= \left [ \begin{array}{cc} x_1 & x_2\end{array} \right ]$ is the state vector, $k_p(x,t)=D(x_1)^{-1} \in \re^{3 \times 3}$, $d(x,t):=-C(x_1,x_2) x_2-g(x_1) \in \re^{3 \times 1}$, $C_\rho=\left[\begin{array}{cc} I_{3 \times 3} & 0_{3 \times 3}\end{array} \right] \in \re^{3 \times 6}$ and the pair $(A_\rho, B_\rho)$ is in Brunovskys canonical controllable form and is given by:
+where $x^T= \left [ \begin{array}{cc} x_1 & x_2\end{array} \right ]$ is the state vector, $k_p(x,t)=D(x_1)^{-1} \in \re^{4 \times 4}$, $d(x,t):=-C(x_1,x_2) x_2-g(x_1) \in \re^{4 \times 1}$, $C_\rho=\left[\begin{array}{cc} I_{3 \times 3} & 0_{3 \times 3}\end{array} \right] \in \re^{3 \times 6}$ and the pair $(A_\rho, B_\rho)$ is in Brunovskys canonical controllable form and is given by:
 %
-$$A_\rho=\left[\begin{array}{cccc} 0_{3 \times 3} & I_{3 \times 3}\\
-0_{3 \times 3} & 0_{3 \times 3}\end{array} \right] \in \re^{6 \times 6}\,,$$
+$$A_\rho=\left[\begin{array}{cccc} 0_{4 \times 4} & I_{4 \times 4}\\
+0_{4 \times 4} & 0_{4 \times 4}\end{array} \right] \in \re^{8 \times 8}\,,$$
 %
 and
 %
-$$B_\rho=\left[\begin{array}{cc}  0_{3 \times 3} & I_{3 \times 3} \end{array} \right]^T \in \re^{6 \times 3}\,.$$
+$$B_\rho=\left[\begin{array}{cc}  0_{6 \times 6} & I_{6 \times 6} \end{array} \right]^T \in \re^{8 \times 8}\,.$$
 %
 For each solution of (\ref{eq:plantSS}) there exists a maximal
 time interval of definition given by $[0,t_M)$, where $t_M$ may be
@@ -300,8 +299,8 @@ where $k_p^n$ is a nominal value of the plant high frequency gain (HFG) $k_p$ an
 
 %
 \begin{equation}
-L_o=\left[\begin{array}{cc}  l_1 I_{3 \times 3} & l_2 I_{3 \times 3} \end{array} \right]^T \in \re^{6 \times 3} \ \mbox{and} \
-H_\mu\!:=\!\mbox{diag}(\mu^{-1}  I_{3 \times 3}, \ \mu^{-2} I_{3 \times 3}) \in \re^{6 \times 6}\,.
+L_o=\left[\begin{array}{cc}  l_1 I_{4 \times 4} & l_2 I_{4 \times 4} \end{array} \right]^T \in \re^{8 \times 4} \ \mbox{and} \
+H_\mu\!:=\!\mbox{diag}(\mu^{-1}  I_{4 \times 4}, \ \mu^{-2} I_{4 \times 4}) \in \re^{8 \times 8}\,.
 \label{eq:defLhgo_and_Hhgo}
 \end{equation}
 %
@@ -349,7 +348,7 @@ The transformation \cite{OK:97}
 %
 \begin{equation}
 \zeta:=T_{\mu}\tilde{x}\,, \quad T_\mu:=[\mu^2
-H_\mu]^{-1} \in \re^{6 \times 6}\,, \quad \tilde{x}:= x-\hat{x}\,,\label{eq:defT_HGO}
+H_\mu]^{-1} \in \re^{8 \times 8}\,, \quad \tilde{x}:= x-\hat{x}\,,\label{eq:defT_HGO}
 \end{equation}
 %
 is fundamental to represent the $\tilde{x}$-dynamics in 
@@ -363,7 +362,7 @@ C_\rho)T_\mu^{-1}\!=\!\frac{1}{\mu}A_o\,, \quad (ii) \ T_\mu B_\rho\!=\!B_\rho\,
 \Delta\,,$$
 %
 where $A_o\!:=\!A_\rho\!-\!L_o C_\rho$ and
-$\Delta\!:=\!\mbox{diag}(-I_{3 \times 3}, \ 0_{3 \times 3}) \in \re^{6 \times 6}$.
+$\Delta\!:=\!\mbox{diag}(-I_{4 \times 4}, \ 0_{4 \times 4}) \in \re^{8 \times 8}$.
 %
 Then, subtracting (\ref{eq:reducedHGO}) from
 (\ref{eq:plantSS}) and applying the above
@@ -636,11 +635,7 @@ The control objective is to reduce the tracking error
 e(t) := & y_{d} - y\,,
 \end{align}
 %
-where the desired trajectory is defined as:
-%
-\begin{align}
-y_d(t) := & \left[\begin{array}{cccc} 0.02 \cos\left(\frac{2\pi}{0.55} t\right)  & 0.9 \sin\left(\frac{2\pi}{1.5} t\right) +1 & \sin\left(\frac{2\pi}{0.45} t\right) + 1.8\end{array} \right ]^T\,.
-\end{align}
+where the desired trajectory compose the human gait.
 %
 The reference trajectory was defined in order to approximate the desired trajectories appearing  in \cite{Richter2015}. For simplicity, the time-varying derivatives ($\dot{y}_d$ and $\ddot{y}_d$) were obtained by using a ``dirty derivative'' of the   desired trajectory  $y_d$. The plant initial conditions are: $y(0)=x_1(0)=\left[\begin{array}{ccc} 0  & \pi/4 & \pi/4\end{array} \right ]^T$ and $x_2(0)=\left[\begin{array}{ccc} 0  & 0 & 0\end{array} \right ]^T$.
 
@@ -707,8 +702,8 @@ Fig.~\ref{fig:hip} depicts the hip displacement and its estimation via HGO conve
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{vq1}
-\caption{Hip displacement. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\includegraphics[width = 13cm]{Figs/q_hip_mu_1e-03.eps}
+\caption{Hip displacement. Simulation results with PID control with feedforward and HGO with constant parameter $\mu=0.001$.}
 \label{fig:hip}
 \end{center}
 \end{figure}
@@ -716,8 +711,8 @@ Fig.~\ref{fig:hip} depicts the hip displacement and its estimation via HGO conve
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{vq2}
-\caption{Thigh angle. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\includegraphics[width = 13cm]{Figs/q_thigh_mu_1e-03.eps}
+\caption{Thigh angle. Simulation results with PID control with feedforward and HGO with constant parameter $\mu=0.001$.}
 \label{fig:thigh}
 \end{center}
 \end{figure}
@@ -725,18 +720,24 @@ Fig.~\ref{fig:hip} depicts the hip displacement and its estimation via HGO conve
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{vq3}
-\caption{Knee angle. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\includegraphics[width = 13cm]{Figs/q_knee_mu_1e-03.eps}
+\caption{Knee angle. Simulation results with PID control with feedforward and HGO with constant parameter $\mu=0.001$.}
 \label{fig:knee}
 \end{center}
 \end{figure}
 %
-
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width = 13cm]{Figs/q_ankle_mu_1e-03.eps}
+	\caption{Ankle angle. Simulation results with PID control with feedforward and HGO with constant parameter $\mu=0.001$.}
+	\label{fig:ankle}
+	\end{center}
+	\end{figure}
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{vdq1}
-\caption{Hip velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\includegraphics[width = 13cm]{Figs/dq_hip_mu_1e-03.eps}
+\caption{Hip velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.001$.}
 \label{fig:dhip}
 \end{center}
 \end{figure}
@@ -744,8 +745,8 @@ Fig.~\ref{fig:hip} depicts the hip displacement and its estimation via HGO conve
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{vdq2}
-\caption{Thigh angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\includegraphics[width = 13cm]{Figs/dq_thigh_mu_1e-03.eps}
+\caption{Thigh angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.001$.}
 \label{fig:dthigh}
 \end{center}
 \end{figure}
@@ -753,12 +754,21 @@ Fig.~\ref{fig:hip} depicts the hip displacement and its estimation via HGO conve
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{vdq3}
-\caption{Knee angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.01$.}
+\includegraphics[width = 13cm]{Figs/dq_knee_mu_1e-03.eps}
+\caption{Knee angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.001$.}
 \label{fig:dknee}
 \end{center}
 \end{figure}
 %
+%
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width = 13cm]{Figs/dq_ankle_mu_1e-03.eps}
+	\caption{Knee angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.001$.}
+	\label{fig:dankle}
+	\end{center}
+	\end{figure}
+	%
 Now, in order to illustrate one possible scenario in which the time-varying HGO parameter can be used, consider that the plant parameters are known and that the HGO is implemented to obtain an estimate for the state $x_2$. 
 
 
@@ -769,8 +779,8 @@ By applying a constant and large value of $\mu(t)=\bar{\mu}\!=\!0.1$ an apparent
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{mu0dot1-30sec.eps}
-\caption{Simulation results with a constant HGO parameter $\mu(t)=\bar{\mu}\!=\!0.1$.}
+\includegraphics[width = 13cm]{Figs/mu0dot1-30sec.eps}
+\caption{TROCAR Simulation results with a constant HGO parameter $\mu(t)=\bar{\mu}\!=\!0.1$.}
 \label{fig:timevarying1}
 \end{center}
 \end{figure}
@@ -779,8 +789,8 @@ By reducing $\mu$ to the constant small value $\mu(t)=\bar{\mu}\!=\!0.01$, the  
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{mu0dot01-30sec.eps}
-\caption{Simulation results with a constant HGO parameter $\mu(t)=\bar{\mu}\!=\!0.01$.}
+\includegraphics[width = 13cm]{Figs/mu0dot01-30sec.eps}
+\caption{TROCAR Simulation results with a constant HGO parameter $\mu(t)=\bar{\mu}\!=\!0.01$.}
 \label{fig:timevarying2}
 \end{center}
 \end{figure}
@@ -791,8 +801,8 @@ the tracking error transient is improved, see Fig.~\ref{fig:timevarying3}~(a), w
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{muVar-30sec.eps}
-\caption{Simulation results with the time-varying HGO parameter $\mu(t)$.}
+\includegraphics[width = 13cm]{Figs/muVar-30sec.eps}
+\caption{TROCAR Simulation results with the time-varying HGO parameter $\mu(t)$.}
 \label{fig:timevarying3}
 \end{center}
 \end{figure}
@@ -806,7 +816,7 @@ between noise reduction and tracking accuracy.
 %
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width = 13cm]{mu.eps}
+\includegraphics[width = 13cm]{Figs/mu.eps}
 \caption{Simulation results. The time-varying HGO parameter $\mu(t)$.}
 \label{fig:timevarying4}
 \end{center}
@@ -829,7 +839,7 @@ Future possible topics of research are: (i) consider the full robot/prosthesis m
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{footnotesize}
 %%%
-
+\end{footnotesize}
 \bibliography{IEEEabrv,BibProtese,TVHGO} 
 %
 %\bibliographystyle{unsrt}
