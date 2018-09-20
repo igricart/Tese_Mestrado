@@ -82,6 +82,9 @@ octave-workspace
 *.lot
 *.fls
 
+# Converted to pdf
+*eps-converted-to.pdf
+
 # Log created by Adobe Reader
 C:\\nppdf32Log\\debuglog.txt
 
