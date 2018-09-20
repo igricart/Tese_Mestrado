@@ -1,6 +1,6 @@
 %% Script to plot data from .mat
 
-load('protese_PID_stateFeedback.mat');
+load('protese_PID_HGOFeedback.mat');
 t = u.Time;
 row_max = size(u.Data,2);
 param_number = 5;
@@ -64,8 +64,8 @@ Y_lim = [y_lim_u, y_lim_q_error, y_lim_dq_error, y_lim_q_hat_error, y_lim_dq_hat
 
 
 %% General Plot loop
-f1 = figure();
-grid on;
+% f1 = figure();
+% grid on;
 
 % for i=1:row_max
 % % plot u
@@ -139,33 +139,33 @@ y_lim_dq  = [
 Y2_lim = [y_lim_q, y_lim_dq];
 
 %% Plot q q_hat dq dq_hat
-f2 = figure();
-grid on;
-
-for i=1:row_max
-% plot q and q_hat
-subplot(2,row_max,i);
-plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
-if (i == 1)
-    title(['Joint angle and Estimated' num2str(i) '(m)']);
-else
-   title(['Joint angle and Estimated' num2str(i) '(rad)']);
-end
-xlim(time_axis);
-ylim(Y2_lim(i,1:2));
-
-% plot dq and dq_hat
-subplot(2,row_max,row_max + i);
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
-if (i == 1)
-    title(['Joint velocity and Estimated' num2str(i) '(m/s)']);
-else
-   title(['Joint velocity and Estimated' num2str(i) '(rad/s)']);
-end
-xlim(time_axis);
-ylim(Y2_lim(i,3:4));
-
-end
+% f2 = figure();
+% grid on;
+% 
+% for i=1:row_max
+% % plot q and q_hat
+% subplot(2,row_max,i);
+% plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+% if (i == 1)
+%     title(['Joint angle and Estimated' num2str(i) '(m)']);
+% else
+%    title(['Joint angle and Estimated' num2str(i) '(rad)']);
+% end
+% xlim(time_axis);
+% ylim(Y2_lim(i,1:2));
+% 
+% % plot dq and dq_hat
+% subplot(2,row_max,row_max + i);
+% plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+% if (i == 1)
+%     title(['Joint velocity and Estimated' num2str(i) '(m/s)']);
+% else
+%    title(['Joint velocity and Estimated' num2str(i) '(rad/s)']);
+% end
+% xlim(time_axis);
+% ylim(Y2_lim(i,3:4));
+% 
+% end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot 1 Article
@@ -174,10 +174,10 @@ end
 
 % Joints zoomed
 x_lim_q_zoom  = [
-    0 0.006; 
-    0 0.01; 
-    0 0.01; 
-    0 0.01];
+    0 0.04; 
+    0 0.04; 
+    0 0.04; 
+    0 0.04];
 
 y_lim_q_zoom  = [
     -0.02 0.04; 
@@ -188,12 +188,14 @@ y_lim_q_zoom  = [
 X_lim_q_zoom = x_lim_q_zoom;
 Y_lim_q_zoom = y_lim_q_zoom;
 
+
 % Plot 1 - Hip Displacement
 i = 1;
 f_hip_q = figure();
 
 subplot(1,2,1);
-plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+plot(q_ref.Time, q_ref.Data(:,i),'k', q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Hip displacement (m)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -201,12 +203,13 @@ ylim(Y2_lim(i,1:2));
 
 % Zoomed
 subplot(1,2,2);
-plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+plot(q_ref.Time, q_ref.Data(:,i),'k', q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Hip displacement (m)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
-legend({'True','Estimated'},'Location','southwest');
+legend({'Desired','True','Estimated'},'Location','southwest');
 saveas(f_hip_q,['q_hip_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 % Plot 2 - Thigh angle
@@ -215,7 +218,8 @@ i = 2;
 f_thigh_q = figure();
 
 subplot(1,2,1);
-plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+plot(q_ref.Time, q_ref.Data(:,i),'k', q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Thigh angle (rad)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -223,12 +227,13 @@ ylim(Y2_lim(i,1:2));
 
 % Zoomed
 subplot(1,2,2);
-plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+plot(q_ref.Time, q_ref.Data(:,i),'k', q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Thigh angle (rad)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
-legend({'True','Estimated'},'Location','southwest');
+legend({'Desired','True','Estimated'},'Location','southwest');
 saveas(f_thigh_q,['q_thigh_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 % Plot 3 - Knee angle
@@ -237,7 +242,8 @@ i = 3;
 f_knee_q = figure();
 
 subplot(1,2,1);
-plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+plot(q_ref.Time, q_ref.Data(:,i),'k', q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Knee angle (rad)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -245,12 +251,13 @@ ylim(Y2_lim(i,1:2));
 
 % Zoomed
 subplot(1,2,2);
-plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+plot(q_ref.Time, q_ref.Data(:,i),'k', q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Knee angle (rad)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
-legend({'True','Estimated'},'Location','southwest');
+legend({'Desired','True','Estimated'},'Location','southwest');
 saveas(f_knee_q,['q_knee_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 % Plot 4 - Ankle angle
@@ -259,7 +266,8 @@ i = 4;
 f_ankle_q = figure();
 
 subplot(1,2,1);
-plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+plot(q_ref.Time, q_ref.Data(:,i),'k', q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Ankle angle (rad)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -267,12 +275,13 @@ ylim(Y2_lim(i,1:2));
 
 % Zoomed
 subplot(1,2,2);
-plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+plot(q_ref.Time, q_ref.Data(:,i),'k', q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Ankle angle (rad)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
-legend({'True','Estimated'},'Location','southwest');
+legend({'Desired','True','Estimated'},'Location','southwest');
 saveas(f_ankle_q,['q_ankle_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 %% Plot 2 Article
@@ -299,7 +308,7 @@ f_joints_dq = figure();
 
 subplot(2,2,1);
 i = 1;
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
 ylabel(['Hip velocity (m/s)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -308,7 +317,7 @@ legend({'True','Estimated'},'Location','southwest');
 
 subplot(2,2,2);
 i = 2;
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
 ylabel(['Thigh angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -317,7 +326,7 @@ legend({'True','Estimated'},'Location','southwest');
 
 subplot(2,2,3);
 i = 3;
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
 ylabel(['Knee angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -326,7 +335,7 @@ legend({'True','Estimated'},'Location','southwest');
 
 subplot(2,2,4);
 i = 4;
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
 ylabel(['Ankle angular velocity (rad)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -360,7 +369,8 @@ i = 1;
 f_hip_dq = figure();
 
 subplot(1,2,1);
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Hip velocity (m/s)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -368,12 +378,13 @@ ylim(Y2_lim(i,3:4));
 
 % Zoomed
 subplot(1,2,2);
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Hip velocity (m/s)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
-legend({'True','Estimated'},'Location','southwest');
+legend({'Desired','True','Estimated'},'Location','southwest');
 saveas(f_hip_dq,['dq_hip_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 % Plot 2 - Thigh angular velocity
@@ -382,7 +393,8 @@ i = 2;
 f_thigh_dq = figure();
 
 subplot(1,2,1);
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Thigh angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -390,12 +402,13 @@ ylim(Y2_lim(i,3:4));
 
 % Zoomed
 subplot(1,2,2);
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Thigh angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
-legend({'True','Estimated'},'Location','southwest');
+legend({'Desired','True','Estimated'},'Location','southwest');
 saveas(f_thigh_dq,['dq_thigh_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 % Plot 3 - Knee angular velocity
@@ -404,7 +417,8 @@ i = 3;
 f_knee_dq = figure();
 
 subplot(1,2,1);
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Knee angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -412,12 +426,13 @@ ylim(Y2_lim(i,3:4));
 
 % Zoomed
 subplot(1,2,2);
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Knee angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
-legend({'True','Estimated'},'Location','southwest');
+legend({'Desired','True','Estimated'},'Location','southwest');
 saveas(f_knee_dq,['dq_knee_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 % Plot 4 - Ankle angle
@@ -426,7 +441,8 @@ i = 4;
 f_ankle_dq = figure();
 
 subplot(1,2,1);
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Ankle angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
@@ -434,11 +450,12 @@ ylim(Y2_lim(i,3:4));
 
 % Zoomed
 subplot(1,2,2);
-plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+plot(dq_ref.Time, dq_ref.Data(:,i),'k',dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+grid on; grid minor;
 ylabel(['Ankle angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
-legend({'True','Estimated'},'Location','southwest');
+legend({'Desired','True','Estimated'},'Location','southwest');
 saveas(f_ankle_dq,['dq_ankle_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
