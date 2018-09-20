@@ -67,59 +67,59 @@ Y_lim = [y_lim_u, y_lim_q_error, y_lim_dq_error, y_lim_q_hat_error, y_lim_dq_hat
 f1 = figure();
 grid on;
 
-for i=1:row_max
-% plot u
-subplot(param_number,row_max,i);
-plot(t, u.Data(:,i));
-title(['Control Signal from joint' num2str(i) '(N.m/s)']);
-xlim(time_axis);
-ylim(Y_lim(i,1:2));
-
-% plot q_til
-subplot(param_number,row_max,row_max + i);
-plot(t, q_error(:,i));
-if (i == 1)
-    title(['Tracking error from joint angle' num2str(i) '(m)']);
-else
-    title(['Tracking error from joint angle' num2str(i) '(rad)']);
-end
-xlim(time_axis);
-ylim(Y_lim(i,3:4));
-
-% plot dq_til
-subplot(param_number,row_max,2*row_max + i);
-plot(t, dq_error(:,i));
-if (i == 1)
-    title(['Tracking error from joint velocity' num2str(i) '(m/s)']);
-else
-    title(['Tracking error from joint velocity' num2str(i) '(rad/s)']);
-end
-xlim(time_axis);
-ylim(Y_lim(i,5:6));
-
-% plot q_hat_til
-subplot(param_number,row_max,3*row_max + i);
-plot(t, q_est_error(:,i));
-if (i == 1)
-    title(['Estimation error from joint angle' num2str(i) '(m)']);
-else
-    title(['Estimation error from joint angle' num2str(i) '(rad)']);
-end
-xlim(time_axis);
-ylim(Y_lim(i,7:8));
-
-% plot dq_hat_til
-subplot(param_number,row_max,4*row_max + i);
-plot(t, dq_est_error(:,i));
-if (i == 1)
-    title(['Estimation error from joint velocity' num2str(i) '(m/s)']);
-else
-    title(['Estimation error from joint velocity' num2str(i) '(rad/s)']);
-end
-xlim(time_axis);
-ylim(Y_lim(i,9:10));
-
-end
+% for i=1:row_max
+% % plot u
+% subplot(param_number,row_max,i);
+% plot(t, u.Data(:,i));
+% title(['Control Signal from joint' num2str(i) '(N.m/s)']);
+% xlim(time_axis);
+% ylim(Y_lim(i,1:2));
+% 
+% % plot q_til
+% subplot(param_number,row_max,row_max + i);
+% plot(t, q_error(:,i));
+% if (i == 1)
+%     title(['Tracking error from joint angle' num2str(i) '(m)']);
+% else
+%     title(['Tracking error from joint angle' num2str(i) '(rad)']);
+% end
+% xlim(time_axis);
+% ylim(Y_lim(i,3:4));
+% 
+% % plot dq_til
+% subplot(param_number,row_max,2*row_max + i);
+% plot(t, dq_error(:,i));
+% if (i == 1)
+%     title(['Tracking error from joint velocity' num2str(i) '(m/s)']);
+% else
+%     title(['Tracking error from joint velocity' num2str(i) '(rad/s)']);
+% end
+% xlim(time_axis);
+% ylim(Y_lim(i,5:6));
+% 
+% % plot q_hat_til
+% subplot(param_number,row_max,3*row_max + i);
+% plot(t, q_est_error(:,i));
+% if (i == 1)
+%     title(['Estimation error from joint angle' num2str(i) '(m)']);
+% else
+%     title(['Estimation error from joint angle' num2str(i) '(rad)']);
+% end
+% xlim(time_axis);
+% ylim(Y_lim(i,7:8));
+% 
+% % plot dq_hat_til
+% subplot(param_number,row_max,4*row_max + i);
+% plot(t, dq_est_error(:,i));
+% if (i == 1)
+%     title(['Estimation error from joint velocity' num2str(i) '(m/s)']);
+% else
+%     title(['Estimation error from joint velocity' num2str(i) '(rad/s)']);
+% end
+% xlim(time_axis);
+% ylim(Y_lim(i,9:10));
+% 
+% end
 
 %% Plot XY limits for Joint Position and Velocities
 %Joint and estimated Joint angle
@@ -131,10 +131,10 @@ y_lim_q  = [
 
 % Joint and estimated Joint Velocity
 y_lim_dq  = [
-    -7 8; 
-    -7 8; 
-    -7 8; 
-    -7 8];
+    -10 10; 
+    -10 10; 
+    -10 10; 
+    -10 10];
 
 Y2_lim = [y_lim_q, y_lim_dq];
 
@@ -172,7 +172,7 @@ end
 % Joint and estimated joint angle on the left subplot and a zoomed plot on the
 % right
 
-% Hip joint zoomed
+% Joints zoomed
 x_lim_q_zoom  = [
     0 0.006; 
     0 0.01; 
@@ -190,7 +190,7 @@ Y_lim_q_zoom = y_lim_q_zoom;
 
 % Plot 1 - Hip Displacement
 i = 1;
-f3 = figure();
+f_hip_q = figure();
 
 subplot(1,2,1);
 plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
@@ -207,11 +207,12 @@ xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
 legend({'True','Estimated'},'Location','southwest');
+saveas(f_hip_q,['q_hip_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 % Plot 2 - Thigh angle
 % Thigh joint zoomed
 i = 2;
-f4 = figure();
+f_thigh_q = figure();
 
 subplot(1,2,1);
 plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
@@ -228,11 +229,12 @@ xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
 legend({'True','Estimated'},'Location','southwest');
+saveas(f_thigh_q,['q_thigh_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 % Plot 3 - Knee angle
 % Knee joint zoomed
 i = 3;
-f5 = figure();
+f_knee_q = figure();
 
 subplot(1,2,1);
 plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
@@ -249,11 +251,12 @@ xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
 legend({'True','Estimated'},'Location','southwest');
+saveas(f_knee_q,['q_knee_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 % Plot 4 - Ankle angle
 % Ankle joint zoomed
 i = 4;
-f6 = figure();
+f_ankle_q = figure();
 
 subplot(1,2,1);
 plot(q.Time, q.Data(:,i),q_hat.Time, q_hat.Data(:,i),'--');
@@ -270,6 +273,7 @@ xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
 legend({'True','Estimated'},'Location','southwest');
+saveas(f_ankle_q,['q_ankle_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
 
 %% Plot 2 Article
 % Velocity value and estimation
@@ -289,3 +293,152 @@ y_lim_q_zoom  = [
 
 X_lim_q_zoom = x_lim_q_zoom;
 Y_lim_q_zoom = y_lim_q_zoom;
+
+% Plot Velocitys
+f_joints_dq = figure();
+
+subplot(2,2,1);
+i = 1;
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Hip velocity (m/s)']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y2_lim(i,3:4));
+legend({'True','Estimated'},'Location','southwest');
+
+subplot(2,2,2);
+i = 2;
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Thigh angular velocity (rad/s)']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y2_lim(i,3:4));
+legend({'True','Estimated'},'Location','southwest');
+
+subplot(2,2,3);
+i = 3;
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Knee angular velocity (rad/s)']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y2_lim(i,3:4));
+legend({'True','Estimated'},'Location','southwest');
+
+subplot(2,2,4);
+i = 4;
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Ankle angular velocity (rad)']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y2_lim(i,3:4));
+legend({'True','Estimated'},'Location','southwest');
+
+saveas(f_joints_dq,['joint_velocities_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+
+%% Plot 3 Article
+% Joint and estimated joint velocities on the left subplot and a zoomed plot on the
+% right
+
+% Joints zoomed
+x_lim_dq_zoom  = [
+    0 0.05; 
+    0 0.02; 
+    0 0.015; 
+    0 0.02];
+
+y_lim_dq_zoom  = [
+    -10  20; 
+    -20  20; 
+    -20  20; 
+    -20  40];
+
+X_lim_dq_zoom = x_lim_dq_zoom;
+Y_lim_dq_zoom = y_lim_dq_zoom;
+
+% Plot 1 - Hip Velocity
+i = 1;
+f_hip_dq = figure();
+
+subplot(1,2,1);
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Hip velocity (m/s)']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y2_lim(i,3:4));
+
+% Zoomed
+subplot(1,2,2);
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Hip velocity (m/s)']);
+xlabel(['Time (sec)']);
+xlim(X_lim_dq_zoom(i,1:2));
+ylim(Y_lim_dq_zoom(i,1:2));
+legend({'True','Estimated'},'Location','southwest');
+saveas(f_hip_dq,['dq_hip_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+
+% Plot 2 - Thigh angular velocity
+% Thigh joint zoomed
+i = 2;
+f_thigh_dq = figure();
+
+subplot(1,2,1);
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Thigh angular velocity (rad/s)']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y2_lim(i,3:4));
+
+% Zoomed
+subplot(1,2,2);
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Thigh angular velocity (rad/s)']);
+xlabel(['Time (sec)']);
+xlim(X_lim_dq_zoom(i,1:2));
+ylim(Y_lim_dq_zoom(i,1:2));
+legend({'True','Estimated'},'Location','southwest');
+saveas(f_thigh_dq,['dq_thigh_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+
+% Plot 3 - Knee angular velocity
+% Knee joint zoomed
+i = 3;
+f_knee_dq = figure();
+
+subplot(1,2,1);
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Knee angular velocity (rad/s)']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y2_lim(i,3:4));
+
+% Zoomed
+subplot(1,2,2);
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Knee angular velocity (rad/s)']);
+xlabel(['Time (sec)']);
+xlim(X_lim_dq_zoom(i,1:2));
+ylim(Y_lim_dq_zoom(i,1:2));
+legend({'True','Estimated'},'Location','southwest');
+saveas(f_knee_dq,['dq_knee_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+
+% Plot 4 - Ankle angle
+% Ankle joint zoomed
+i = 4;
+f_ankle_dq = figure();
+
+subplot(1,2,1);
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Ankle angular velocity (rad/s)']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y2_lim(i,3:4));
+
+% Zoomed
+subplot(1,2,2);
+plot(dq.Time, dq.Data(:,i),dq_hat.Time, dq_hat.Data(:,i),'--');
+ylabel(['Ankle angular velocity (rad/s)']);
+xlabel(['Time (sec)']);
+xlim(X_lim_dq_zoom(i,1:2));
+ylim(Y_lim_dq_zoom(i,1:2));
+legend({'True','Estimated'},'Location','southwest');
+saveas(f_ankle_dq,['dq_ankle_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+
