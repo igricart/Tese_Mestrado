@@ -664,22 +664,6 @@ Therefore the controller gains are designed in order to approximate the erro thi
 
 Where $\omega_n = 16\pi$, $\zeta = 0.9$, $p = 2\omega_n$, $K_i := k_i(I_{4 \times 4})$, $K_p := k_p(I_{4 \times 4})$ and $K_d := k_d(I_{4 \times 4})$.
 
-\begin{align}
-	M\ddot{\theta} + C\dot{\theta} + G &= \tau \\
-	\tau &:= C\dot{\theta} + G + \bar{\tau} \\
-	\bar{\tau} &:= M(u)\\
-	\ddot{\theta} &= u \\
-	e &= \theta - \theta_d \\
-	\ddot{e} &= u - \ddot{\theta_d} \\
-	u &:= \ddot{\theta_d} - K_pe - K_d\dot{e} - K_i\int_{t_o}^{t}e \, dt \\
-	\dddot{e} + K_d\ddot{e} + K_p\dot{e} + K_ie &= 0 \\
-	s^3 + K_ds^2 + K_ps + K_i &= 0 \\
-	(s^2 + 2\zeta \omega_n + \omega_n^2)(s + p) &= 0 \\
-	Ki &= \omega_n^2p \\
-	K_p &= \omega_n^2 + 2\zeta \omega_np \\
-	K_d &= p + 2\zeta \omega_n 
-\end{align}
-
 $$K_p=K_d=\left[\begin{array}{cccc} 10   & 0 & 0\\ 0 & 10 & 0\\ 0 & 0 & 10\end{array} \right ]\,.$$
 %
 Note that, in the ideal case when the nominal matrices $C_n$ and $g_n$ match the real values and $\hat{x}_2=x_2$, the following closed-loop equation holds
