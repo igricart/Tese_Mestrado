@@ -84,11 +84,6 @@ s_z = 2 ; % height (ground till robot base) (m)
 k_b = 5000; % spring constant (N/m, old = 10)
 beta = 10; % gain for horizontal force measure (unitless, old = 10)
 
-%% Joint reference values
-A = [ 1 ; pi/2*ones(3,1) ];
-w = [ 0   ; 0.5*pi*ones(3,1) ];
-offset = zeros(n,1);
-
 %% Gait Data from Spreadsheet
 % readGaitData(file,row in spreadsheet, step period, time sample)
 [data, t] = readGaitData('GaitData.xlsx',14,1,simulation_step);
@@ -129,6 +124,8 @@ h_ctrl = h_ctrl.*param_error;
 Init_HGO;
 
 %% Window size Noise estimation
+%maximum value -> k_noise = 5e-7;
+k_noise = 2e-7;
 window_size = [60 20 20 40];
 
 %% Computes INITIAL force state vector

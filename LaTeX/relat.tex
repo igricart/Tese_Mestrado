@@ -220,3 +220,11 @@ After ploting the results, it can be seen that the filtered signals have smoothi
 A comparison between HGO and EKF RMSE has been taken and one could see EKF having a beter performance in joint velocity estimation, probably because of a wrong tunning in HGO parameters. In that way, an \textbf{HGO design has to be made}.
 
 Besides that, an article to ACC regarding this SNR x Tracking error approach is being made.
+
+\textbf{2018-09-20}
+
+Test with the simulation have been conducted to create an HGO observer with varying gain. However the older implementation couldn't handle that. Instead of using a state space block the whole block diagram has been implemented, the dynamics is the same but allowed a variable HGO gain implementation.
+
+Another change is regarding the dirty derivative. A model reference has been designed to have a filtered gait data and its derivatives, performing a better aprroximation than the dirty derivative approach.
+
+In order to define the minimum and maximum HGO gain, trials have been made in which the conclusion is ... the gai should be around $0.5*1e-3$ and $1.4*1e-3$
