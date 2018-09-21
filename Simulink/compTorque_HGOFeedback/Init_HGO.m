@@ -14,6 +14,3 @@ Hmu = [eye(4)/Mu zeros(4); zeros(4) eye(4)/Mu^2];
 q_hat_init = zeros(4,1);
 % q_hat_init = qInit;
 dq_hat_init = zeros(4,1);
-
-
-
