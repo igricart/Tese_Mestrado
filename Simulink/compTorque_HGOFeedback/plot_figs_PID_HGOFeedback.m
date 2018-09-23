@@ -64,11 +64,21 @@ Y_lim = [y_lim_u, y_lim_q_error, y_lim_dq_error, y_lim_q_hat_error, y_lim_dq_hat
 
 
 %% General Plot loop
-% f1 = figure();
-% grid on;
+f_u = figure();
+grid on;
 
-% for i=1:row_max
-% % plot u
+for i=1:row_max
+% plot adaptated for u
+subplot(2,2,i);
+plot(t, u.Data(:,i));
+title(['Control Signal from joint' num2str(i) '(N.m/s)']);
+ylabel(['Control Signal (N.m)']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y_lim(i,1:2))
+saveas(f_u,['u_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
+
+% plot u
 % subplot(param_number,row_max,i);
 % plot(t, u.Data(:,i));
 % title(['Control Signal from joint' num2str(i) '(N.m/s)']);
@@ -119,7 +129,7 @@ Y_lim = [y_lim_u, y_lim_q_error, y_lim_dq_error, y_lim_q_hat_error, y_lim_dq_hat
 % xlim(time_axis);
 % ylim(Y_lim(i,9:10));
 % 
-% end
+end
 
 %% Plot XY limits for Joint Position and Velocities
 %Joint and estimated Joint angle
@@ -210,7 +220,7 @@ xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
 legend({'Desired','True','Estimated'},'Location','southwest');
-saveas(f_hip_q,['q_hip_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+saveas(f_hip_q,['q_hip_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
 
 % Plot 2 - Thigh angle
 % Thigh joint zoomed
@@ -234,7 +244,7 @@ xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
 legend({'Desired','True','Estimated'},'Location','southwest');
-saveas(f_thigh_q,['q_thigh_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+saveas(f_thigh_q,['q_thigh_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
 
 % Plot 3 - Knee angle
 % Knee joint zoomed
@@ -258,7 +268,7 @@ xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
 legend({'Desired','True','Estimated'},'Location','southwest');
-saveas(f_knee_q,['q_knee_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+saveas(f_knee_q,['q_knee_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
 
 % Plot 4 - Ankle angle
 % Ankle joint zoomed
@@ -282,7 +292,7 @@ xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
 legend({'Desired','True','Estimated'},'Location','southwest');
-saveas(f_ankle_q,['q_ankle_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+saveas(f_ankle_q,['q_ankle_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
 
 %% Plot 2 Article
 % Velocity value and estimation
@@ -342,7 +352,7 @@ xlim(time_axis);
 ylim(Y2_lim(i,3:4));
 legend({'True','Estimated'},'Location','southwest');
 
-saveas(f_joints_dq,['joint_velocities_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+saveas(f_joints_dq,['joint_velocities_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
 
 %% Plot 3 Article
 % Joint and estimated joint velocities on the left subplot and a zoomed plot on the
@@ -385,7 +395,7 @@ xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
 legend({'Desired','True','Estimated'},'Location','southwest');
-saveas(f_hip_dq,['dq_hip_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+saveas(f_hip_dq,['dq_hip_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
 
 % Plot 2 - Thigh angular velocity
 % Thigh joint zoomed
@@ -409,7 +419,7 @@ xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
 legend({'Desired','True','Estimated'},'Location','southwest');
-saveas(f_thigh_dq,['dq_thigh_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+saveas(f_thigh_dq,['dq_thigh_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
 
 % Plot 3 - Knee angular velocity
 % Knee joint zoomed
@@ -433,7 +443,7 @@ xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
 legend({'Desired','True','Estimated'},'Location','southwest');
-saveas(f_knee_dq,['dq_knee_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+saveas(f_knee_dq,['dq_knee_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
 
 % Plot 4 - Ankle angle
 % Ankle joint zoomed
@@ -457,5 +467,6 @@ xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
 legend({'Desired','True','Estimated'},'Location','southwest');
-saveas(f_ankle_dq,['dq_ankle_mu_' num2str(sprintf('%.0d',Mu))],'epsc');
+saveas(f_ankle_dq,['dq_ankle_mu_' num2str(sprintf('%.0d',Mu.Data(end)))],'epsc');
+
 
