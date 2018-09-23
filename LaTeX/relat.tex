@@ -227,4 +227,16 @@ Test with the simulation have been conducted to create an HGO observer with vary
 
 Another change is regarding the dirty derivative. A model reference has been designed to have a filtered gait data and its derivatives, performing a better aprroximation than the dirty derivative approach.
 
-In order to define the minimum and maximum HGO gain, trials have been made in which the conclusion is ... the gai should be around $0.5*1e-3$ and $1.4*1e-3$
+In order to define the minimum and maximum HGO gain, trials have been made in which the conclusion is ... the gain should be inbetween $0.5e-3$ and $1.4e-3$.
+
+\textbf{2018-09-20}
+
+Experimentally there are peaks in the first 15ms of simulation due to the HGO Observer. To reduce these peek effects saturation blocks have been added at the SNR estimator.
+
+Another modification is regarding the delta, a.k.a noise, and the SNR inclusion. The delta signal is composed of 4 different ways to ``estimate" SNR for one joint, but the main goal is to separate 4 SNR estimation methods, each one composed of the 4 joints SNRs. Therefore a system os MUX and DEMUX has been created in a way that SNRn block is now made of each joint SNR method-n.
+
+After some other HGO gain tests it has been seen that the gain range is from $0.4e-3$ to $1.9e-3$.
+
+\textbf{2018-09-22}
+
+Now there is a variable gain with a gain in its equation to adjust the fraction value. It can be seen that changing the noise value will also make the variable gain converge to a different value. The higher the noise, the bigger the gain has to be.
