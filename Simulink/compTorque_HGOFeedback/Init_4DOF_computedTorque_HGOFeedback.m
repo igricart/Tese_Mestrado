@@ -99,8 +99,10 @@ data_steps = concatData(data,t,300,15);
 %% Initial state |---
 qInit = data_steps(1,2:5)';
 % Obs.:The first column in data_steps is time
-
 dqInit = [ 0 0 0 0 ]';
+
+qInit_model = qInit;
+dqInit_model = (data_steps(2,2:5)' - data_steps(1,2:5)')/(data_steps(2,1) - data_steps(1,1))
 
 %% Dirty derivative
 tau = 0.001;
@@ -122,4 +124,4 @@ Init_HGO;
 [ ~, Fstate0 ] = ground_model( qInit, BodyContactPositions, s_z, L, h, beta,  k_b, joint_type );
 
 %% Save command
-% save('protese_PID_HGOFeedback','ki','kd','kp','u','Mu','q_ref','dq_ref','q','dq','q_hat','dq_hat','simulation_step','step_period','param_error','qInit','dqInit','q_hat_init','dq_hat_init')
+% save('protese_noise_PID_HGOFeedback','ki','kd','kp','u','Mu','q_ref','dq_ref','q','dq','q_hat','dq_hat','simulation_step','step_period','param_error','qInit','dqInit','q_hat_init','dq_hat_init','window_size','SNR_used')
