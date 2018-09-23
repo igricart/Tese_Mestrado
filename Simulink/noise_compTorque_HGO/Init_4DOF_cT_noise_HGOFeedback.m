@@ -96,6 +96,9 @@ data_steps = concatData(data,t,300,15);
 %                |
 qInit = [ 0.0216 0.5675 -0.13 -0.39 ]';
 dqInit = [ 0 0 0 0 ]';
+
+qInit_model = qInit;
+dqInit_model = (data_steps(2,2:5)' - data_steps(1,2:5)')/(data_steps(2,1) - data_steps(1,1));
  
 % dq1 = (data_steps(1,2) - data_steps(2,2))/(data_steps(1,1) - data_steps(2,1));
 % dq2 = (data_steps(1,3) - data_steps(2,3))/(data_steps(1,1) - data_steps(2,1));
@@ -130,3 +133,6 @@ window_size = [60 20 20 40];
 
 %% Computes INITIAL force state vector
 [ ~, Fstate0 ] = ground_model( qInit, BodyContactPositions, s_z, L, h, beta,  k_b, joint_type );
+
+%% Save command
+% save('protese_noise_PID_HGOFeedback','ki','kd','kp','u','Mu','q_ref','dq_ref','q','dq','q_hat','dq_hat','simulation_step','step_period','param_error','qInit','dqInit','q_hat_init','dq_hat_init','k_noise','window_size')
