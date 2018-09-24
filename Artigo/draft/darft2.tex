@@ -1,13 +1,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%closed-loop%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out
+\documentclass[letterpaper, 10 pt, journal, twocolumn]{IEEEtran}  % Comment this line out
                                                           % if you need a4paper
 %\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
                                                           % paper
 
-\IEEEoverridecommandlockouts                              % This command is only
+%\IEEEoverridecommandlockouts                              % This command is only
                                                           % needed if you want to
                                                           % use the \thanks command
-\overrideIEEEmargins
+%\overrideIEEEmargins
 % See the \addtolength command later in the file to balance the column lengths
 % on the last page of the document
 %\usepackage[T1]{fontenc}
@@ -65,7 +65,7 @@
 } % links em preto
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Graphical path
-\graphicspath{{./figs/}}
+\graphicspath{{./Figs/}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TIKZ % ---
 % Defining string as labels of certain blocks.
@@ -136,7 +136,7 @@ Smooth Sliding Control Applied to Prosthetic Legs via Variable High Gain Observe
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-\onecolumn
+%\onecolumn
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg,.mps,.ps,.eps}
@@ -152,6 +152,24 @@ This draft focus on state estimation and control of a robot/prosthesis control s
 %=============================================================
 % INTRODUCTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Prosthesis are devices that substitute the function of a missing limb either due to amputation or a congetinal defect. Amputations could occur due to injuries, circulatory and vascular disease, diabetes or cancer \cite{CristianBook} and that means a huge number of people that could maintain their activities of daily livings (ADLs) and have the mobility partially / completely restored through improvements in prosthesis technology. 
+
+There are three main types of prosthesis currently available: purely passive, active-damping controlled and powered controlled prostheses. The first type requires a significant effort from the amputee because there are only passive mechanical systems to assist him during the gait. Active damping use microprocessors and sensors to measure when knee flexion and extension is needed based on encoder measures and load transfer acquired from observer/load cells, this way it can actively regulate the prosthesis damping factor and help the user during stance phases and during the gait.
+
+Powered controlled prosthesis requires less metabolic energy from the user for walking than purely passive because they are able to generate net power at the joints through DC Motors or pneumatic actuators (ref-Design of a pneumatically actuated transfemoral prosthesis and Actuated leg prosthesis for above knee amputees and Towards a Smart semi-active prosthetic leg preliminary assessment and testing). As they are able to supply positive power, the user could more easily realize tasks such as climb stair, walk uphill.
+
+The sensors applied to this type of prosthesis measure the joint angles such as high-resolution rotary encoders and forces such as strain gauges or load cells. Angular velocities could be acquired through expensive tacometers or numerical differentiation, usually the numerical approach is applied using observers, which have to deal with the challenges of noise rejection.  
+
+In the present paper a proportional-integral-derivative (PID) control method is developed in order to make the robotic prosthetic leg follow a desired walking pattern, a feedback loop using computed torque is used to the system to linearize the plant and a High-Gain-Observer is designed to estimate angular velocity from each joint. 
+
+Considering that this plant has parametrical uncertainties and angle measurement is subject to noise, the outcome can be seen at the control signal as high-frequency components and a higher tracking error. In this paper a variable HGO gain is proposed as manner to reach an equilibrium point so that the plant follows the desired trajectory and the control signal has less noise as possible. 
+
+The proposed approach is verified in a simulation environment with a 4-link robot/prosthesis system (PRRR), whose parameters are from \cite{Richter2015}. The human gait used as reference signal are from \cite{Schwartz2008} and the noise was arbitrarily choosen.
+
+This paper is organized as follows. In Section \ref{sec:System_model} the system model is described where some considerations regarding the HGO design are taken into. Section \ref{sec:HGO} presents the HGO structure and the adapting function used in simulation. Section \ref{sec:Numerical_Simulation} shows the control law applied to the plant and results obtained. Finally, Section \ref{sec:Conclusions} presents concluding remarks and future work.
+
 \section{Preliminaries}
 
 
@@ -199,6 +217,8 @@ Stability) and Input-Output-State-Stable, respectively
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{System Model}
+\label{sec:System_model}
+
 The dynamics of the machine/prosthesis system composed by a $4$-link rigid body robot\footnote{A more general framework with a $n$-link rigid body robot can also be considered. However, in order to keep this note close to \cite{Richter2015}, for simplicity, we have set $n=4$.}  with prismatic-revolute-revolute-revolute (PRRR) configuration, following the notation in \cite{Richter2015}, is given by:
 %
 \begin{equation}
@@ -628,6 +648,7 @@ In this case, the stability and/or convergence analysis  can be carried out by n
 
 
 \section{Numerical Simulations}
+\label{sec:Numerical_Simulation}
 
 The control objective is to reduce the tracking error 
 %
@@ -635,9 +656,7 @@ The control objective is to reduce the tracking error
 e(t) := & y_{d} - y\,,
 \end{align}
 %
-where the desired trajectory $y_d$ is a set of joint angles acquired for human gait analysis \cite{Schwartz2008}.
-%
-For simplicity, the time-varying derivatives ($\dot{y}_d$ and $\ddot{y}_d$) were obtained by using a ``dirty derivative'' of $y_d$. The plant initial conditions are: $y(0)=x_1(0)=\left[\begin{array}{cccc} 0.0216  & 0.5675 & -0.13 & -0.39\end{array} \right ]^T$ and $x_2(0)=\left[\begin{array}{cccc} 0  & 0 & 0 & 0\end{array} \right ]^T$.
+where the desired trajectory $y_d$ is ideally a set of joint angles acquired for human gait analysis \cite{Schwartz2008}. For simplicity a second-order filter has been designed so that the reference signal is actually a filtered version of human gait angles. Through this approach, time-varying derivatives ($\dot{y}_d$ and $\ddot{y}_d$) from the filtered signal are easily acquired and with no error. The plant initial conditions are: $y(0)=x_1(0)=\left[\begin{array}{cccc} 0.0216  & 0.5675 & -0.13 & -0.39\end{array} \right ]^T$ and $x_2(0)=\left[\begin{array}{cccc} 0  & 0 & 0 & 0\end{array} \right ]^T$.
 
 
 A  PID controller with feedforward is employed just to validate the time-varying HGO proposed in this note. By recalling that we  consider $D_n(y)=D(y)$ to simplify the paper presentation, the control  signal is given by
@@ -662,10 +681,10 @@ Therefore the controller gains are designed in order to approximate the erro thi
 	k_d &:= p + 2\zeta \omega_n 
 \end{align}
 
-Where $\omega_n = 16\pi$, $\zeta = 0.9$, $p = 2\omega_n$, $K_i := k_i(I_{4 \times 4})$, $K_p := k_p(I_{4 \times 4})$ and $K_d := k_d(I_{4 \times 4})$.
-
-$$K_p=K_d=\left[\begin{array}{cccc} 10   & 0 & 0\\ 0 & 10 & 0\\ 0 & 0 & 10\end{array} \right ]\,.$$
+where $\omega_n = 16\pi$, $\zeta = 0.9$, $p = 2\omega_n$, $K_i := k_i(I_{4 \times 4})$, $K_p := k_p(I_{4 \times 4})$ and $K_d := k_d(I_{4 \times 4})$.
 %
+
+
 Note that, in the ideal case when the nominal matrices $C_n$ and $g_n$ match the real values and $\hat{x}_2=x_2$, the following closed-loop equation holds
 %
 \begin{align}
@@ -673,16 +692,19 @@ Note that, in the ideal case when the nominal matrices $C_n$ and $g_n$ match the
 \label{eq:closed}
 \end{align}
 %
-which assures that $|e(t)| \rightarrow 0$ as $t \rightarrow \infty$. When  there are uncertainties in the plant parameters and/or errors in the HGO estimate, the tracking error converges to some residual set.  The nominal matrix $D_n$ is given by (\ref{eq:defD}) replacing: $I_2$ by $I_2^n$,  $C_2$ by $C_2^n$, $C_3$ by $C_3^n$ and $m_1,m_2,m_3$ by $m_1^n, m_2^n, m_3^n$, respectively,  where  $I_2^n, C_2^n, C_3^n, m_1^n, m_2^n$ and $m_3^n$ are  the ``known'' nominal values of the parameters given in Table~\ref{table:nominal}. The nominal value of the HFG is given by $k_p^n=D_n^{-1}$. The nominal matrix $C_n$ is given by (\ref{eq:defC}) replacing: $C_2$ by $C_2^n$, $C_3$ by $C_3^n$ and $m_1,m_2,m_3$ by $m_1^n,m_2^n,m_3^n$, respectively. The nominal matrix $g_n$ is given by (\ref{eq:defg}) replacing  $m_1,m_2,m_3$ by $m_1^n, m_2^n, m_3^n$, respectively.  
+\textcolor{red}{\textbf{WRONG}} which assures that $|e(t)| \rightarrow 0$ as $t \rightarrow \infty$. When  there are uncertainties in the plant parameters and/or errors in the HGO estimate, the tracking error converges to some residual set.  The nominal matrix $D_n$ is given by (\ref{eq:defD}) replacing: $I_2$ by $I_2^n$, $I_3$ by $I_3^n$, $I_4$ by $I_4^n$, $C_2$ by $C_2^n$, $C_3$ by $C_3^n$, , $C_4$ by $C_4^n$ and $m_1,m_2,m_3,m_4$ by $m_1^n, m_2^n, m_3^n, m_4^n$, respectively,  where  $I_2^n, I_3^n, I_4^n, C_2^n, C_3^n, C_4^n, m_1^n, m_2^n$, $m_3^n$ and $m_4^n$ are  the ``known'' nominal values of the parameters given in Table~\ref{table:nominal}. The nominal value of the HFG is given by $k_p^n=D_n^{-1}$. The nominal matrix $C_n$ is given by (\ref{eq:defC}) replacing: $C_2$ by $C_2^n$, $C_3$ by $C_3^n$ and $m_1,m_2,m_3$ by $m_1^n,m_2^n,m_3^n$, respectively. The nominal matrix $g_n$ is given by (\ref{eq:defg}) replacing  $m_1,m_2,m_3$ by $m_1^n, m_2^n, m_3^n$, respectively.  
 
 The {\em actual} plant parameters, assumed partially unknown, are given in Table~\ref{table:actual}. We consider that  the real parameters differ from the known values by not more than $10\%$. 
+
+\textcolor{red}{\textbf{SUGESTION - Instead of writing all the replacing parameters}} In the present case, it is considered a random parametrical error in plant parameters such as center of gravity, intertia, mass, link length. But the values won't differ by more than $10\%$
 
 
 The HGO is implemented with $l_1=2$, $l_2=6$ and with a constant $\mu=\bar{\mu}=0.001$.
 %
+
 \begin{table}[h!]
 \centering
-\caption{Nominal Values.} 
+\caption{\textcolor{red}{\textbf{TABLE NOT NECESSARY}}Nominal Values.} 
 \begin{tabular}{ |p{2cm} p{3.5cm} p{1cm}|  }
  \hline
  %\multicolumn{4}{|c|}{Plant parameters} \\
@@ -701,7 +723,13 @@ The HGO is implemented with $l_1=2$, $l_2=6$ and with a constant $\mu=\bar{\mu}=
 \end{table}
 %
 
-Fig.~\ref{fig:hip} depicts the hip displacement and its estimation via HGO converging before $20$ms with an undershoot less than $0.01$ meters. A similar behavior for the thigh and knee angle can be observed in Fig.~\ref{fig:thigh} and Fig.~\ref{fig:knee}, respectively, with their HGO estimates. Both estimates converge before $15$ms with transient error less than $0.4$rad (approximately  $22^o$). The corresponding hip, thigh and knee velocities are illustrated in Fig.~\ref{fig:dhip}, Fig.~\ref{fig:dthigh} and Fig.~\ref{fig:dknee}, respectively. 
+\textcolor{red}{\textbf{Delete this paragraph}}Fig.~\ref{fig:hip} depicts a given desired hip movement, the plants actual position following the trajectory and the HGO estimative converging before $20$ms with an undershoot less than $0.01$ meters. A similar behaviour for the thigh, knee and ankle angle can be observed in Fig.~\ref{fig:thigh}, Fig.~\ref{fig:knee} and Fig.~\ref{fig:ankle}, respectively, with their HGO estimates. Those estimates converge before $15$ms with transient error less than $0.4\pi$ (approximately  $22^o$). The thigh position estimation has the highest error due to the observer initial conditions set to zero when the actual position is actually at $0.57\pi$.
+
+In Fig.~\ref{fig:hip}, Fig.~\ref{fig:thigh}, Fig.~\ref{fig:knee} and Fig.~\ref{fig:ankle} it can be noticed that each joint has its own trajectory and initial condition, which affect differently the estimated state overshoot before convergence. However, every position estimative converges at approximately 7 ms and the highest overshoot happens in the thigh angle because of its initial condition error ($0.57\pi$).
+
+Due to parametrical errors and high frequency dynamics, the highest tracking error happens on the ankle angle, which takes more than 100ms to converge. Anothe interesting tracking error behaviour occurs at hip displacement while changing orientation with all the system inertia, causing a higher tracking error than in any other moment and also making the control signal to even saturate in order to follow the trajectory.  
+
+The corresponding hip, thigh, knee and ankle velocities are illustrated in Fig.~\ref{fig:dhip}, Fig.~\ref{fig:dthigh}, Fig.~\ref{fig:dknee} and Fig.~\ref{fig:dankle}, respectively. The RMSE for tracking error in Table.~\ref{table:RMSE_track} shows that velocities in knee and ankle joints require a faster control law to track. That happens because of higher frequency components which also contribute to a worst state estimation in HGO.
 %
 %As the system's response time is greater than the overshoot peak interval of 3 ms, the overshoot peak effects can be disregarded.
 %
@@ -716,81 +744,87 @@ Fig.~\ref{fig:hip} depicts the hip displacement and its estimation via HGO conve
 %
 %
 \begin{figure}[h!]
-\begin{center}
-\includegraphics[width = 13cm]{Figs/q_hip_mu_1e-03.eps}
-\caption{Hip displacement. Simulation results with PID control with feedforward and HGO with constant parameter $\mu=0.001$.}
-\label{fig:hip}
-\end{center}
+	\begin{center}
+	\includegraphics[scale = 0.5]{Figs/q_hip_mu_1e-03.eps}
+	\caption{ Simulation results from a desired hip movement, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviours until the first 40ms of simulation}
+	\label{fig:hip}
+	\end{center}
 \end{figure}
 %
 %
 \begin{figure}[h!]
-\begin{center}
-\includegraphics[width = 13cm]{Figs/q_thigh_mu_1e-03.eps}
-\caption{Thigh angle. Simulation results with PID control with feedforward and HGO with constant parameter $\mu=0.001$.}
-\label{fig:thigh}
-\end{center}
+	\begin{center}
+	\includegraphics[width = 13cm]{Figs/q_thigh_mu_1e-03.eps}
+	\caption{ Simulation results from a desired thigh movement, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviours until the first 40ms of simulation}
+	\label{fig:thigh}
+	\end{center}
 \end{figure}
 %
 %
 \begin{figure}[h!]
-\begin{center}
-\includegraphics[width = 13cm]{Figs/q_knee_mu_1e-03.eps}
-\caption{Knee angle. Simulation results with PID control with feedforward and HGO with constant parameter $\mu=0.001$.}
-\label{fig:knee}
-\end{center}
+	\begin{center}
+	\includegraphics[width = 13cm]{Figs/q_knee_mu_1e-03.eps}
+	\caption{ Simulation results from a desired knee movement, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviours until the first 40ms of simulation}
+	\label{fig:knee}
+	\end{center}
 \end{figure}
+%
 %
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width = 13cm]{Figs/q_ankle_mu_1e-03.eps}
-	\caption{Ankle angle. Simulation results with PID control with feedforward and HGO with constant parameter $\mu=0.001$.}
+	\caption{ Simulation results from a desired ankle movement, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviours until the first 40ms of simulation}
 	\label{fig:ankle}
 	\end{center}
-	\end{figure}
+\end{figure}
+%
+%
+% Velocity plots
+%
 %
 \begin{figure}[h!]
-\begin{center}
-\includegraphics[width = 13cm]{Figs/dq_hip_mu_1e-03.eps}
-\caption{Hip velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.001$.}
-\label{fig:dhip}
-\end{center}
+	\begin{center}
+	\includegraphics[width = 13cm]{Figs/dq_hip_mu_1e-03.eps}
+	\caption{ Simulation results from a desired hip velocity, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviours until the first 15ms of simulation.}
+	\label{fig:dhip}
+	\end{center}
 \end{figure}
 %
 %
 \begin{figure}[h!]
-\begin{center}
-\includegraphics[width = 13cm]{Figs/dq_thigh_mu_1e-03.eps}
-\caption{Thigh angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.001$.}
-\label{fig:dthigh}
-\end{center}
+	\begin{center}
+	\includegraphics[width = 13cm]{Figs/dq_thigh_mu_1e-03.eps}
+	\caption{Simulation results from a desired thigh velocity, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviours until the first 15ms of simulation.}
+	\label{fig:dthigh}
+	\end{center}
 \end{figure}
 %
 %
 \begin{figure}[h!]
-\begin{center}
-\includegraphics[width = 13cm]{Figs/dq_knee_mu_1e-03.eps}
-\caption{Knee angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.001$.}
-\label{fig:dknee}
-\end{center}
+	\begin{center}
+	\includegraphics[width = 13cm]{Figs/dq_knee_mu_1e-03.eps}
+	\caption{Simulation results from a desired knee velocity, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviours until the first 15ms of simulation.}
+	\label{fig:dknee}
+	\end{center}
 \end{figure}
 %
 %
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width = 13cm]{Figs/dq_ankle_mu_1e-03.eps}
-	\caption{Knee angular velocity. Simulation results with PD control with feedforward and HGO with constant parameter $\mu=0.001$.}
+	\caption{Simulation results from a desired ankle velocity, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviours until the first 15ms of simulation.}
 	\label{fig:dankle}
 	\end{center}
-	\end{figure}
-	%
-Now, in order to illustrate one possible scenario in which the time-varying HGO parameter can be used, consider that the plant parameters are known and that the HGO is implemented to obtain an estimate for the state $x_2$. 
+\end{figure}
+%
+%
+Now, in order to illustrate one possible scenario in which the time-varying HGO parameter can be used, consider that the plant parameters are known with a parametrical error of $10\%$ at maximum and that the HGO is implemented to obtain an estimate for the state $x_2$. 
 
 
-In order to observe the effect of the input disturbance, a large but unknown constant input disturbance is employed at $t=3$, vanishing at $t=10$, with small plant initial conditions  $y(0)=x_1(0)=\left[\begin{array}{ccc} 0  & \pi/36 & 0\end{array} \right ]^T$ and $x_2(0)=\left[\begin{array}{ccc} 0  & 0 & 0\end{array} \right ]^T$. Since no integral action is implemented in the control scheme, the input disturbance causes a considerable large transient in the tracking error. This transient increases as $\mu$ increases and it is useful to illustrate the usage of the time-varying parameter $\mu$.
+In order to observe the effect of the input disturbance, a large but unknown constant input disturbance is employed during the whole simulation. There is an integral action implemented in the control scheme, therefore the input disturbance causes a transient in the tracking error and any steady state error will be compensated. This transient increases as $\mu$ increases and it is useful to illustrate the usage of the time-varying parameter $\mu$.
 
 
-By applying a constant and large value of $\mu(t)=\bar{\mu}\!=\!0.1$ an apparent degradation in the closed-loop tracking error transient is observed in Fig.~\ref{fig:timevarying1}~(a). On the other hand, the noise amplitude in the control signal is acceptable as can be observed in Fig.~\ref{fig:timevarying1}~(b) with the corresponding measurement of the noise amplitude illustrated in Fig.~\ref{fig:timevarying1}~(c). The noise amplitude was obtained by filtering the control input $u$ with a high-pass filter. 
+By applying a constant value of $\mu(t)= 1.9e-3$ an apparent degradation in the closed-loop tracking error transient is observed in Fig.~\ref{fig:timevarying1}~(a). On the other hand, the noise amplitude in the control signal is acceptable as can be observed in Fig.~\ref{fig:timevarying1}~(b) with the corresponding measurement of the noise amplitude illustrated in Fig.~\ref{fig:timevarying1}~(c). The noise amplitude was obtained by filtering the control input $u$ with a high-pass filter. 
 %
 \begin{figure}[h!]
 \begin{center}
@@ -800,7 +834,7 @@ By applying a constant and large value of $\mu(t)=\bar{\mu}\!=\!0.1$ an apparent
 \end{center}
 \end{figure}
 %
-By reducing $\mu$ to the constant small value $\mu(t)=\bar{\mu}\!=\!0.01$, the  tracking error transient is improved in exchange of an increase on the control signal noise, see  Fig.~\ref{fig:timevarying2}~(a), (b) and (c).
+By reducing $\mu$ to the constant small value $\mu(t)=4e-4$, the  tracking error transient is improved in exchange of an increase on the control signal noise, see  Fig.~\ref{fig:timevarying2}~(a), (b) and (c).
 %
 \begin{figure}[h!]
 \begin{center}
@@ -824,7 +858,7 @@ the tracking error transient is improved, see Fig.~\ref{fig:timevarying3}~(a), w
 %
 In this case, the time
 evolution of $\mu(t)$ is shown in Fig.~\ref{fig:timevarying4}~(a), from which one can verify
-that $\mu$ reaches a minimum value of $\mu_{min}=0.02$. 
+that $\mu$ reaches a value of $\mu_{var}=1e-3$ depending on the noise power applied  to the system. 
 This value is not known {\em a priori}. It is clear that care must be taken while reducing $\bar{\mu}$, since there exists a trade off
 between noise reduction and tracking accuracy.
 %
@@ -838,12 +872,35 @@ between noise reduction and tracking accuracy.
 \end{figure}
 %
 
+\begin{table}[]
+	\centering
+	\caption{Tracking root-mean-square-error (RMSE) of a human gait for each joint of a prosthetic leg with estimated states according to the observer gain $\mu$}
+	\begin{tabular}{ccccccccc}
+	\hline
+	$\mu$      & $x_1$ (m) & $x_2$ (rad) & $x_3$ (rad) & $x_4$ (rad) & $\dot{x}_1$ (m/s) & $\dot{x}_2$ (rad/s) & $\dot{x}_3$ (rad/s) & $\dot{x}_4$ (rad/s) \\ \hline
+	0.4e-3   & 0.0004 & 0.0002 & 0.0009  & 0.0004  & 0.0159  & 0.0117    &  0.0959   &  0.0492   \\
+	1.9e-3   & 0.0035 & 0.0013 & 0.0033  & 0.0062  & 0.1120  & 0.0587    &  0.2405   &  0.6836   \\
+	Variable & 0.0008 & 0.0004 & 0.0025  & 0.0059  & 0.0257  & 0.0375    &  0.2268   &  0.6640
+	\end{tabular}
+	\label{table:RMSE_track}
+\end{table}
 
-
+\begin{table}[]
+	\centering
+	\caption{Estimation root-mean-square-error (RMSE) of a human gait for each joint of a prosthetic leg with estimated states according to the observer gain $\mu$}
+	\begin{tabular}{ccccccccc}
+	\hline
+	$\mu$      & $x_1$ (m) & $x_2$ (rad) & $x_3$ (rad) & $x_4$ (rad) & $\dot{x}_1$ (m/s) & $\dot{x}_2$ (rad/s) & $\dot{x}_3$ (rad/s) & $\dot{x}_4$ (rad/s) \\ \hline
+	0.4e-3   & 0.0001 & 0.0036 & 0.0008  & 0.0024  & 0.2607  & 0.4228    &  0.3570   &  0.4065   \\
+	1.9e-3   & 0.0004 & 0.0065 & 0.0015  & 0.0045  & 0.3973  & 0.7754    &  0.5952   &  0.8514   \\
+	Variable & 0.0003 & 0.0065 & 0.0015  & 0.0045  & 0.3167  & 0.7724    &  0.5948   &  0.8512
+	\end{tabular}
+	\label{table:RMSE_est}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{CONCLUSIONS}
-
+\section{Conclusions and Future Work}
+\label{sec:Conclusions}
 %\subsection{Conclusions}
 
 In this note, we considered the state estimation problem of a robot/prosthesis control system with vertical hip displacement, thigh angle and knee angle.  It was verified that it is possible to apply HGO with dynamic gain in order to reduce the amount of noise in the control signal while assuring an reasonable output tracking error transient. Moreover, when a norm observer is available, domination techniques can be used to design the HGO dynamic gain to obtain global/semi-global practical tracking. An illustrative academic simulation example was presented.
@@ -897,6 +954,50 @@ g(2,1) &=&  -C_3 g m_3 \cos(q_2+q_3)-g (m_2(C_2+L_2)+L_2 m_3) \cos(q_2)\,, \nonu
 g(3,1) &=&  -C_3 g m_3 \cos(q_2+q_3)\,.
 \label{eq:defg}
 \end{eqnarray}
+%
+% Updated value
+%
+\begin{eqnarray}
+	D(1,1) &=& \Theta_1\nonumber\\
+	D(1,2) &=& \Theta_{2}cos(q_{2}) + \Theta_{3}cos(q_{2} + q_{3} + q_{4}) + \Theta_{4}cos(q_{2} + q_{3})\nonumber\\
+	D(1,3) &=& \Theta_{3}cos(q_{2} + q_{3} + q_{4}) + \Theta_{4}cos(q_{2} + q_{3})\nonumber\\
+	D(1,4) &=& \Theta_{3}cos(q_{2} + q_{3} + q_{4}) \nonumber \\
+	D(2,1) &=& D(1,2)\nonumber \\
+	D(2,2) &=& \Theta_{5} + 2\Theta_{6}cos(q_{3} + q_{4}) + 2\Theta_{7}cos(q_{3}) + 2\Theta_{8}cos(q_{4})\nonumber \\
+	D(2,3) &=& \Theta_{9} + \Theta_{7}cos(q_{3}) + 2\Theta_{8}cos(q_{4}) + \Theta_{6}cos(q_{3} + q_{4})\nonumber \\
+	D(2,4) &=& \Theta_{10} + \Theta_{6}cos(q_{3} + q_{4}) + \Theta_{8}cos(q_{4}) \nonumber \\
+	D(3,1) &=& D(1,3)\nonumber \\
+	D(3,2) &=& D(2,3)\nonumber \\
+	D(3,3) &=& \Theta_{9} + 2\Theta_{8}cos(q_{4}) + m_{4}l_{3}^2 + I_{3z} + I_{4z} \nonumber \\
+	D(3,2) &=& \Theta_{10} + \Theta{8}cos(q_{4}) \nonumber \\
+	D(4,1) &=& D(1,4)\nonumber \\
+	D(4,2) &=& D(2,4)\nonumber \\
+	D(4,3) &=& D(3,4)\nonumber \\
+	D(4,4) &=& \Theta_{10} \nonumber \\
+	\label{eq:Inertia}
+\end{eqnarray}
+%
+%
+\begin{eqnarray}
+	C(1,1) &=& 0\nonumber\\
+	C(1,2) &=& - \dot{q_{3}}(\Theta_{3}sin((q_{2} + q_{3} + q_{4}) + \Theta_{4}sin(q_{2} + q_{3})) - \dot{q_{2}}(\Theta_{2}sin(q_{2}) + \Theta_{3}sin((q_{2} + q_{3} + q_{4}) + \Theta_{4}sin(q_{2} + q_{3})) - \Theta_{3}\dot{q_{4}}sin(q_{2}+ q_{3}+ q_{4}) \nonumber\\
+	C(1,3) &=& \dot{q_{2}}(\Theta_{3}sin((q_{2} + q_{3} + q_{4}) + \Theta_{4}sin(q_{2} + q_{3})) - \dot{q_{3}}(\Theta_{3}sin((q_{2} + q_{3} + q_{4}) + \Theta_{4}sin(q_{2} + q_{3})) - \Theta_{3}\dot{q_{4}}sin(q_{2}+ q_{3}+ q_{4}) \nonumber\\
+	C(1,4) &=& \Theta_{3}\dot{q_{2}}sin(q_{2}+ q_{3}+ q_{4}) - \Theta_{3}\dot{q_{3}}sin(q_{2}+ q_{3}+ q_{4}) - \Theta_{3}\dot{q_{4}}sin(q_{2}+ q_{3}+ q_{4}) \nonumber \\
+	C(2,1) &=& 0 \nonumber \\
+	C(2,2) &=& - \dot{q_{3}}(\Theta_{6}sin(q_{3} + q_{4}) + \Theta_{7}sin(q_{3})) - \dot{q_{4}}(\Theta_{6}sin(q_{3} + q_{4}) + \Theta_{8}sin(q_{4})) \nonumber \\
+	C(2,3) &=& 0 \nonumber \\
+	C(2,4) &=& 0 \nonumber \\
+	C(3,1) &=& 0 \nonumber \\
+	C(3,2) &=& 0 \nonumber \\
+	C(3,3) &=& 0 \nonumber \\
+	C(3,2) &=& 0 \nonumber \\
+	C(4,1) &=& 0 \nonumber \\
+	C(4,2) &=& 0 \nonumber \\
+	C(4,3) &=& 0 \nonumber \\
+	C(4,4) &=& 0 \nonumber \\
+	\label{eq:Coriolis}
+\end{eqnarray}
+%
 %
 \begin{table}[h!]
 \centering
