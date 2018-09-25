@@ -76,7 +76,7 @@ Kp = kp*eye(n); Kd = kd*eye(n); Ki = ki*eye(n);
 %% Contact forces/torques
 BodyContact = [ 4 4 ]; % two wrenches at body 4 (foot)
 contact_point_h = [  0.1, 0, 0.1 ]'; % point h w.r.t. foot frame
-contact_point_t = [ -0.1, 0, 0.1 ]'; % point t w.r.t. foot frame
+contact_point_t = [ -0.3, 0, 0.1 ]'; % point t w.r.t. foot frame
 BodyContactPositions = [ contact_point_h, contact_point_t ];
 
 %% Contact model
