@@ -124,4 +124,4 @@ Init_HGO;
 [ ~, Fstate0 ] = ground_model( qInit, BodyContactPositions, s_z, L, h, beta,  k_b, joint_type );
 
 %% Save command
-% save('protese_noise_PID_HGOFeedback','ki','kd','kp','u','Mu','q_ref','dq_ref','q','dq','q_hat','dq_hat','simulation_step','step_period','param_error','qInit','dqInit','q_hat_init','dq_hat_init','window_size','SNR_used')
+% save('protese_noise_PID_HGOFeedback','ki','kd','kp','u','Mu','q_ref','dq_ref','q','dq','q_hat','dq_hat','simulation_step','step_period','param_error','qInit','dqInit','q_hat_init','dq_hat_init')
