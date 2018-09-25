@@ -118,7 +118,7 @@ The first step today will be define every unit used in the system, as torque, an
     \begin{tabular}{|c|c|}
     \hline
     \multicolumn{2}{|c|}{Units Table} \\ \hline
-    Torque            & Nm/s     \\ \hline
+    Torque            & N.m     \\ \hline
     Mass              & Kg       \\ \hline
     Subject length    & m        \\ \hline
     Joint angles      & rad      \\ \hline
@@ -203,7 +203,7 @@ Tests with SNR estimation have been done in order to set an average SNR for each
 
 \textbf{2018-09-13}
 
-After trying to run the simulation with HGO state feedback one could see a noisy control signal due to a high parametrical error (25\%), the solution was a reduction to 10\%.
+After trying to run the simulation with HGO state feedback one could see a noisy control signal due to a high parametric error (25\%), the solution was a reduction to 10\%.
 
 After a meeting with Jacoud, it was decided that no proper SNR will be measured. The noise measure is $u_{max} - u_{min}$ and some other parameters will com from that. The idea is to create a noise measure block where the control signal is the input and there will be 4 outputs:
 \begin{itemize}
@@ -225,9 +225,9 @@ Besides that, an article to ACC regarding this SNR x Tracking error approach is 
 
 Test with the simulation have been conducted to create an HGO observer with varying gain. However the older implementation couldn't handle that. Instead of using a state space block the whole block diagram has been implemented, the dynamics is the same but allowed a variable HGO gain implementation.
 
-Another change is regarding the dirty derivative. A model reference has been designed to have a filtered gait data and its derivatives, performing a better aprroximation than the dirty derivative approach.
+Another change is regarding the dirty derivative. A model reference has been designed to have a filtered gait data and its derivatives, performing a better approximation than the dirty derivative approach.
 
-In order to define the minimum and maximum HGO gain, trials have been made in which the conclusion is ... the gain should be inbetween $0.5e-3$ and $1.4e-3$.
+In order to define the minimum and maximum HGO gain, trials have been made in which the conclusion is ... the gain should be in between $0.5e-3$ and $1.4e-3$.
 
 \textbf{2018-09-20}
 
@@ -240,3 +240,49 @@ After some other HGO gain tests it has been seen that the gain range is from $0.
 \textbf{2018-09-22}
 
 Now there is a variable gain with a gain in its equation to adjust the fraction value. It can be seen that changing the noise value will also make the variable gain converge to a different value. The higher the noise, the bigger the gain has to be.
+
+\textbf{2018-09-25}
+
+Some scripts had to be modified to use for the paper. First of all, the variable gain used by the observer is in the form 
+
+\begin{align}
+    \mu_{var} = \frac{\alpha |noise|}{1 + \beta |error_{track}|} 
+\end{align}
+
+$\alpha$ and $\beta$ were chosen so that the gain had a smooth behavior while converging to a value between $0.4e-3$ and $1.9e-3$.
+
+Another change is regarding the reference signal, in which the position used to be the data retrieved from human kinetics and its time derivatives were obtained through ``dirty derivative'' approach.
+
+The approach currently applied uses a second-order filter with transfer function
+
+\begin{align}
+	H(s) = \frac{w_{n}^2}{s^2 + 2\zeta \omega_n + \omega_n^2}
+\end{align}
+
+so that the reference signal is actually a filtered version of human gait angles. Through this approach, time-varying derivatives ($\dot{y}_d$ and $\ddot{y}_d$) from the filtered signal are easily acquired and with no error or delay.
+
+A plot script has also been written.
+
+\textbf{2018-09-26}
+
+As the main goal is to estimate the ground force reactions and use that information in control law, tests with the real state feedback system have been conducted. A good set of parameters are 
+
+\begin{align}
+    %% Contact model
+s_z &= 2.165 ; \\% height (ground till robot base) (m) 
+k_b &= 5000; \\% spring constant (N/m, old = 10)
+beta &= 10; \\% gain for horizontal force measure (unitless, old = 10)
+\end{align}
+
+and 
+
+\begin{align}
+    %% Contact forces/torques
+BodyContact &= [ 4 4 ]; \\% two wrenches at body 4 (foot)
+contact_point_h &= [  0.1, 0, 0.1 ]'; \\% point h w.r.t. foot frame
+contact_point_t &= [ -0.3, 0, 0.1 ]'; \\% point t w.r.t. foot frame
+BodyContactPositions = [ contact_point_h, contact_point_t ];
+\end{align}
+
+This way a GRF can be seen similar to one depicted in \url{http://www.prs-research.org/files/TFA.pdf}
+
