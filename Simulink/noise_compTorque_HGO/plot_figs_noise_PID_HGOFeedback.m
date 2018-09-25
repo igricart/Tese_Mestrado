@@ -4,6 +4,8 @@
 % load('protese_noise_PID_var_HGOFeedback.mat');
 % load('protese_noise_PID_19e-4_HGOFeedback.mat');
 % load('protese_noise_PID_4e-4_HGOFeedback.mat');
+load('protese_noise_PID_10e-4_HGOFeedback.mat');
+
 t = u.Time;
 row_max = size(u.Data,2);
 param_number = 5;
@@ -91,16 +93,16 @@ Y_lim = [y_lim_u, y_lim_q_error, y_lim_dq_error, y_lim_q_hat_error, y_lim_dq_hat
 f_u = figure();
 grid on;
 
-for i=1:row_max
-% plot adaptated for u
-subplot(2,2,i);
-plot(t, u.Data(:,i));
-title(['Control Signal from joint' num2str(i) '(N.m)']);
-ylabel(['Control Signal (N.m)']);
-xlabel(['Time (sec)']);
-xlim(time_axis);
-ylim(Y_lim(i,1:2))
-saveas(f_u,fullfile(fname,['u_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
+% for i=1:row_max
+% % plot adaptated for u
+% subplot(2,2,i);
+% plot(t, u.Data(:,i));
+% title(['Control Signal from joint' num2str(i) '(N.m)']);
+% ylabel(['Control Signal (N.m)']);
+% xlabel(['Time (sec)']);
+% xlim(time_axis);
+% ylim(Y_lim(i,1:2))
+% saveas(f_u,fullfile(fname,['u_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
 
 % plot u
 % subplot(param_number,row_max,i);
@@ -153,7 +155,7 @@ saveas(f_u,fullfile(fname,['u_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(en
 % xlim(time_axis);
 % ylim(Y_lim(i,9:10));
 % 
-end
+% end
 
 %% Plot XY limits for Joint Position and Velocities
 %Joint and estimated Joint angle
@@ -505,32 +507,342 @@ y_lim_q_SNR  = [
 
 Y_lim_q_SNR = y_lim_q_SNR;
 
-% Plot 1 - Hip Velocity
+
+f_noise_comparison = figure();
+
+% Plot 1 - Hip Noise
 i = 1;
-f_hip_comparison = figure();
 
-load('protese_noise_PID_19e-4_HGOFeedback.mat');
-
-subplot(3,3,1)
-plot(u.Time, u.Data(:,i));
-grid on; grid minor;
-ylabel(['Hip control signal']);
-xlabel(['Time (sec)']);
-xlim(time_axis);
-ylim(Y_lim(i,1:2));
-
-subplot(3,3,4)
-plot(q_ref.Time, q_error(:,i));
-grid on; grid minor;
-ylabel(['Hip tracking error']);
-xlabel(['Time (sec)']);
-xlim(time_axis);
-ylim(Y_lim(i,3:4));
-
-subplot(3,3,7)
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+subplot(2,2,i)
 plot(SNR_used.Time, SNR_used.Data(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+plot(SNR_used.Time, SNR_used.Data(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+plot(SNR_used.Time, SNR_used.Data(:,i));
+title('Hip joint');
 grid on; grid minor;
-ylabel(['Hip tracking error']);
+ylabel(['Noise Energy']);
+xlabel(['Time (sec)']);
+%xlim(0:1);
+ylim(Y_lim_q_SNR(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+
+% Plot 2 - Thigh Noise
+i = 2;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+subplot(2,2,i)
+plot(SNR_used.Time, SNR_used.Data(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+plot(SNR_used.Time, SNR_used.Data(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+plot(SNR_used.Time, SNR_used.Data(:,i));
+title('Thigh joint');
+grid on; grid minor;
+ylabel(['Noise Energy']);
+xlabel(['Time (sec)']);
+%xlim(0:1);
+ylim(Y_lim_q_SNR(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+
+% Plot 3 - Knee Noise
+i = 3;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+subplot(2,2,i)
+plot(SNR_used.Time, SNR_used.Data(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+plot(SNR_used.Time, SNR_used.Data(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+plot(SNR_used.Time, SNR_used.Data(:,i));
+title('Knee joint');
+grid on; grid minor;
+ylabel(['Noise Energy']);
+xlabel(['Time (sec)']);
+%xlim(0:1);
+ylim(Y_lim_q_SNR(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+
+% Plot 4 - Ankle Noise
+i = 4;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+subplot(2,2,i)
+plot(SNR_used.Time, SNR_used.Data(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+plot(SNR_used.Time, SNR_used.Data(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+plot(SNR_used.Time, SNR_used.Data(:,i));
+title('Ankle joint');
+grid on; grid minor;
+ylabel(['Noise Energy']);
+xlabel(['Time (sec)']);
+%xlim(0:1);
+ylim(Y_lim_q_SNR(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+saveas(f_noise_comparison,fullfile(fname,['SNR_comparison']),'epsc');
+
+hold off;
+
+
+%% Plot 5 Article
+% Control signal plot
+
+% u limits
+y_lim_u  = [
+    -800 800; 
+    -800 800; 
+    -300 300; 
+    -60 60];
+
+f_u_comparison = figure();
+
+% Plot 1 - Hip u
+i = 1;
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+subplot(2,2,i)
+plot(u.Time, u.Data(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+plot(u.Time, u.Data(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+plot(u.Time, u.Data(:,i));
+title('Hip signal');
+grid on; grid minor;
+ylabel(['Control Signal']);
+xlabel(['Time (sec)']);
+xlim([0 2]);
+ylim(y_lim_u(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+
+% Plot 2 - Thigh u
+i = 2;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+subplot(2,2,i)
+plot(u.Time, u.Data(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+plot(u.Time, u.Data(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+plot(u.Time, u.Data(:,i));
+title('Thigh signal');
+grid on; grid minor;
+ylabel(['Thigh Signal']);
+xlabel(['Time (sec)']);
+xlim([0 2]);
+ylim(y_lim_u(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+
+% Plot 3 - Knee u
+i = 3;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+subplot(2,2,i)
+plot(u.Time, u.Data(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+plot(u.Time, u.Data(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+plot(u.Time, u.Data(:,i));
+title('Knee signal');
+grid on; grid minor;
+ylabel(['Control Signal']);
+xlabel(['Time (sec)']);
+xlim([0 2]);
+ylim(y_lim_u(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+
+% Plot 4 - Ankle u
+i = 4;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+subplot(2,2,i)
+plot(u.Time, u.Data(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+plot(u.Time, u.Data(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+plot(u.Time, u.Data(:,i));
+title('Ankle signal');
+grid on; grid minor;
+ylabel(['Control Signal']);
+xlabel(['Time (sec)']);
+xlim([0 2]);
+ylim(y_lim_u(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+saveas(f_u_comparison,fullfile(fname,['u_comparison']),'epsc');
+
+hold off;
+
+%% Plot 6 Article
+% Mu signal plot
+
+% u limits
+y_lim_mu  = [
+    0 20e-4];
+
+f_mu_comparison = figure();
+i = 1;
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+plot(Mu.Time, Mu.Data(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+plot(Mu.Time, Mu.Data(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+plot(Mu.Time, Mu.Data(:,i));
+title('Mu signal');
+grid on; grid minor;
+% ylabel(['Mu Signal']);
+xlabel(['Time (sec)']);
+xlim(0:1);
+ylim(y_lim_mu(i,1:2));
+lgd = legend({'Static \mu_{1}','\mu_{var}','Static \mu_{2}'},'Location','northwest');
+lgd.FontSize = 8;
+saveas(f_mu_comparison,fullfile(fname,['mu_comparison']),'epsc');
+
+hold off;
+
+%% Plot 7 Article
+% Tracking error plot
+
+% Tracking error (m or rad)
+y_lim_q_error  = [
+    0 0.02; 
+    0 0.01; 
+    0 0.015; 
+    0 0.03];
+
+f_q_error_comparison = figure();
+
+% Plot 1 - Hip u
+i = 1;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+subplot(2,2,i)
+plot(q.Time, q_error(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+plot(q.Time, q_error(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+plot(q.Time, q_error(:,i));
+title('Hip joint');
+grid on; grid minor;
+ylabel(['Tracking error']);
 xlabel(['Time (sec)']);
 xlim(time_axis);
-ylim(Y_lim_q_SNR(i,1:2));
+ylim(y_lim_q_error(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northeast');
+% lgd.FontSize = 8;
+
+% Plot 2 - Thigh u
+i = 2;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+subplot(2,2,i)
+plot(q.Time, q_error(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+plot(q.Time, q_error(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+plot(q.Time, q_error(:,i));
+title('Thigh joint');
+grid on; grid minor;
+ylabel(['Tracking error']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(y_lim_q_error(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+
+% Plot 3 - Knee u
+i = 3;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+subplot(2,2,i)
+plot(q.Time, q_error(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+plot(q.Time, q_error(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+plot(q.Time, q_error(:,i));
+title('Knee joint');
+grid on; grid minor;
+ylabel(['Tracking error']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(y_lim_q_error(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+
+% Plot 4 - Ankle u
+i = 4;
+
+load('protese_noise_PID_4e-4_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+subplot(2,2,i)
+plot(q.Time, q_error(:,i));
+hold on
+load('protese_noise_PID_var_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+plot(q.Time, q_error(:,i));
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+q_error = abs(q_ref.Data - q_hat.Data);
+plot(q.Time, q_error(:,i));
+title('Ankle joint');
+grid on; grid minor;
+ylabel(['Tracking error']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(y_lim_q_error(i,1:2));
+% lgd = legend({'4e-4','Variable','19e-4'},'Location','northwest');
+% lgd.FontSize = 8;
+saveas(f_q_error_comparison,fullfile(fname,['q_error_comparison']),'epsc');
+
+hold off;
+
+% subplot(3,3,1)
+% plot(u.Time, u.Data(:,i));
+% grid on; grid minor;
+% ylabel(['Hip control signal']);
+% xlabel(['Time (sec)']);
+% xlim(time_axis);
+% ylim(Y_lim(i,1:2));
+% 
+% subplot(3,3,4)
+% plot(q_ref.Time, q_error(:,i));
+% grid on; grid minor;
+% ylabel(['Hip tracking error']);
+% xlabel(['Time (sec)']);
+% xlim(time_axis);
+% ylim(Y_lim(i,3:4));
+% 
+% subplot(3,3,7)
+% plot(SNR_used.Time, SNR_used.Data(:,i));
+% grid on; grid minor;
+% ylabel(['Hip tracking error']);
+% xlabel(['Time (sec)']);
+% xlim(time_axis);
+% ylim(Y_lim_q_SNR(i,1:2));f_trecking_error
