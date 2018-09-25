@@ -3,16 +3,23 @@
 
 % load('protese_noise_PID_var_HGOFeedback.mat');
 % load('protese_noise_PID_19e-4_HGOFeedback.mat');
-load('protese_noise_PID_4e-4_HGOFeedback.mat');
+% load('protese_noise_PID_4e-4_HGOFeedback.mat');
 t = u.Time;
 row_max = size(u.Data,2);
 param_number = 5;
 t_end = 1;
 time_axis = [0 t_end];
 
-fname = '/home/igricart/git/Tese_Mestrado/Simulink/noise_compTorque_HGO/figs';
-if exist(fname,'dir')==0
-    error('Invalid path');
+fname1 = '/home/igricart/git/Tese_Mestrado/Simulink/noise_compTorque_HGO/figs';
+fname2 = '/home/ignacio/gitGeneral/TeseMestrado/Simulink/noise_compTorque_HGO/figs';
+if exist(fname1,'dir')==0
+    if exist(fname2,'dir')==0
+        error('Invalid path');
+    else
+        fname = fname2;
+    end
+else
+    fname = fname1;
 end
 
 %% Error declaration
@@ -42,7 +49,7 @@ unit = [
     ];
 
 %% Plot XY limits for Control Signal and Errors
-%Control Signal
+%Control Signal (N.m)
 y_lim_u  = [
     -800 800; 
     -800 800; 
@@ -485,3 +492,45 @@ xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
 legend({'Desired','True','Estimated'},'Location','southwest');
 saveas(f_ankle_dq,fullfile(fname,['dq_ankle_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
+
+%% Plot 4 Article
+% Control signal and SNR plot
+
+% Joints SNR
+y_lim_q_SNR  = [
+     0  400; 
+     0  220; 
+     0  100; 
+     0  10;];
+
+Y_lim_q_SNR = y_lim_q_SNR;
+
+% Plot 1 - Hip Velocity
+i = 1;
+f_hip_comparison = figure();
+
+load('protese_noise_PID_19e-4_HGOFeedback.mat');
+
+subplot(3,3,1)
+plot(u.Time, u.Data(:,i));
+grid on; grid minor;
+ylabel(['Hip control signal']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y_lim(i,1:2));
+
+subplot(3,3,4)
+plot(q_ref.Time, q_error(:,i));
+grid on; grid minor;
+ylabel(['Hip tracking error']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y_lim(i,3:4));
+
+subplot(3,3,7)
+plot(SNR_used.Time, SNR_used.Data(:,i));
+grid on; grid minor;
+ylabel(['Hip tracking error']);
+xlabel(['Time (sec)']);
+xlim(time_axis);
+ylim(Y_lim_q_SNR(i,1:2));
