@@ -80,9 +80,9 @@ contact_point_t = [ -0.3, 0, 0.1 ]'; % point t w.r.t. foot frame
 BodyContactPositions = [ contact_point_h, contact_point_t ];
 
 %% Contact model
-s_z = 2.165 ; % height (ground till robot base) (m)
-k_b = 5000; % spring constant (N/m, old = 10)
-beta = 10; % gain for horizontal force measure (unitless, old = 10)
+s_z = 2.08 ; % height (ground till robot base) (m)
+k_b = 50000; % spring constant (N/m, old = 10)
+beta = 0.2; % gain for horizontal force measure (unitless, old = 10)
 
 %% Joint reference values
 A = [ 1 ; pi/2*ones(3,1) ];
