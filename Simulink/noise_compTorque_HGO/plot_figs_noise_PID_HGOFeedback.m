@@ -160,17 +160,17 @@ grid on;
 %% Plot XY limits for Joint Position and Velocities
 %Joint and estimated Joint angle
 y_lim_q  = [
-    -0.2 0.2; 
+    -0.15 0.15; 
     -0.2 0.7; 
     -1.2 0.0; 
     -0.8 0.0];
 
 % Joint and estimated Joint Velocity
 y_lim_dq  = [
-    -10 10; 
-    -10 10; 
-    -10 10; 
-    -10 10];
+    -4 4; 
+    -6 6; 
+    -8 10; 
+    -10 6];
 
 Y2_lim = [y_lim_q, y_lim_dq];
 
@@ -210,15 +210,15 @@ Y2_lim = [y_lim_q, y_lim_dq];
 
 % Joints zoomed
 x_lim_q_zoom  = [
-    0 0.04; 
-    0 0.04; 
-    0 0.04; 
-    0 0.04];
+    0 0.02; 
+    0 0.02; 
+    0 0.02; 
+    0 0.02];
 
 y_lim_q_zoom  = [
-    -0.02 0.04; 
+    -0.0 0.04; 
     -0.0 1.0; 
-    -0.19 0.0; 
+    -0.19 -0.05; 
     -0.6 0.0];
 
 X_lim_q_zoom = x_lim_q_zoom;
@@ -245,7 +245,9 @@ ylabel(['Hip displacement (m)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
-legend({'Desired','True','Estimated'},'Location','southwest');
+legend({'Desired','True','Estimated'},'Location','southeast');
+
+set(f_hip_q,'units','pixels','position',[675,553,570,211]);
 saveas(f_hip_q,fullfile(fname,['q_hip_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
 
 % Plot 2 - Thigh angle
@@ -269,7 +271,9 @@ ylabel(['Thigh angle (rad)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
-legend({'Desired','True','Estimated'},'Location','southwest');
+% legend({'Desired','True','Estimated'},'Location','southeast');
+
+set(f_thigh_q,'units','pixels','position',[675,553,570,211]);
 saveas(f_thigh_q,fullfile(fname,['q_thigh_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
 
 % Plot 3 - Knee angle
@@ -293,7 +297,9 @@ ylabel(['Knee angle (rad)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
-legend({'Desired','True','Estimated'},'Location','southwest');
+% legend({'Desired','True','Estimated'},'Location','northeast');
+
+set(f_knee_q,'units','pixels','position',[675,553,570,211]);
 saveas(f_knee_q,fullfile(fname,['q_knee_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
 
 % Plot 4 - Ankle angle
@@ -317,7 +323,9 @@ ylabel(['Ankle angle (rad)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_q_zoom(i,1:2));
 ylim(Y_lim_q_zoom(i,1:2));
-legend({'Desired','True','Estimated'},'Location','southwest');
+% legend({'Desired','True','Estimated'},'Location','northeast');
+
+set(f_ankle_q,'units','pixels','position',[675,553,570,211]);
 saveas(f_ankle_q,fullfile(fname,['q_ankle_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
 
 %% Plot 2 Article
@@ -420,7 +428,9 @@ ylabel(['Hip velocity (m/s)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
-legend({'Desired','True','Estimated'},'Location','southwest');
+% legend({'Desired','True','Estimated'},'Location','northeast');
+
+set(f_hip_dq,'units','pixels','position',[675,553,570,211]);
 saveas(f_hip_dq,fullfile(fname,['dq_hip_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
 
 % Plot 2 - Thigh angular velocity
@@ -444,7 +454,9 @@ ylabel(['Thigh angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
-legend({'Desired','True','Estimated'},'Location','southwest');
+% legend({'Desired','True','Estimated'},'Location','southeast');
+
+set(f_thigh_dq,'units','pixels','position',[675,553,570,211]);
 saveas(f_thigh_dq,fullfile(fname,['dq_thigh_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
 
 % Plot 3 - Knee angular velocity
@@ -468,7 +480,9 @@ ylabel(['Knee angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
-legend({'Desired','True','Estimated'},'Location','southwest');
+% legend({'Desired','True','Estimated'},'Location','southeast');
+
+set(f_knee_dq,'units','pixels','position',[675,553,570,211]);
 saveas(f_knee_dq,fullfile(fname,['dq_knee_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
 
 % Plot 4 - Ankle angle
@@ -492,7 +506,9 @@ ylabel(['Ankle angular velocity (rad/s)']);
 xlabel(['Time (sec)']);
 xlim(X_lim_dq_zoom(i,1:2));
 ylim(Y_lim_dq_zoom(i,1:2));
-legend({'Desired','True','Estimated'},'Location','southwest');
+% legend({'Desired','True','Estimated'},'Location','northeast');
+
+set(f_ankle_dq,'units','pixels','position',[675,553,570,211]);
 saveas(f_ankle_dq,fullfile(fname,['dq_ankle_mu_' mu_type '_' num2str(sprintf('%.0d',Mu.Data(end)))]),'epsc');
 
 %% Plot 4 Article
@@ -521,7 +537,7 @@ load('protese_noise_PID_var_HGOFeedback.mat');
 plot(SNR_used.Time, SNR_used.Data(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 plot(SNR_used.Time, SNR_used.Data(:,i));
-title('Hip joint');
+title('Hip');
 grid on; grid minor;
 ylabel(['Noise Energy']);
 xlabel(['Time (sec)']);
@@ -541,7 +557,7 @@ load('protese_noise_PID_var_HGOFeedback.mat');
 plot(SNR_used.Time, SNR_used.Data(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 plot(SNR_used.Time, SNR_used.Data(:,i));
-title('Thigh joint');
+title('Thigh');
 grid on; grid minor;
 ylabel(['Noise Energy']);
 xlabel(['Time (sec)']);
@@ -561,7 +577,7 @@ load('protese_noise_PID_var_HGOFeedback.mat');
 plot(SNR_used.Time, SNR_used.Data(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 plot(SNR_used.Time, SNR_used.Data(:,i));
-title('Knee joint');
+title('Knee');
 grid on; grid minor;
 ylabel(['Noise Energy']);
 xlabel(['Time (sec)']);
@@ -581,7 +597,7 @@ load('protese_noise_PID_var_HGOFeedback.mat');
 plot(SNR_used.Time, SNR_used.Data(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 plot(SNR_used.Time, SNR_used.Data(:,i));
-title('Ankle joint');
+title('Ankle');
 grid on; grid minor;
 ylabel(['Noise Energy']);
 xlabel(['Time (sec)']);
@@ -616,7 +632,7 @@ load('protese_noise_PID_var_HGOFeedback.mat');
 plot(u.Time, u.Data(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 plot(u.Time, u.Data(:,i));
-title('Hip signal');
+title('Hip');
 grid on; grid minor;
 ylabel(['Control Signal']);
 xlabel(['Time (sec)']);
@@ -636,9 +652,9 @@ load('protese_noise_PID_var_HGOFeedback.mat');
 plot(u.Time, u.Data(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 plot(u.Time, u.Data(:,i));
-title('Thigh signal');
+title('Thigh');
 grid on; grid minor;
-ylabel(['Thigh Signal']);
+ylabel(['Control Signal']);
 xlabel(['Time (sec)']);
 xlim([0 2]);
 ylim(y_lim_u(i,1:2));
@@ -656,7 +672,7 @@ load('protese_noise_PID_var_HGOFeedback.mat');
 plot(u.Time, u.Data(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 plot(u.Time, u.Data(:,i));
-title('Knee signal');
+title('Knee');
 grid on; grid minor;
 ylabel(['Control Signal']);
 xlabel(['Time (sec)']);
@@ -676,7 +692,7 @@ load('protese_noise_PID_var_HGOFeedback.mat');
 plot(u.Time, u.Data(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 plot(u.Time, u.Data(:,i));
-title('Ankle signal');
+title('Ankle');
 grid on; grid minor;
 ylabel(['Control Signal']);
 xlabel(['Time (sec)']);
@@ -712,6 +728,8 @@ xlim(0:1);
 ylim(y_lim_mu(i,1:2));
 lgd = legend({'Static \mu_{1}','\mu_{var}','Static \mu_{2}'},'Location','northwest');
 lgd.FontSize = 8;
+
+set(f_mu_comparison,'units','pixels','position',[675,553,570,211]);
 saveas(f_mu_comparison,fullfile(fname,['mu_comparison']),'epsc');
 
 hold off;
@@ -742,7 +760,7 @@ plot(q.Time, q_error(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 q_error = abs(q_ref.Data - q_hat.Data);
 plot(q.Time, q_error(:,i));
-title('Hip joint');
+title('Hip');
 grid on; grid minor;
 ylabel(['Tracking error']);
 xlabel(['Time (sec)']);
@@ -765,7 +783,7 @@ plot(q.Time, q_error(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 q_error = abs(q_ref.Data - q_hat.Data);
 plot(q.Time, q_error(:,i));
-title('Thigh joint');
+title('Thigh');
 grid on; grid minor;
 ylabel(['Tracking error']);
 xlabel(['Time (sec)']);
@@ -788,7 +806,7 @@ plot(q.Time, q_error(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 q_error = abs(q_ref.Data - q_hat.Data);
 plot(q.Time, q_error(:,i));
-title('Knee joint');
+title('Knee');
 grid on; grid minor;
 ylabel(['Tracking error']);
 xlabel(['Time (sec)']);
@@ -811,7 +829,7 @@ plot(q.Time, q_error(:,i));
 load('protese_noise_PID_19e-4_HGOFeedback.mat');
 q_error = abs(q_ref.Data - q_hat.Data);
 plot(q.Time, q_error(:,i));
-title('Ankle joint');
+title('Ankle');
 grid on; grid minor;
 ylabel(['Tracking error']);
 xlabel(['Time (sec)']);
@@ -822,7 +840,7 @@ ylim(y_lim_q_error(i,1:2));
 saveas(f_q_error_comparison,fullfile(fname,['q_error_comparison']),'epsc');
 
 hold off;
-
+close all;
 % subplot(3,3,1)
 % plot(u.Time, u.Data(:,i));
 % grid on; grid minor;

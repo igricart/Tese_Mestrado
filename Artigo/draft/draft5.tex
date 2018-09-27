@@ -178,7 +178,7 @@ While estimating in real-time the noise energy presented in the control effort, 
 
 A proportional-integral-derivative (PID) conventional control with feedback linearization is developed in order to make a robotic prosthetic leg follow a desired walking pattern. 
 
-The proposed approach is verified in a simulation environment with a $4$-link robot/prosthesis system (PRRR), with parameters extracted from \cite{Richter2015}. The human gait used as reference signal is obtained from \cite{Schwartz2008}.
+The proposed approach is verified in a simulation environment with a $4$-link robot/prosthesis system (PRRR), with parameters extracted from \cite{Richter2015} and motion limited to the sagittal plane. The human gait used as reference signal is obtained from \cite{Schwartz2008}.
 
 %This paper is organized as follows. In Section \ref{sec:System_model}, the system model is described where some considerations regarding the HGO design are taken into. Section \ref{sec:HGO} presents the HGO structure and the adapting function used in simulation. Section \ref{sec:Numerical_Simulation} shows the control law applied to the plant and results obtained. Finally, Section \ref{sec:Conclusions} presents concluding remarks and future work.
 
@@ -231,14 +231,14 @@ Stability) and Input-Output-State-Stable, respectively
 \section{System Model}
 \label{sec:System_model}
 
-The dynamics of the machine/prosthesis system composed by a $4$-link rigid body robot\footnote{A more general framework with a $n$-link rigid body robot can also be considered. However, in order to keep this note close to \cite{Richter2015}, for simplicity, we have set $n=4$.}  with prismatic-revolute-revolute-revolute (PRRR) configuration, following the notation in \cite{Richter2015}, is given by:
+The dynamics of the machine/prosthesis system composed by a $4$-link rigid body robot\footnote{A more general framework with a $n$-link rigid body robot can also be considered. However, in order to keep this note close to \cite{Richter2015}, for simplicity, we have set $n=4$.} with prismatic-revolute-revolute-revolute (PRRR) configuration, following the notation in \cite{Richter2015}, is given by:
 %
 \begin{equation}
 D(q)\ddot{q} + C(q,\dot{q})\dot{q}+B(q,\dot{q}) + P(\dot{q}) + J_e^T F_e+g(q) = F_a\,,
 \label{eq:Dinamica}
 \end{equation}
 %
-where  $q$ represents the vector of joints positions ($q_1$ represents the hip vertical displacement, $q_2$ is the thigh angle, $q_3$ is the knee angle and $q_4$ represents ankle angle), $D(q)$ is the inertia matrix, $C(q,\dot{q})$ is the matrix of Coriolis and centrifugal forces, $B(q,\dot{q})$ is the knee  damper nonlinear matrix, $J_e$ is the kinematic Jacobian relative to the point of application of external forces $F_e$, $g(q)$ is the term of gravitational forces and $F_a$ is the torque/force produced by the actuators. The term  $P(\dot{q})$ explicitly represents   the Coulomb friction as in \cite{LeeKhalil2015}. Note that, inertial and frictional effects in the actuators can be included in this model. 
+where  $q$ represents the vector of joints positions ($q_1$ represents the hip vertical displacement, $q_2$ is the thigh angle, $q_3$ is the knee angle and $q_4$ represents ankle angle), $D(q)$ is the inertia matrix, $C(q,\dot{q})$ is the matrix of Coriolis and centrifugal forces, $B(q,\dot{q})$ is the knee  damper nonlinear matrix, $J_e$ is the kinematic Jacobian relative to the point of application of external forces $F_e$, $g(q)$ is the term of gravitational forces and $F_a$ is the torque/force produced by the actuators. The term  $P(\dot{q})$ explicitly represents the Coulomb friction as in \cite{LeeKhalil2015}. Note that, inertial and frictional effects in the actuators can be included in this model. 
 
 To establish a basis for dynamic model derivations and to verify the leg geometry during simulations, the set of reference frames used for forward kinematics problems are the same as the ones assigned in \cite{Richter2015}. Matrices $D(q)\ddot{q}$, $C(q,\dot{q})$ and $g(q)$ are obtained using the standard Newton-Euler/Euler-Lagrange approach with the plant parameters  extracted from \cite{Richter2015}.
 
@@ -733,17 +733,25 @@ On the other hand, when the OFSM control scheme developed in \cite{POH:2011} is 
 
 The plant initial conditions are: $y(0)=x_1(0)=\left[\begin{array}{cccc} 0.0216  & 0.5675 & -0.13 & -0.39\end{array} \right ]^T$ and $x_2(0)=\left[\begin{array}{cccc} 0  & 0 & 0 & 0\end{array} \right ]^T$. The PID control gains were obtained by considering $\omega_n = 16\pi$, $\zeta = 0.9$, $p = 2\omega_n$. The time varying HGO gain was implemented as in (\ref{eq:def_mupratico}) with $\alpha=10^{-5}$, $\beta=1$ and $\hat{x}_1(0) = \hat{x}_2(0) = \left[\begin{array}{cccc} 0  & 0 & 0 & 0\end{array} \right ]^T$.
 
-In the present case, random parametric errors in plant values from \cite{Richter2015}, such as center of gravity, inertia matrix and link length won't differ by more than $10\%$ from the real one. A white gaussian noise has also been added to the systems output, representing a disturbance needed to be compensated. That will help to illustrate an HGO variable gain application.
+In the present case, random parametric errors in plant values from \cite{Richter2015}, such as center of gravity, inertia matrix and link length do not differ by more than $10\%$ from the real ones. A white gaussian noise has also been added to the system output. That helps to illustrate an HGO variable gain application mitigating noise influence.
 
-Simulation results from HGO design with static gain are shown in Figs.~\ref{fig:hip}-~\ref{fig:dankle}. The parameters used are $l_1=2$, $l_2=6$ and $\mu=\bar{\mu}=0.001$.
+Simulation results from HGO design with static gain are shown in Figs.~\ref{fig:hip} to \ref{fig:dankle}. The parameters used are $l_1=2$, $l_2=6$ and $\mu=\bar{\mu}=0.001$.
 
-In Fig.~\ref{fig:hip}-Fig.~\ref{fig:ankle}, the desired, estimated and true state trajectory are depicted. It can be seen an estimation converges of approximately 7 ms and overshoots in position estimation due to zero initial condition.
+In Fig.~\ref{fig:hip} to Fig.~\ref{fig:ankle}, the desired, estimated and true state trajectory are depicted. It can be seen that the estimation convergences to a small residual set. Peaking phenomenon in position estimation is due to an initial estimation error.
+
+The corresponding hip, thigh, knee and ankle velocities are illustrated in Fig.~\ref{fig:dhip} to Fig.~\ref{fig:dankle}. As knee and ankle joints trajectories have faster frequency components, higher gains in control would be needed to reduce velocity tracking RMSE (Root-mean-square-error).
+
+When implementing the HGO, it is important to take in consideration the peaking phenomenon occurring due to its inner characteristics. In order to avoid that, both velocity and control signals are implemented with saturation as depicted in Fig.~\ref{fig:dankle} and Fig.~\ref{fig:u_comparison}.
+
+It can be seen that the HGO with static gain and PID control approach were suitable for the task.
+%
+Simulations were also conducted using HGO with variable gain to evaluate its performance in the presence of noise and parametric uncertainties. Fig.~\ref{fig:mu_comparison} to Fig.~\ref{fig:q_error_comparison} show how changes in $\mu$ affect the tradeoff between tracking error and noise energy in control signal.
 
 \begin{figure}[h!]
 	\begin{center}
 	%\includegraphics[width = \columnwidth]{Figs/q_hip_mu_1e-03.eps}
-	\includegraphics[width = 7cm]{Figs/q_hip_mu_1e-03.eps}
-	\caption{ Simulation results from a desired hip movement, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviors from the first 40ms of simulation}
+	\includegraphics[width = \columnwidth]{Figs/q_hip_mu_fix_1e-03.eps}
+	\caption{ Simulation results from a desired hip movement, the controlled plant state and the estimated state. The right plot shows the signal in the first 20ms of simulation}
 	\label{fig:hip}
 	\end{center}
 \end{figure}
@@ -751,8 +759,8 @@ In Fig.~\ref{fig:hip}-Fig.~\ref{fig:ankle}, the desired, estimated and true stat
 %
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/q_thigh_mu_1e-03.eps}
-	\caption{ Simulation results from a desired thigh movement, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviors until the first 40ms of simulation}
+	\includegraphics[width = \columnwidth]{Figs/q_thigh_mu_fix_1e-03.eps}
+	\caption{ Simulation results from a desired thigh movement, the controlled plant state and the estimated state from the HGO. The right plot shows the signal in the first 20ms of simulation}
 	\label{fig:thigh}
 	\end{center}
 \end{figure}
@@ -760,8 +768,8 @@ In Fig.~\ref{fig:hip}-Fig.~\ref{fig:ankle}, the desired, estimated and true stat
 %
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/q_knee_mu_1e-03.eps}
-	\caption{ Simulation results from a desired knee movement, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviors until the first 40ms of simulation}
+	\includegraphics[width = \columnwidth]{Figs/q_knee_mu_fix_1e-03.eps}
+	\caption{ Simulation results from a desired knee movement, the controlled plant state and the estimated state. The right plot shows the signal in the first 20ms of simulation}
 	\label{fig:knee}
 	\end{center}
 \end{figure}
@@ -769,28 +777,20 @@ In Fig.~\ref{fig:hip}-Fig.~\ref{fig:ankle}, the desired, estimated and true stat
 %
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/q_ankle_mu_1e-03.eps}
-	\caption{ Simulation results from a desired ankle movement, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviors until the first 40ms of simulation}
+	\includegraphics[width = \columnwidth]{Figs/q_ankle_mu_fix_1e-03.eps}
+	\caption{ Simulation results from a desired ankle movement, the controlled plant state and the estimated state. The right plot shows the signal in the first 20ms of simulation}
 	\label{fig:ankle}
 	\end{center}
 \end{figure}
 %
 %
-% Velocity plots
+% Velocity plots 
 %
-%
-The corresponding hip, thigh, knee and ankle velocities are illustrated in Fig.~\ref{fig:dhip}-Fig.~\ref{fig:dankle}. The RMSE for tracking error in Table.~\ref{table:RMSE_track} shows that velocities in knee and ankle joints require a faster control law to track, mainly because of higher frequency components which also contribute to a worst state estimation in HGO.
-
-When implementing HGO, it is important to take in consideration peak values occurring due to its inner characteristics. In order to avoid that, both velocity and control signals had saturation values as depicted in Fig.~\ref{fig:dankle} and Fig.~\ref{fig:u_comparison}.
-
-It can be seen that the HGO with static gain and PID control approach were suitable for the task.
-%
-%Simulations were also conducted using HGO with variable gain to evaluate its performance in the presence of noise and parametric uncertainties. Fig. ~\ref{fig:mu_comparison} - Fig.\ref{q_error_comparison} show 
 %
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/dq_hip_mu_1e-03.eps}
-	\caption{ Simulation results from a desired hip velocity, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviors until the first 15ms of simulation.}
+	\includegraphics[width = \columnwidth]{Figs/dq_hip_mu_fix_1e-03.eps}
+	\caption{ Simulation results from a desired hip velocity, the controlled plant state and the estimated state. The right plot shows the signals behaviors until the first 50ms of simulation.}
 	\label{fig:dhip}
 	\end{center}
 \end{figure}
@@ -798,8 +798,8 @@ It can be seen that the HGO with static gain and PID control approach were suita
 %
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/dq_thigh_mu_1e-03.eps}
-	\caption{Simulation results from a desired thigh velocity, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviors until the first 15ms of simulation.}
+	\includegraphics[width = \columnwidth]{Figs/dq_thigh_mu_fix_1e-03.eps}
+	\caption{Simulation results from a desired thigh velocity, the controlled plant state and the estimated state. The right plot shows the signal in the first 20ms of simulation.}
 	\label{fig:dthigh}
 	\end{center}
 \end{figure}
@@ -807,8 +807,8 @@ It can be seen that the HGO with static gain and PID control approach were suita
 %
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/dq_knee_mu_1e-03.eps}
-	\caption{Simulation results from a desired knee velocity, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviors until the first 15ms of simulation.}
+	\includegraphics[width = \columnwidth]{Figs/dq_knee_mu_fix_1e-03.eps}
+	\caption{Simulation results from a desired knee velocity, the controlled plant state and the estimated state. The right plot shows the signal in the first 15ms of simulation.}
 	\label{fig:dknee}
 	\end{center}
 \end{figure}
@@ -816,8 +816,8 @@ It can be seen that the HGO with static gain and PID control approach were suita
 %
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/dq_ankle_mu_1e-03.eps}
-	\caption{Simulation results from a desired ankle velocity, the controlled plant state and the estimated state from the HGO with constant parameter $\mu=0.001$. The right plot shows the signals behaviors until the first 15ms of simulation.}
+	\includegraphics[width = \columnwidth]{Figs/dq_ankle_mu_fix_1e-03.eps}
+	\caption{Simulation results from a desired ankle velocity, the controlled plant state and the estimated state. The right plot shows the signal in the first 20ms of simulation.}
 	\label{fig:dankle}
 	\end{center}
 \end{figure}
@@ -825,7 +825,7 @@ It can be seen that the HGO with static gain and PID control approach were suita
 
 \begin{table}[]
 	\centering
-	\caption{Root-mean-square-error (RMSE) for HGO states and the desired trajectory in each joint of a prosthetic leg according to the observer gain $\mu$}
+	\caption{RMSE for HGO states and the desired trajectory in each joint of a prosthetic leg according to the observer gain $\mu$}
 	\resizebox{\columnwidth}{!}{%
 	\begin{tabular}{ccccccccc}
 	\hline
@@ -841,7 +841,7 @@ It can be seen that the HGO with static gain and PID control approach were suita
 \begin{comment}
 \begin{table}[]
 	\centering
-	\caption{Estimation root-mean-square-error (RMSE) of a human gait for each joint of a prosthetic leg with estimated states according to the observer gain $\mu$}
+	\caption{RMSE of a human gait for each joint of a prosthetic leg with estimated states according to the observer gain $\mu$}
 	\resizebox{\columnwidth}{!}{%
 	\begin{tabular}{ccccccccc}
 	\hline
@@ -855,19 +855,19 @@ It can be seen that the HGO with static gain and PID control approach were suita
 \end{table}
 \end{comment}
 
-A variable HGO gain ($\mu_{var}(t)$) dynamic is depicted in Fig.\ref{fig:mu_comparison}, converging to approximately 0.001 in $t=4s$, while there are two other values shown. In blue, a static $\mu_{1} = 4e-4$ and, in yellow, the static $\mu_{2} = 19e-4$. In Figs.\ref{fig:SNR_comparison} and \ref{fig:u_comparison} the same legend pattern in applied as in Fig.\ref{fig:mu_comparison}, therefore blue, yellow and red represent $\mu_{1}$, $\mu_{2}$ and $\mu_{var}(t)$ respectively.
+A variable HGO gain adaptation is depicted in Fig.~\ref{fig:mu_comparison}. In Figs.~\ref{fig:SNR_comparison} and Fig.~\ref{fig:u_comparison} the same legend pattern in applied as in Fig.~\ref{fig:mu_comparison}, therefore blue, yellow and red represent $\mu_{1}$, $\mu_{2}$ and $\mu_{var}(t)$ respectively.
 
 %
-\begin{figure}[h!]
+\begin{figure}[]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/mu_comparison.eps}
-	\caption{Simulation results showing the dynamics from variable and static $\mu$.}
+	\includegraphics[width = \columnwidth]{Figs/mu_comparison.eps}
+	\caption{Simulation results showing the adaptation from a variable $\mu$ converging to 0.001.}
 	\label{fig:mu_comparison}
 	\end{center}
 \end{figure}
 %
 %
-\begin{figure}[h!]
+\begin{figure}[]
 	\begin{center}
 	\includegraphics[width = \columnwidth]{Figs/u_comparison.eps}
 	\caption{This graphic shows the difference between gain values and its filtering capacity. The control signal in blue represents the static gain $\mu = 0.0004$, which does not filter the noise as much as $\mu_{var}(t)$ in red or $\mu = 0.0019$ in yellow.}
@@ -876,28 +876,28 @@ A variable HGO gain ($\mu_{var}(t)$) dynamic is depicted in Fig.\ref{fig:mu_comp
 \end{figure}
 %
 %
-\begin{figure}[h!]
+\begin{figure}[]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/SNR_comparison.eps}
+	\includegraphics[width = \columnwidth]{Figs/SNR_comparison.eps}
 	\caption{$\mu_{var}(t)$ in red is able to filter noise as good as $\mu = 0.0019$ in yellow.}
 	\label{fig:SNR_comparison}
 	\end{center}
 \end{figure}
 %
 %
-\begin{figure}[h!]
+\begin{figure}[]
 	\begin{center}
-	\includegraphics[width = 6cm]{Figs/q_error_comparison.eps}
+	\includegraphics[width = \columnwidth]{Figs/q_error_comparison.eps}
 	\caption{Using $\mu_{var}(t)$, in red, the system is able to track the trajectory as good as when $\mu = 0.0004$ in blue. For quantitative values, Table \ref{table:RMSE_track} shows tracking RMSE.}
 	\label{fig:q_error_comparison}
 	\end{center}
 \end{figure}
 %
-By applying $\mu_{2}$, an apparent degradation in the closed-loop tracking error transient is shown in Table~\ref{table:RMSE_track} and \ref{fig:q_error_comparison}. On the other hand, the noise amplitude in the control signal is acceptable as can be observed in Fig.\ref{fig:u_comparison} with the corresponding measurement of the noise amplitude illustrated in Fig.\ref{fig:SNR_comparison}. The noise amplitude was obtained by filtering the control input $u$ with a high-pass filter.
+By applying $\mu_{2}$, an apparent degradation in the closed-loop tracking error transient is shown in Table~\ref{table:RMSE_track} and Fig.~\ref{fig:q_error_comparison}. On the other hand, the noise amplitude in the control signal is acceptable as can be observed in Fig.~\ref{fig:u_comparison} with the corresponding measurement of the noise amplitude illustrated in Fig.~\ref{fig:SNR_comparison}. The noise amplitude was obtained by filtering the control input $u$ with a high-pass filter.
 %
 
 %
-By reducing $\mu$ to the constant small value $\mu_{var}(t) = 0.0004$, the  tracking error transient is improved in exchange of an increase on the control signal noise, see  Fig.\ref{fig:SNR_comparison}, \ref{fig:q_error_comparison} and Table~\ref{table:RMSE_track}.
+By reducing $\mu$ to the constant small value $\mu_{var}(t) = 0.0004$, the  tracking error transient is improved in exchange of an increase on the control signal noise, see  Fig.\ref{fig:SNR_comparison}, FIg.~\ref{fig:q_error_comparison} and Table~\ref{table:RMSE_track}.
 %
 
 %
