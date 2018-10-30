@@ -1,4 +1,4 @@
-function ddq = directDynamics( s, tauq, RPY, joint_type, q, dq, V0INS, dV0INS, Mass, Inertia, R, L, h, G, g_s_INS, g_n_ef, friction_torques, BodyContact, BodyContactWrenches, BodyContactPositions )
+function [ddq, tau_gfr] = directDynamics( s, tauq, RPY, joint_type, q, dq, V0INS, dV0INS, Mass, Inertia, R, L, h, G, g_s_INS, g_n_ef, friction_torques, BodyContact, BodyContactWrenches, BodyContactPositions )
 % This function computes de direct dynamics of a general mechanism.
 
 % Inputs:
@@ -28,8 +28,9 @@ function ddq = directDynamics( s, tauq, RPY, joint_type, q, dq, V0INS, dV0INS, M
 
 num_joints = length(q);
 ddq = zeros(num_joints,1);
-
+zeroContactWrenches = zeros (6,2);
 [ tauq_line, ~ ] = inverseDynamics( s, RPY, joint_type, q, dq, ddq, V0INS, dV0INS, Mass, Inertia, R, L, h, G, g_s_INS, g_n_ef, BodyContact, BodyContactWrenches, BodyContactPositions );
+[ tauq_noContact, ~ ] = inverseDynamics( s, RPY, joint_type, q, dq, ddq, V0INS, dV0INS, Mass, Inertia, R, L, h, G, g_s_INS, g_n_ef, BodyContact, zeroContactWrenches, BodyContactPositions );
 ddq = Mq( s, joint_type, q, Mass, Inertia, R, L, h, g_s_INS )\( tauq - tauq_line - friction_torques );
-
+tau_gfr = tauq_line - tauq_noContact;
 end

@@ -1,13 +1,13 @@
 function [ GroundWrenches, ForceState ] = ground_model( q, BodyContactPositions, s_z, L, h, beta,  k_b, joint_type )
 % function BodyContactWrenches = fcn( t, q, L, h, BodyContactPositions, joint_type, sz, beta, kb)
-% Esta função calcula as forças de contato com o chão
+% Esta funï¿½ï¿½o calcula as forï¿½as de contato com o chï¿½o
 
 %% Transforma as coordenadas locais dos pontos de contato em coordenadas inerciais
 body = 4; % foot
 contact_point_h = BodyContactPositions(:,1);
 contact_point_t = BodyContactPositions(:,2);
-[ P_h, R_h ] = prosthetics_forward_kinematics( q, L, h, body, contact_point_h, joint_type ); % posição do ponto h
-[ P_t, R_t ] = prosthetics_forward_kinematics( q, L, h, body, contact_point_t, joint_type ); % posição do ponto t
+[ P_h, R_h ] = prosthetics_forward_kinematics( q, L, h, body, contact_point_h, joint_type ); % posiï¿½ï¿½o do ponto h
+[ P_t, R_t ] = prosthetics_forward_kinematics( q, L, h, body, contact_point_t, joint_type ); % posiï¿½ï¿½o do ponto t
 
 %% Modelo de contato (em coordenadas inerciais)
 z_h = P_h(3);
