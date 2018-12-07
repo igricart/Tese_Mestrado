@@ -85,8 +85,9 @@ k_b = 50000; % spring constant (N/m, old = 10)
 beta = 0; % gain for horizontal force measure (unitless, old = 10)
 
 %% Joint reference values
-A = [ 1 ; pi/2*ones(3,1) ];
-w = [ 0   ; 0.5*pi*ones(3,1) ];
+A = [ 0 ; pi/8*ones(3,1) ];
+w = [ 0   ; 2*pi/2*ones(3,1) ];
+% w = zeros(4,1); 
 offset = zeros(n,1);
 
 %% Gait Data from Spreadsheet
