@@ -840,7 +840,7 @@ ylim(y_lim_q_error(i,1:2));
 saveas(f_q_error_comparison,fullfile(fname,['q_error_comparison']),'epsc');
 
 hold off;
-close all;
+% close all;
 % subplot(3,3,1)
 % plot(u.Time, u.Data(:,i));
 % grid on; grid minor;
