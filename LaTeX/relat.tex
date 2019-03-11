@@ -309,3 +309,14 @@ Some tests with HGO were made in order to create GRF estimations. It seems that 
     \item Test cos and acos function
     \item 
 \end{enumerate}
+
+\textbf{2018-12-10}
+
+In order to compute the GFR HGO, the first and second derivatives from GFR are required.
+
+\begin{align}
+z_h &= q_1 + l_2cos(q_2) + l_3cos(q_2 + q_3) + aHcos(q_2 + q_3 + q_4 - acos(\frac{ah}{aH})) \\
+\dot{z_h} &= \dot{q_1} + \dot{q_2}(-l_2sin(q_2)) + (\dot{q_2} + \dot{q_3})(-l_3sin(q_2 + q_3)) + (\dot{q_2} + \dot{q_3} + \dot{q_4})(-aHsin(q_2 + q_3 + q_4 - acos(\frac{ah}{aH})))\\
+z_t &= q_1 + l_2cos(q_2) + l_3cos(q_2 + q_3) + aTcos(q_2 + q_3 + q_4 + acos(\frac{ah}{aT})) \\
+\dot{z_h} &= \dot{q_1} + \dot{q_2}(-l_2sin(q_2)) + (\dot{q_2} + \dot{q_3})(-l_3sin(q_2 + q_3)) + (\dot{q_2} + \dot{q_3} + \dot{q_4})(+ aTsin(q_2 + q_3 + q_4 - acos(\frac{ah}{aT})))
+\end{align}
