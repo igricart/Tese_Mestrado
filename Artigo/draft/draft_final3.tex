@@ -165,9 +165,15 @@ to parametric errors and measurement noise.
 
 %Because of that, passive mechanical systems could be used in prosthetics systems, such as springs and dampers with controlled levels as Endolites ankle products and Otto Empower Ankle. However, being able to generate net power in prosthetic joints through DC electrical motors, pneumatic or hydraulic actuators \cite{Goldfarb2008} \cite{Bedard2002} is important so that amputees could also realize tasks such as climbing stairs and walking uphill.
 
-Commonly, the joints angles in a prosthesis are measured with high-resolution encoders, while contact forces are obtained via strain gauges and load cells. Angular velocities could be acquired through expensive tacometers or via estimation. 
+%Prostheses are devices that substitute the function of a missing limb either due to amputation or a congenital defect. The ideal ones allow amputees to maintain all of their daily living activities such as climbing stairs, handling tools, etc.
 
-In general, numerical approaches for velocity are implemented via state observers or derivative filters, like lead filter. However,  noise attenuation  is a well known challenge in those cases. In this direction, state estimation via Extended Kalman Filter (EKF), High-gain-observer (HGO) and Sliding Mode Observer (SMO) are promising approaches. These techniques could also be used to estimate the contact forces acting on a prosthetic foot.
+%Commonly, the joints angles and contact forces are measured in lower limb prosthesis via high-resolution encoders and strain gauges or load cells, respectively. Angular velocities could be acquired through expensive tacometers or via estimation. 
+
+%In general, numerical approaches for velocity are implemented via state observers or derivative filters, like lead filter. However,  noise attenuation  is a well known challenge in those cases. In this direction, state estimation via Extended Kalman Filter (EKF), High-gain-observer (HGO) and Sliding Mode Observer (SMO) are promising approaches.
+
+Commonly, the joints angles in a prosthesis are measured with high-resolution encoders, while contact forces are obtained via strain gauges and load cells. Angular velocities could be acquired through expensive tacometers or via estimation.
+
+In general, numerical approaches for velocity are implemented via state observers or derivative filters, like lead filter. However, noise attenuation is a well known challenge in those cases. In this direction, state estimation via Extended Kalman Filter (EKF), High-gain-observe (HGO) and Sliding Mode Observer (SMO) are promising approaches. These techniques could also be used to estimate the contact forces acting on a prosthetic foot
 
 In contrast to \cite{Fakoorian2016}, where an EKF is designed to estimate joint position, velocities and ground reaction forces, here an HGO based estimation approach is deployed. Time-varying HGOs have also been used to cope with the effect of measurement noise and to establish the connections with the EKF \cite{AK:07}, \cite{Khalil2009}. 
 
@@ -201,7 +207,7 @@ For notation description, please look at Apppendix
 \section{System Model}
 \label{sec:System_model}
 
-The dynamics of the machine/prosthesis system composed by a $4$-link rigid body robot\footnote{A more general framework with a $n$-link rigid body robot can also be considered. However, in order to keep this note close to \cite{Richter2015}, for simplicity, we have set $n=4$.} with prismatic-revolute-revolute-revolute (PRRR) configuration, following the notation in \cite{Richter2015} and \cite{Fakoorian2016}, is given by:
+The dynamics of the machine/prosthesis system composed by a $4$-link rigid body robot\footnote{A more general framework with a $n$-link rigid body robot can also be considered. However, in order to keep this note close to \cite{Richter2015}, for simplicity, we have set $n=4$.} with prismatic-revolute-revolute-revolute (PRRR) configuration, following the notation in \cite{Richter2015}, \cite{Warner2015} and \cite{Fakoorian2016}, is given by:
 %
 \begin{equation}
 D(q)\ddot{q} + C(q,\dot{q})\dot{q}+B(q,\dot{q}) + P(\dot{q}) + J_e^T F_e+g(q) = F_a\,,
@@ -210,7 +216,7 @@ D(q)\ddot{q} + C(q,\dot{q})\dot{q}+B(q,\dot{q}) + P(\dot{q}) + J_e^T F_e+g(q) = 
 %
 where  $q$ represents the vector of joints positions ($q_1$ represents the hip vertical displacement, $q_2$ is the thigh angle, $q_3$ is the knee angle and $q_4$ represents ankle angle), $D(q)$ is the inertia matrix, $C(q,\dot{q})$ is the matrix of Coriolis and centrifugal forces, $B(q,\dot{q})$ is the knee  damper nonlinear matrix, $J_e$ is the kinematic Jacobian relative to the point of application of external forces $F_e$, $g(q)$ is the term of gravitational forces and $F_a$ is the torque/force produced by the actuators. The term  $P(\dot{q})$ explicitly represents the Coulomb friction as in \cite{LeeKhalil2015}. %Note that, inertial and frictional effects in the actuators can be included in this model. 
 
-To establish a basis for dynamic model derivations and to verify the leg geometry during simulations, the set of reference frames used for forward kinematics problems are the same as the ones assigned in \cite{Richter2015}. Matrices $D(q)\ddot{q}$, $C(q,\dot{q})$ and $g(q)$ are obtained using the standard Newton-Euler recursive approach with the plant parameters extracted from \cite{Richter2015} and \cite{Fakoorian2016}.
+To establish a basis for dynamic model derivations and to verify the leg geometry during simulations, the set of reference frames used for forward kinematics problems are the same as the ones assigned in \cite{Richter2015}. Matrices $D(q)\ddot{q}$, $C(q,\dot{q})$ and $g(q)$ are obtained using the standard Newton-Euler recursive approach with the plant parameters extracted from \cite{Richter2015}, \cite{Fakoorian2016} and \cite{Warner2015}.
 
 \subsection{A Simplified Model}
 
@@ -392,7 +398,7 @@ In this paper, we are focused in the following particular choice for time varyin
 \psi_\mu(\omega(t),t)}\,,\label{eq:def_mupratico}
 \end{equation}
 %
-where $\alpha,\beta$ are positive design constants, $\mathcal{N}\{u\}>0$ is the noise energy presented in the control effort $u(t)$ and $e$ is the tracking error. Note that, this choice fits the general format (\ref{eq:def_mu}) with $\psi_\mu(\omega(t),t)=[(1+\beta |e|) \bar{\mu}-\alpha \mathcal{N}\{u\}]/(\alpha \mathcal{N}\{u\})$ and $\bar{\mu}$ small enough to assure that  $\psi_\mu(\omega(t),t)>0$. 
+where $\alpha,\beta$ are positive design constants, $\mathcal{N}\{u\}>0$ is the noise energy presented in the control effort $u(t)$ and $e$ is the tracking error. Note that, this choice fits the general format (\ref{eq:def_mu}) with $\psi_\mu(\omega(t),t)=[(1+\beta |e|) \bar{\mu}-\alpha \mathcal{N}\{u\}]/(\alpha \mathcal{N}\{u\})$ and $\bar{\mu}$ big enough to assure that  $\psi_\mu(\omega(t),t)>0$. 
 
 The noise energy is obtained by filtering the norm of the difference between 
 the upper $U^{+}$ and lower $U^{-}$ envelopes of the control signal $u$ which is contaminated by noise. The noise energy $\mathcal{N}\{u\}$ is defined as:
