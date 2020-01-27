@@ -1,3 +1,10 @@
+% PLOT_FIGURES Use:
+% arg1 as control ('PD', 'PID')
+% arg2 as mode ('weak', 'medium', 'strong')
+% arg3 as initial state ('correct' or 'zero')
+% arg4 as uncertainty in decimal (DOUBLE)
+% arg5 as the noise added to the system (DOUBLE)
+
 %% Script to plot data from .mat
 % Run script
 run Init_4DOF_computedTorque_stateFeedback.m;
@@ -5,10 +12,10 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/compTorque_stateFeed
 %% Set simulation variables
 
 is = 'correct';
-control = 'PD';
+control = 'PID';
 mode = 'weak';
-uncertainty = '10';
-k_noise = 0.00001;
+uncert = 0;
+k_noise = 0;
 
 %% Initial state
 if strcmp(is,'correct')
@@ -22,27 +29,28 @@ end
 %% Set different control gains
 if strcmp(control,'PD')
     if strcmp(mode,'weak')
-        wn = 2*pi*8;
-        zeta = 0.9;
+        wn = 2*pi;
+        zeta = 0.85;
     elseif strcmp(mode,'medium')
-        wn = 2*pi*8;
+        wn = 2*pi*2;
         zeta = 0.9;
     elseif strcmp(mode,'strong')
-        wn = 2*pi*8;
-        zeta = 0.9;
+        wn = 2*pi*2;
+        zeta = 1;
     end
+    kd = 2*zeta*wn;
     ki = 0;
     kp = wn^2;
     Kp = kp*eye(n); Kd = kd*eye(n); Ki = ki*eye(n);
 elseif strcmp(control,'PID')
     if strcmp(mode,'weak')
-        wn = 2*pi*8;
-        zeta = 0.9;
-        p = 2*wn;
+        wn = 2*pi;
+        zeta = 0.8;
+        p = wn;
     elseif strcmp(mode,'medium')
-        wn = 2*pi*8;
+        wn = 2*pi*3;
         zeta = 0.9;
-        p = 2*wn;
+        p = 1*wn;
     elseif strcmp(mode,'strong')
         wn = 2*pi*8;
         zeta = 0.9;
@@ -55,11 +63,9 @@ elseif strcmp(control,'PID')
 end
 
 %% Add uncertainties
-if strcmp(uncertainty,'0')
-    param_error = (1 + 0*(rand()-1/2));
-elseif strcmp(uncertainty,'10')
-    param_error = (1 + 0.1*(rand()-1/2));
-end
+param_error = 1 + uncert*(rand()-1/2);
+uncertainty = num2str(uncert);
+
 %% Add noise
 noise = num2str(k_noise);
 
@@ -67,6 +73,8 @@ noise = num2str(k_noise);
 %% Run simulation
 sim('Leg_4DOF_computedTorque_stateFeedback',2)
 
+% Useful set function
+%set(f_hip_q,'units','pixels','position',[675,553,570,211]);
 
 %% Plot Joints
 
@@ -157,6 +165,17 @@ saveas(f_ankle,fullfile(fname,['ankle_control_state_feedback_' is '_' control '_
 
 
 %% Plot Error
+
+% JJ Jeral Junto
+
+f_error = figure();
+plot(q_error.Time, q_error.Data);
+%set(f_error,'units','pixels','position',[675,553,570,211]);
+grid on; grid minor;
+ylabel(['Joint Error']);
+xlabel(['Time (sec)']);
+
+saveas(f_error,fullfile(fname,['error_control_state_feedback_' is '_' control '_' mode '_' uncertainty '_' noise]),'epsc');
 
 % Plot 1 - hip angle
 i = 1;
