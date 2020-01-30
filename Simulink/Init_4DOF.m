@@ -1,27 +1,20 @@
 clear all; clc
 
+% Parameters taken from:
+% Optimal Design and Control of a Lower-Limb Prosthesis with Energy Regeneration
+
 global simulation_step;
-global noise_power;
-global aux_power;
 global step_period;
-
-global buffer2 buffer3
-global buffersup bufferinf bufferNSR
-global buffersup_full bufferinf_full
-
-ts_ctrl = 5e-4;
 simulation_step = 1e-4;
-noise_power = 1e-10;
-aux_power = 0;
 
 %% Number of joints (rad)
 n = 4;
 
 %% Masses (Kg)
 mass_base = 0;
-mass_hip = 21.29;
+mass_hip = 40.59;
 mass_thigh = 8.57;
-mass_shin = 2.33;
+mass_shin = 2.29;
 mass_foot = 1;
 
 %% Inertia parameters (Kg-m^2)
@@ -29,13 +22,13 @@ I_base = [0 0 0 0 0 0]';
 I_hip = [0 0 0 0 0 0]'; % (zeros because the hip does not rotates)
 I_thigh = [0 0.435 0 0 0 0]';
 I_shin = [0 0.062 0 0 0 0]';
-I_foot = [0 0.062 0 0 0 0]';
+I_foot = [0 0.018 0 0 0 0]';
 
 %% Joint frame positions (from robot geometry)
 l_base_hip = zeros(3,1);
 l_hip_thigh = zeros(3,1);
-l_thigh_shin = [ 0 0 1 ]';
-l_shin_foot = [ 0 0 1 ]';
+l_thigh_shin = [ 0 0 0.5 ]';
+l_shin_foot = [ 0 0 0.5 ]';
 
 %% C.M. positions w.r.t. local frames (m)
 r_base = zeros(3,1);
@@ -65,35 +58,37 @@ L_ctrl = [ l_base_hip l_hip_thigh l_thigh_shin l_shin_foot ];
 h_ctrl = [ ez -ey -ey -ey ];
 G_ctrl = g*ez;
 
-%% Initial state |---
-%                |
-qInit = [ 0.0181 0.5 -0.15 -0.38 ]';
-dqInit = [ 0 0 0 0 ]';
+%% PD
+% %
+% wn = 2*pi*8;
+% zeta = 0.9;
+% kd = 2*zeta*wn;
+% ki = 0;
+% kp = wn^2;
+% Kp = kp*eye(n); Kd = kd*eye(n); Ki = ki*eye(n);
+%% PID
 
-%% CTPID Gains
-kp = 80; kd = 20; ki = 0; 
+wn = 2*pi*8;
+zeta = 0.9;
+p = 2*wn;
+ki = p*wn^2;
+kp = 2*zeta*wn*p + wn^2;
+kd = p + 2*zeta*wn;
+kp = 0; ki = 0; kd = 0;
 Kp = kp*eye(n); Kd = kd*eye(n); Ki = ki*eye(n);
 
 %% Contact forces/torques
 BodyContact = [ 4 4 ]; % two wrenches at body 4 (foot)
 contact_point_h = [  0.1, 0, 0.1 ]'; % point h w.r.t. foot frame
-contact_point_t = [ -0.2, 0, 0.1 ]'; % point t w.r.t. foot frame
+contact_point_t = [ -0.3, 0, 0.1 ]'; % point t w.r.t. foot frame
 BodyContactPositions = [ contact_point_h, contact_point_t ];
 
 %% Contact model
 s_z = 2 ; % height (ground till robot base) (m)
-k_b = 50000; % spring constant (N/m, old = 10)
+k_b = 5000; % spring constant (N/m, old = 10)
 beta = 10; % gain for horizontal force measure (unitless, old = 10)
 
-%% Joint reference values
-Amp = [ pi/2*ones(4,1) ];
-w = [ 0.5*pi*ones(4,1) ];
-offset = zeros(n,1);
-
-%% Computes INITIAL force state vector
-[ ~, Fstate0 ] = ground_model( qInit, BodyContactPositions, s_z, L, h, beta,  k_b, joint_type );
-
-%%Insert data from Gait Spreadsheet
+%% Gait Data from Spreadsheet
 % readGaitData(file,row in spreadsheet, step period, time sample)
 [data, t] = readGaitData('GaitData.xlsx',14,1,simulation_step);
 step_period = t(end);
@@ -101,24 +96,38 @@ step_period = t(end);
 % steps)
 data_steps = concatData(data,t,300,15);
 
-% Initialize script with observer parameters
+%% Initial state |---
+%                |
+qInit = [ 0.0216 0.5675 -0.13 -0.39 ]';
+dqInit = [ 0 0 0 0 ]';
+
+qInit_model = qInit;
+dqInit_model = (data_steps(2,2:5)' - data_steps(1,2:5)')/(data_steps(2,1) - data_steps(1,1));
+ 
+% dq1 = (data_steps(1,2) - data_steps(2,2))/(data_steps(1,1) - data_steps(2,1));
+% dq2 = (data_steps(1,3) - data_steps(2,3))/(data_steps(1,1) - data_steps(2,1));
+% dq3 = (data_steps(1,4) - data_steps(2,4))/(data_steps(1,1) - data_steps(2,1));
+% dq4 = (data_steps(1,5) - data_steps(2,5))/(data_steps(1,1) - data_steps(2,1));
+% dqInit = [dq1 dq2 dq3 dq4]'; 
+
+%% Dirty derivative
+tau = 0.001;
+q0 = qInit;
+
+%% Model reference
+wn_ref = 8*5;
+zeta_ref = 0.7;
+
+%% HGO
 Init_HGO;
 
-% Create noisy_signal concatenated with data_steps
+%% Window size Noise estimation
+%maximum value -> k_noise = 5e-7;
+k_noise = 2e-7;
+window_size = [60 20 20 40];
 
-%Encoder resolution in bits
-encoder_resolution = 12;
-%Precision in degrees
-precision = 180/pi*(1/2^encoder_resolution);
-%Quantization error
-error_quant = precision/2;
-data_steps_noisy = data_steps;
-[SNR data_steps_noisy(:,6:9)]= SNR_mod(data_steps(:,2:5),[error_quant*ones(1,4)],true);
+%% Computes INITIAL force state vector
+[ ~, Fstate0 ] = ground_model( qInit, BodyContactPositions, s_z, L, h, beta,  k_b, joint_type );
 
-% Empirical SNR estimation parameters
-buffer2=zeros(0.001/simulation_step,1);
-buffer3=zeros(0.001/simulation_step,1);
-
-buffersup=zeros(0.001/simulation_step,1);
-bufferinf=zeros(0.001/simulation_step,1);
-bufferNSR=zeros(0.05/simulation_step,1);
+%% Save command
+% save('protese_noise_PID_HGOFeedback','ki','kd','kp','u','Mu','q_ref','dq_ref','q','dq','q_hat','dq_hat','simulation_step','step_period','param_error','qInit','dqInit','q_hat_init','dq_hat_init','window_size','SNR_used')
