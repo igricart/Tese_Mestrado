@@ -17,12 +17,18 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 % uncert: 0.value
 % k_noise: 0.value
 
-hgo = 0;
+hgo = 1;
 is = 'correct';
+hgo_is = 'correct';
 control = 'PID';
 mode = 'medium';
-uncert = 0.1;
-k_noise = 5e-5;
+uncert = 0;
+k_noise = 1e-4;
+
+% Gain
+Mu = 1*(5e-3);
+mu = num2str(Mu);
+Hmu = [eye(4)/Mu zeros(4); zeros(4) eye(4)/Mu^2];
 
 % Initial state
 if strcmp(is,'correct')
@@ -31,6 +37,15 @@ if strcmp(is,'correct')
 elseif strcmp(is,'zero')
     % Zero
     qInit = [0 0 0 0]';
+end
+
+% HGO Initial state
+if strcmp(hgo_is,'correct')
+    % Correct
+    q_hat_init = [ 0.0216 0.5675 -0.13 -0.39 ]';
+elseif strcmp(hgo_is,'zero')
+    % Zero
+    q_hat_init = [0 0 0 0]';
 end
 
 % Set different control gains
@@ -94,7 +109,7 @@ if(hgo == 0)
 
     % Plot 1 - Hip Displacement and Vel
     i = 1;
-    f_hip = figure();
+    f_hip = figure('Name', 'Hip displacement');
 
     subplot(1,2,1);
     plot(q_ref.Time, q_ref.Data(:,i),'k', q.Time, q.Data(:,i));
