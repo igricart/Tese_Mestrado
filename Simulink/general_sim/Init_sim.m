@@ -9,7 +9,8 @@ n = 4;
 
 %% Masses (Kg)
 mass_base = 0;
-mass_hip = 40.59;
+%mass_hip = 40.59;
+mass_hip = 21.29;
 mass_thigh = 8.57;
 mass_shin = 2.29;
 mass_foot = 1;

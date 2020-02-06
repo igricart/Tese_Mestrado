@@ -8,8 +8,8 @@ L_hgo = [2*eye(4);6*eye(4)];
 kpn = eye(4);
 
 % Gain
-Mu = 1*(1e-3);
-Hmu = [eye(4)/Mu zeros(4); zeros(4) eye(4)/Mu^2];
+Mu_hgo = 19e-4;
+Hmu = [eye(4)/Mu_hgo zeros(4); zeros(4) eye(4)/Mu_hgo^2];
 
 % Initial conditions
 q_hat_init = zeros(4,1);
