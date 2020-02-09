@@ -95,7 +95,7 @@ data_steps = concatData(data,t,300,15);
 
 %% Initial state |---
 %                |
-qInit = [ 0.0216 0.5675 -0.13 -0.39 ]';
+qInit = [ 0.0216 0.5325 -0.0255 -0.0481]';
 dqInit = [ 0 0 0 0 ]';
 
 qInit_model = qInit;
