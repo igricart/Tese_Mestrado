@@ -115,7 +115,7 @@ zeta_ref = 0.7;
 %% Computed Torque parameter mismatch
 %param_error = (1 + 0.1*(rand()-1/2));
 param_error = 1.0406;
-param_error = 1;
+%param_error = 1;
 Mass_ctrl = Mass_ctrl.*param_error;
 Inertia_ctrl = Inertia_ctrl.*param_error;
 R_ctrl = R_ctrl.*param_error;
@@ -126,7 +126,8 @@ h_ctrl = h_ctrl.*param_error;
 Init_HGO;
 
 %% Window size Noise estimation
-%maximum value -> k_noise = 5e-7;
+% maximum value -> k_noise = 5e-7;
+% standard value -> k_noise = 2e-7;
 k_noise = 1e-6;
 %k_noise = 0;
 window_size = [60 20 20 40];
