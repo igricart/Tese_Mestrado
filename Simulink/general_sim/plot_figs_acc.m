@@ -1,18 +1,23 @@
 %% Script to plot data from .mat
 % Simulation with Computed Torque, PID, HGO Observer and noise added
 
-% load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/acc_mu_var.mat');
-% load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/acc_mu_10e-4.mat');
-% load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/acc_mu_19e-4.mat');
- load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/acc_mu_4e-4.mat');
-% load('protese_noise_PID_10e-4_HGOFeedback.mat');
+load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_4e-4_feedback_with_noise_1e-6_param_error_new_ref.mat');
+%load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_4e-4_feedback_with_noise_2e-7_param_error_new_ref.mat');
+%load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_10e-4_feedback_with_noise_1e-6_param_error_new_ref.mat');
+%load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_10e-4_feedback_with_noise_2e-7_param_error_new_ref.mat');
+%load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_19e-4_feedback_with_noise_1e-6_param_error_new_ref.mat');
+%load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_19e-4_feedback_with_noise_2e-7_param_error_new_ref.mat');
+%load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_20e-4_feedback_with_noise_1e-6_param_error_new_ref.mat');
+%load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_20e-4_feedback_with_noise_2e-7_param_error_new_ref.mat');
+%load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_var_feedback_with_noise_1e-6_param_error_new_ref.mat');
+%load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/hgo_var_feedback_with_noise_2e-7_param_error_new_ref.mat');
 
 t = u.Time;
 row_max = size(u.Data,2);
 param_number = 5;
 t_end = 1;
 time_axis = [0 t_end];
-converter = 180/pi
+converter = 180/pi;
 
 fname1 = '/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/figs';
 fname2 = '/home/ignacio/Documents/Tese_Mestrado/Simulink/general_sim/figs';
