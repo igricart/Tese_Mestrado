@@ -99,19 +99,23 @@ R_ctrl = R + [zeros(size(R,1),2) uncert*(rand(size(R(:,3:end)))-0.5*ones(size(R(
 noise = num2str(k_noise);
 
 % Run simulation
-sim('simulation',2)
+%sim('simulation',2)
 
 % Useful set function
 %set(f_hip_q,'units','pixels','position',[675,553,570,211]);
 
+
+
 %% State Feedback
-fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
-for i = 1:2
-    if i == 1
-        load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/acc_state_feedback_clean.mat');
-    elseif i == 2
-        load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/acc_state_feedback_noise_param_error.mat');
-    end
+fname = '/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/figs';
+%for i = 1:3
+%    if i == 1
+        %load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/state_feedback_clean_new_ref.mat');
+%    elseif i == 2
+        %load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/state_feedback_with_noise_1e-6_param_error_new_ref.mat');
+%    elseif i == 3
+        load('/home/igricart/Documents/Tese_Mestrado/Simulink/general_sim/mat_files/state_feedback_with_noise_2e-7_param_error_new_ref.mat');
+%    end
     
     converter = 180/pi;
     % Plot Joints
@@ -120,21 +124,21 @@ for i = 1:2
     f_hip = figure('Name', 'Hip displacement');
 
     subplot(1,2,1);
-    plot(q_ref.Time, q_ref.Data(:,i), q.Time, q.Data(:,i));
+    plot(q_ref.Time(1:end/2), q_ref.Data(1:end/2,i), q.Time(1:end/2), q.Data(1:end/2,i));
     grid on; grid minor;
     ylabel(['Hip vertical displacement (m)']);
     xlabel(['Time (sec)']);
 
     % Zoomed
     subplot(1,2,2);
-    %plot(dq_ref.Time, dq_ref.Data(:,i),'k.', dq.Time, dq.Data(:,i),'MarkerIndices',1:300:length(q_ref.Data(:,i)));
-    plot(dq_ref.Time, dq_ref.Data(:,i), dq.Time, dq.Data(:,i));
+    %plot(dq_ref.Time(1:end/2), dq_ref.Data(1:end/2,i),'k.', dq.Time(1:end/2), dq.Data(1:end/2,i),'MarkerIndices',1:300:length(q_ref.Data(1:end/2,i)));
+    plot(dq_ref.Time(1:end/2), dq_ref.Data(1:end/2,i), dq.Time(1:end/2), dq.Data(1:end/2,i));
     grid on; grid minor;
     ylabel(['Hip vel (m/s)']);
     xlabel(['Time (sec)']);
     legend({'Desired','True'},'Location','southeast');
 
-    %saveas(f_hip,fullfile(fname,['hip_control_state_feedback_' is '_' control '_' mode '_' uncertainty '_' noise]),'epsc');
+    saveas(f_hip,fullfile(fname,['hip_control_state_feedback_noise_2e-7_param_error']),'epsc');
 
     % Plot 2 - Thigh angle
     % Thigh joint zoomed
@@ -142,20 +146,20 @@ for i = 1:2
     f_thigh = figure();
 
     subplot(1,2,1);
-    plot(q_ref.Time, q_ref.Data(:,i)*converter, q.Time, q.Data(:,i)*converter);
+    plot(q_ref.Time(1:end/2), q_ref.Data(1:end/2,i)*converter, q.Time(1:end/2), q.Data(1:end/2,i)*converter);
     grid on; grid minor;
     ylabel(['Thing angle (deg)']);
     xlabel(['Time (sec)']);
 
     % Zoomed
     subplot(1,2,2);
-    plot(dq_ref.Time, dq_ref.Data(:,i)*converter, dq.Time, dq.Data(:,i)*converter);
+    plot(dq_ref.Time(1:end/2), dq_ref.Data(1:end/2,i)*converter, dq.Time(1:end/2), dq.Data(1:end/2,i)*converter);
     grid on; grid minor;
     ylabel(['Thigh angular vel (deg/s)']);
     xlabel(['Time (sec)']);
     legend({'Desired','True'},'Location','southeast');
 
-    %saveas(f_thigh,fullfile(fname,['thigh_control_state_feedback_' is '_' control '_' mode '_' uncertainty '_' noise]),'epsc');
+    saveas(f_thigh,fullfile(fname,['thigh_control_state_feedback_noise_2e-7_param_error']),'epsc');
 
 
     % Plot 3 - Knee angle
@@ -164,20 +168,20 @@ for i = 1:2
     f_knee = figure();
 
     subplot(1,2,1);
-    plot(q_ref.Time, q_ref.Data(:,i)*converter, q.Time, q.Data(:,i)*converter);
+    plot(q_ref.Time(1:end/2), q_ref.Data(1:end/2,i)*converter, q.Time(1:end/2), q.Data(1:end/2,i)*converter);
     grid on; grid minor;
     ylabel(['Knee angle (deg)']);
     xlabel(['Time (sec)']);
 
     % Zoomed
     subplot(1,2,2);
-    plot(dq_ref.Time, dq_ref.Data(:,i)*converter, dq.Time, dq.Data(:,i)*converter);
+    plot(dq_ref.Time(1:end/2), dq_ref.Data(1:end/2,i)*converter, dq.Time(1:end/2), dq.Data(1:end/2,i)*converter);
     grid on; grid minor;
     ylabel(['Knee angular vel (deg/s)']);
     xlabel(['Time (sec)']);
     legend({'Desired','True'},'Location','southeast');
 
-    %saveas(f_knee,fullfile(fname,['knee_control_state_feedback_' is '_' control '_' mode '_' uncertainty '_' noise]),'epsc');
+    saveas(f_knee,fullfile(fname,['knee_control_state_feedback_noise_2e-7_param_error']),'epsc');
 
 
     % Plot 4 - Ankle angle
@@ -186,20 +190,20 @@ for i = 1:2
     f_ankle = figure();
 
     subplot(1,2,1);
-    plot(q_ref.Time, q_ref.Data(:,i)*converter, q.Time, q.Data(:,i)*converter);
+    plot(q_ref.Time(1:end/2), q_ref.Data(1:end/2,i)*converter, q.Time(1:end/2), q.Data(1:end/2,i)*converter);
     grid on; grid minor;
     ylabel(['Ankle angle (deg)']);
     xlabel(['Time (sec)']);
 
     % Zoomed
     subplot(1,2,2);
-    plot(dq_ref.Time, dq_ref.Data(:,i)*converter, dq.Time, dq.Data(:,i)*converter);
+    plot(dq_ref.Time(1:end/2), dq_ref.Data(1:end/2,i)*converter, dq.Time(1:end/2), dq.Data(1:end/2,i)*converter);
     grid on; grid minor;
     ylabel(['Ankle angular vel (deg/s)']);
     xlabel(['Time (sec)']);
     legend({'Desired','True'},'Location','southeast');
 
-    %saveas(f_ankle,fullfile(fname,['ankle_control_state_feedback_' is '_' control '_' mode '_' uncertainty '_' noise]),'epsc');
+    saveas(f_ankle,fullfile(fname,['ankle_control_state_feedback_noise_2e-7_param_error']),'epsc');
 
 
     % Plot Error
@@ -207,34 +211,35 @@ for i = 1:2
     % JJ Jeral Junto
 
     f_error = figure();
-    plot(q_error.Time, q_error.Data);
+    plot(q_error.Time(1:end/2), q_error.Data(1:end/2,:));
     %set(f_error,'units','pixels','position',[675,553,570,211]);
     grid on; grid minor;
     ylabel(['Joint Error (m rad rad rad)']);
     xlabel(['Time (sec)']);
 
-    %saveas(f_error,fullfile(fname,['error_control_state_feedback_' is '_' control '_' mode '_' uncertainty '_' noise]),'epsc');
+    %saveas(f_error,fullfile(fname,['error_control_state_feedback_noise_2e-7_param_error']),'epsc');
 
     % JJ Jeral Junto DEGREE
 
     f_error_deg = figure();
-    plot(q_error.Time, q_error.Data(:,1), q_error.Time, q_error.Data(:,2:4)*converter);
+    plot(q_error.Time(1:end/2), q_error.Data(1:end/2,1), q_error.Time(1:end/2), q_error.Data(1:end/2,2:4)*converter);
     %set(f_error,'units','pixels','position',[675,553,570,211]);
     grid on; grid minor;
     ylabel(['Joint Error (m deg deg deg)']);
     xlabel(['Time (sec)']);
     legend({'Joint1','Joint2','Joint3','Joint4'},'Location','northeast');
-    %saveas(f_error_deg,fullfile(fname,['error_control_state_feedback_deg_' is '_' control '_' mode '_' uncertainty '_' noise]),'epsc');
+    saveas(f_error_deg,fullfile(fname,['error_control_state_feedback_deg_noise_2e-7_param_error']),'epsc');
 
     f_d_error_deg = figure();
-    plot(q_error.Time, dq_error.Data(:,1)*converter, q_error.Time, dq_error.Data(:,2:4)*converter);
+    plot(q_error.Time(1:end/2), dq_error.Data(1:end/2,1)*converter, q_error.Time(1:end/2), dq_error.Data(1:end/2,2:4)*converter);
     %set(f_error,'units','pixels','position',[675,553,570,211]);
     grid on; grid minor;
     ylabel(['Joint Error (m/s deg/s deg/s deg/s)']);
     xlabel(['Time (sec)']);
     legend({'Joint1','Joint2','Joint3','Joint4'},'Location','northeast');
+    saveas(f_d_error_deg,fullfile(fname,['derror_control_state_feedback_deg_noise_2e-7_param_error']),'epsc');
 
-    %saveas(f_d_error_deg,fullfile(fname,['error_control_state_feedback_deg_dq_' is '_' control '_' mode '_' uncertainty '_' noise]),'epsc');
+    %saveas(f_d_error_deg,fullfile(fname,['error_control_state_feedback_deg_dq_noise_2e-7_param_error']),'epsc');
 
     % Plot Control Signal
 
@@ -242,32 +247,34 @@ for i = 1:2
 
     subplot(2,2,1);
     i = 1;
-    plot(u.Time, u.Data(:,i));
+    plot(u.Time(1:end/2), u.Data(1:end/2,i));
     grid on; grid minor;
     ylabel(['Hip linear control signal (N)']);
     xlabel(['Time (sec)']);
 
     subplot(2,2,2);
     i = 2;
-    plot(u.Time, u.Data(:,i));
+    plot(u.Time(1:end/2), u.Data(1:end/2,i));
     grid on; grid minor;
     ylabel(['Hip angular control signal (N.m)']);
     xlabel(['Time (sec)']);
 
     subplot(2,2,3);
     i = 3;
-    plot(u.Time, u.Data(:,i));
+    plot(u.Time(1:end/2), u.Data(1:end/2,i));
     grid on; grid minor;
     ylabel(['Knee control signal (N.m)']);
     xlabel(['Time (sec)']);
 
     subplot(2,2,4);
     i = 4;
-    plot(u.Time, u.Data(:,i));
+    plot(u.Time(1:end/2), u.Data(1:end/2,i));
     grid on; grid minor;
     ylabel(['Ankle control signal (N.m)']);
     xlabel(['Time (sec)']);
-end
+    saveas(f_control,fullfile(fname,['state_feedback_control_signal_noise_2e-7_param_error']),'epsc');
+
+%end
 
 %% HGO State Feedback
 fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
