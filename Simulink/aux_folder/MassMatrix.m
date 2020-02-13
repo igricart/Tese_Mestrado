@@ -58,7 +58,7 @@ M24 = Theta10 + Theta6.*cos(q3 + q4) + Theta8.*cos(q4);
 
 M31 = M13;
 M32 = M23;
-M33 = Theta9 + 2.*Theta8.*cos(q4) + m4.*L3^2 + I3 + I4;
+M33 = Theta9 + 2.*Theta8.*cos(q4);
 M34 = Theta10 + Theta8.*cos(q4);
 
 M41 = M14;
