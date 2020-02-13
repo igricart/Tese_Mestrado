@@ -25,15 +25,15 @@ I_foot = [0 0.018 0 0 0 0]';
 %% Joint frame positions (from robot geometry)
 l_base_hip = zeros(3,1);
 l_hip_thigh = zeros(3,1);
-l_thigh_shin = [ 0 0 1 ]';
-l_shin_foot = [ 0 0 1 ]';
+l_thigh_shin = [ 0 0 0.5 ]';
+l_shin_foot = [ 0 0 0.4 ]';
 
 %% C.M. positions w.r.t. local frames (m)
 r_base = zeros(3,1);
 r_hip = [ 0 0 0 ]';
-r_thigh = [ 0 0 0.5 ]';
-r_shin = [ 0 0 0.5 ]';
-r_foot = [ 0 0 0.1 ]';
+r_thigh = [ 0 0 0.25 ]';
+r_shin = [ 0 0 0.25 ]';
+r_foot = [ 0 0 0.05 ]';
 
 %% Gravity acceleration
 g = 9.81;
@@ -66,9 +66,9 @@ G_ctrl = g*ez;
 % Kp = kp*eye(n); Kd = kd*eye(n); Ki = ki*eye(n);
 %% PID
 
-wn = 2*pi*8;
+wn = 2*pi*4;
 zeta = 0.9;
-p = 2*wn;
+p = 1.5*wn;
 ki = p*wn^2;
 kp = 2*zeta*wn*p + wn^2;
 kd = p + 2*zeta*wn;
@@ -77,7 +77,7 @@ Kp = kp*eye(n); Kd = kd*eye(n); Ki = ki*eye(n);
 %% Contact forces/torques
 BodyContact = [ 4 4 ]; % two wrenches at body 4 (foot)
 contact_point_h = [  0.1, 0, 0.1 ]'; % point h w.r.t. foot frame
-contact_point_t = [ -0.3, 0, 0.1 ]'; % point t w.r.t. foot frame
+contact_point_t = [ -0.2, 0, 0.1 ]'; % point t w.r.t. foot frame
 BodyContactPositions = [ contact_point_h, contact_point_t ];
 
 %% Contact model
@@ -95,11 +95,10 @@ data_steps = concatData(data,t,300,15);
 
 %% Initial state |---
 %                |
-qInit = [ 0.0216 0.5325 -0.0255 -0.0481]';
-dqInit = [ 0 0 0 0 ]';
-
-qInit_model = qInit;
+qInit_model = [ 0.0216 0.5325 -0.0255 -0.0481]';
 dqInit_model = (data_steps(2,2:5)' - data_steps(1,2:5)')/(data_steps(2,1) - data_steps(1,1));
+qInit = [ 0 0.4363 0 0 ]';
+dqInit = [ 0 0 0 0 ]';
  
 % dq1 = (data_steps(1,2) - data_steps(2,2))/(data_steps(1,1) - data_steps(2,1));
 % dq2 = (data_steps(1,3) - data_steps(2,3))/(data_steps(1,1) - data_steps(2,1));
