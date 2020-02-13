@@ -1,9 +1,21 @@
 % load('acc_state_feedback_clean.mat');
 ddq_ref_res = reshape(ddq_ref.Data',4,1,size(ddq_ref.Data,1));
 dq_ref_res = reshape(dq_ref.Data',4,1,size(dq_ref.Data,1));
-M = MassMatrix(q_ref.Data, Mass, Inertia, R, L);
-G = GravityVector(q_ref.Data, Mass, Inertia, R, L, g);
-C = CoriolisMatrix(q_ref.Data, dq_ref.Data, Mass, Inertia, R, L);
+
+ddq_res = reshape(ddq.Data',4,1,size(ddq.Data,1));
+dq_res = reshape(dq.Data',4,1,size(dq.Data,1));
+
+% Use acceleration and velocity from plant
+ddq_ref_res = ddq_res;
+dq_ref_res = dq_res;
+new_q = q;
+new_dq = dq;
+new_ddq = ddq;
+
+% Compute matrices and vectors
+M = MassMatrix(new_q.Data, Mass, Inertia, R, L);
+G = GravityVector(new_q.Data, Mass, Inertia, R, L, g);
+C = CoriolisMatrix(new_q.Data, new_dq.Data, Mass, Inertia, R, L);
 
 if(size(M,3) == size(C,3))
     for k = 1:size(M,3)
@@ -29,20 +41,20 @@ for i=1:4
     figure('Name',['Joint ' num2str(i)],'NumberTitle','off')
     % D
     subplot(4,1,1)
-    plot(ddq_ref.Time, output_M_res(:,i),'.');
+    plot(new_ddq.Time, output_M_res(:,i),'.');
     ylabel(['M']);
     % C
     subplot(4,1,2)
-    plot(ddq_ref.Time, output_C_res(:,i),'.');
+    plot(new_ddq.Time, output_C_res(:,i),'.');
     ylabel(['C']);
     % G
     subplot(4,1,3)
-    plot(ddq_ref.Time, output_G_res(:,i),'.');
+    plot(new_ddq.Time, output_G_res(:,i),'.');
     ylabel(['G']);
     xlabel(['Time (sec)']);
     % All
-    subplot(4,1,4)
-    plot(ddq_ref.Time, output_M_res(:,i) + output_C_res(:,i) + output_G_res(:,i),'.', u.Time, u.Data(:,i));
+    subplot(1,1,1)
+    plot(new_ddq.Time, output_M_res(:,i) + output_C_res(:,i) + output_G_res(:,i),'.', u.Time, u.Data(:,i));
     ylabel(['Joint ' num2str(i) ' Force']);
     xlabel(['Time (sec)']);
     legend({'Lagrange','Newton-Euler'},'Location','southeast');
