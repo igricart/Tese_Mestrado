@@ -1,6 +1,6 @@
-load('acc_state_feedback_clean.mat');
-ddq_ref_res = reshape(ddq_ref.Data,4,1,size(ddq_ref.Data,1));
-dq_ref_res = reshape(dq_ref.Data,4,1,size(dq_ref.Data,1));
+% load('acc_state_feedback_clean.mat');
+ddq_ref_res = reshape(ddq_ref.Data',4,1,size(ddq_ref.Data,1));
+dq_ref_res = reshape(dq_ref.Data',4,1,size(dq_ref.Data,1));
 M = MassMatrix(q_ref.Data, Mass, Inertia, R, L);
 G = GravityVector(q_ref.Data, Mass, Inertia, R, L, g);
 C = CoriolisMatrix(q_ref.Data, dq_ref.Data, Mass, Inertia, R, L);
@@ -12,19 +12,52 @@ if(size(M,3) == size(C,3))
     end
 else
     for k = 1:size(M,3)
-        output_M(:,:,k) = M(:,:,k)*ddq_ref_res(:,:,k);
+        output_M(:,k) = M(:,:,k)*ddq_ref_res(:,:,k);
     end
     for k = 1:size(C,3)
-        output_C(:,:,k) = C(:,:,k)*dq_ref_res(:,:,k);
+        output_C(:,k) = C(:,:,k)*dq_ref_res(:,:,k);
     end
 end
-output_M_res = reshape(output_M,size(M,3),4);
-figure();
-plot(output_M_res,'.');
-output_C_res = reshape(output_C,size(C,3),4);
-figure();
-plot(output_C_res,'.');
-output_G_res = reshape(G,size(G,3),4);
-figure();
-plot(output_G_res,'.');
 
+output_M_res = reshape(output_M, 4, size(M,3))';
+output_C_res = reshape(output_C, 4, size(C,3))';
+output_G_res = reshape(G, 4, size(G,3))';
+
+for i=1:4
+
+%Plot torques/forces
+    figure('Name',['Joint ' num2str(i)],'NumberTitle','off')
+    % D
+    subplot(4,1,1)
+    plot(ddq_ref.Time, output_M_res(:,i),'.');
+    ylabel(['M']);
+    % C
+    subplot(4,1,2)
+    plot(ddq_ref.Time, output_C_res(:,i),'.');
+    ylabel(['C']);
+    % G
+    subplot(4,1,3)
+    plot(ddq_ref.Time, output_G_res(:,i),'.');
+    ylabel(['G']);
+    xlabel(['Time (sec)']);
+    % All
+    subplot(4,1,4)
+    plot(ddq_ref.Time, output_M_res(:,i) + output_C_res(:,i) + output_G_res(:,i),'.', u.Time, u.Data(:,i));
+    ylabel(['Joint ' num2str(i) ' Force']);
+    xlabel(['Time (sec)']);
+    legend({'Lagrange','Newton-Euler'},'Location','southeast');
+
+end
+%% Comparison
+
+% figure('Name','Joint 1 Force','NumberTitle','off')
+% subplot(2,1,1)
+% plot(ddq_ref.Time, output_M_res(:,1) + output_C_res(:,1) + output_G_res(:,1),'.', u.Time, u.Data(:,1));
+% ylabel(['Joint 1 Force']);
+% xlabel(['Time (sec)']);
+% legend({'Lagrange','Newton-Euler'},'Location','southeast');
+% 
+% subplot(2,1,2)
+% plot(q_ref.Time, q_ref.Data(:,1));
+% ylabel(['Q1']);
+% xlabel(['Time (sec)']);

@@ -8,8 +8,8 @@ C2 = R(3,3);
 C3 = R(3,4);
 C4 = R(3,5);
 
-L2 = L(2,3);
-L3 = L(2,4);
+L2 = L(3,3);
+L3 = L(3,4);
 L4 = 0.1;
 
 
@@ -49,7 +49,7 @@ q4 = q(:,4);
 
 G1 = -g.*Theta1;
 G2 = -g.*(Theta2.*cos(q2) + Theta3.*cos(q2 + q3 + q4) + Theta4.*cos(q2 + q3));
-G3 = -g.*Theta4.*cos(q2+q3)-g.*Theta3.*cos(q2 + q3 + q4);
+G3 = -g.*(Theta4.*cos(q2+q3) + Theta3.*cos(q2 + q3 + q4));
 G4 = -g.*Theta3.*cos(q2 + q3 + q4);
 
 G1 = reshape(G1,1,1,size(q,1));
