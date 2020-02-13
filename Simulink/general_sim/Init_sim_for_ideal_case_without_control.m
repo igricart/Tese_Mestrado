@@ -9,6 +9,7 @@ n = 4;
 
 %% Masses (Kg)
 mass_base = 0;
+%mass_hip = 40.59;
 mass_hip = 21.29;
 mass_thigh = 8.57;
 mass_shin = 2.29;
@@ -71,6 +72,7 @@ p = 1.5*wn;
 ki = p*wn^2;
 kp = 2*zeta*wn*p + wn^2;
 kd = p + 2*zeta*wn;
+ki = 0; kp = 0; kd = 0;
 Kp = kp*eye(n); Kd = kd*eye(n); Ki = ki*eye(n);
 
 %% Contact forces/torques
@@ -96,7 +98,8 @@ data_steps = concatData(data,t,300,15);
 %                |
 qInit_model = [ 0.0216 0.5325 -0.0255 -0.0481]';
 dqInit_model = (data_steps(2,2:5)' - data_steps(1,2:5)')/(data_steps(2,1) - data_steps(1,1));
-qInit = [ 0 0.4363 0 0 ]';
+% qInit = [ 0 0.4363 0 0 ]';
+qInit = qInit_model;
 dqInit = [ 0 0 0 0 ]';
  
 % dq1 = (data_steps(1,2) - data_steps(2,2))/(data_steps(1,1) - data_steps(2,1));
@@ -132,3 +135,6 @@ window_size = [60 20 20 40];
 
 %% Computes INITIAL force state vector
 [ ~, Fstate0 ] = ground_model( qInit, BodyContactPositions, s_z, L, h, beta,  k_b, joint_type );
+
+%% Save command
+% save('protese_noise_PID_HGOFeedback','ki','kd','kp','u','Mu','q_ref','dq_ref','q','dq','q_hat','dq_hat','simulation_step','step_period','param_error','qInit','dqInit','q_hat_init','dq_hat_init','window_size','SNR_used')

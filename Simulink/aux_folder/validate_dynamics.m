@@ -35,31 +35,64 @@ output_M_res = reshape(output_M, 4, size(M,3))';
 output_C_res = reshape(output_C, 4, size(C,3))';
 output_G_res = reshape(G, 4, size(G,3))';
 
-for i=1:4
+figure('Name',['Joint ' num2str(i)],'NumberTitle','off')
+i = 1;
+subplot(2,2,i)
+plot(new_ddq.Time, output_M_res(:,i) + output_C_res(:,i) + output_G_res(:,i),'.', u.Time, u.Data(:,i));
+grid on; grid minor;
+ylabel(['Joint ' num2str(i) ' Force']);
+xlabel(['Time (sec)']);
+%legend({'Lagrange','Newton-Euler'},'Location','southeast');
 
+i = 2;
+subplot(2,2,i)
+plot(new_ddq.Time, output_M_res(:,i) + output_C_res(:,i) + output_G_res(:,i),'.', u.Time, u.Data(:,i));
+grid on; grid minor;
+ylabel(['Joint ' num2str(i) ' Torque']);
+xlabel(['Time (sec)']);
+%legend({'Lagrange','Newton-Euler'},'Location','southeast');
+
+i = 3;
+subplot(2,2,i)
+plot(new_ddq.Time, output_M_res(:,i) + output_C_res(:,i) + output_G_res(:,i),'.', u.Time, u.Data(:,i));
+grid on; grid minor;
+ylabel(['Joint ' num2str(i) ' Torque']);
+xlabel(['Time (sec)']);
+%legend({'Lagrange','Newton-Euler'},'Location','southeast');
+
+i = 4;
+subplot(2,2,i)
+plot(new_ddq.Time, output_M_res(:,i) + output_C_res(:,i) + output_G_res(:,i),'.', u.Time, u.Data(:,i));
+grid on; grid minor;
+ylabel(['Joint ' num2str(i) ' Torque']);
+xlabel(['Time (sec)']);
+legend({'Lagrange','Newton-Euler'},'Location','southeast');
+
+% for i=1:4
 %Plot torques/forces
-    figure('Name',['Joint ' num2str(i)],'NumberTitle','off')
-    % D
-    subplot(4,1,1)
-    plot(new_ddq.Time, output_M_res(:,i),'.');
-    ylabel(['M']);
-    % C
-    subplot(4,1,2)
-    plot(new_ddq.Time, output_C_res(:,i),'.');
-    ylabel(['C']);
-    % G
-    subplot(4,1,3)
-    plot(new_ddq.Time, output_G_res(:,i),'.');
-    ylabel(['G']);
-    xlabel(['Time (sec)']);
-    % All
-    subplot(1,1,1)
-    plot(new_ddq.Time, output_M_res(:,i) + output_C_res(:,i) + output_G_res(:,i),'.', u.Time, u.Data(:,i));
-    ylabel(['Joint ' num2str(i) ' Force']);
-    xlabel(['Time (sec)']);
-    legend({'Lagrange','Newton-Euler'},'Location','southeast');
+% figure('Name',['Joint ' num2str(i)],'NumberTitle','off')
+%     % D
+%     subplot(4,1,1)
+%     plot(new_ddq.Time, output_M_res(:,i),'.');
+%     ylabel(['M']);
+%     % C
+%     subplot(4,1,2)
+%     plot(new_ddq.Time, output_C_res(:,i),'.');
+%     ylabel(['C']);
+%     % G
+%     subplot(4,1,3)
+%     plot(new_ddq.Time, output_G_res(:,i),'.');
+%     ylabel(['G']);
+%     xlabel(['Time (sec)']);
+%     % All
+%     subplot(4,1,4)
+%     plot(new_ddq.Time, output_M_res(:,i) + output_C_res(:,i) + output_G_res(:,i),'.', u.Time, u.Data(:,i));
+%     grid on; grid minor;
+%     ylabel(['Joint ' num2str(i) ' Force']);
+%     xlabel(['Time (sec)']);
+%     legend({'Lagrange','Newton-Euler'},'Location','southeast');
+%end
 
-end
 %% Comparison
 
 % figure('Name','Joint 1 Force','NumberTitle','off')
