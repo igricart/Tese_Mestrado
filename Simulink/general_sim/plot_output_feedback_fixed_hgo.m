@@ -125,6 +125,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i))
+xlabel(['Time(s)']);
+ylabel(['e (m)']);
 
 subplot(2, 2, 2)
 hold on;
@@ -135,6 +137,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(dq_error.Time, dq_error.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(dq_error.Time, dq_error.Data(:,i))
+xlabel(['Time(s)']);
+ylabel('$\dot{e} (m)$', 'Interpreter','latex');
 
 subplot(2, 2, 3)
 hold on;
@@ -145,6 +149,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i))
+xlabel(['Time(s)']);
+ylabel(['\zeta (m)']);
 
 subplot(2, 2, 4)
 hold on;
@@ -155,6 +161,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i))
+xlabel(['Time(s)']);
+ylabel('$\dot{\zeta} (m)$', 'Interpreter','latex');
 
 set(f_hip_error,'units','pixels','position',[900,900,900,900]);
 saveas(f_hip_error,fullfile(fname,['output_feedback_' num2str(Mu_hgo) '_' num2str(k_noise(j)) '_hip']),'epsc');
@@ -173,6 +181,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
+xlabel(['Time (s)']);
+ylabel(['u (N)']);
 
 subplot(1,2,2)
 hold on;
@@ -184,6 +194,8 @@ plot(u.Time, u.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 ylim([-1000 400])
+xlabel(['Time (s)']);
+ylabel(['u (N)']);
 
 set(f_hip_u,'units','pixels','position',[900,900,900,450]);
 saveas(f_hip_u,fullfile(fname,['output_feedback_' num2str(Mu_hgo) '_' num2str(k_noise(j)) '_hip']),'epsc');
@@ -253,6 +265,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel(['e (deg)']);
 
 subplot(2, 2, 2)
 hold on;
@@ -263,6 +277,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(dq_error.Time, dq_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(dq_error.Time, dq_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel('$\dot{e} (deg/s)$', 'Interpreter','latex');
 
 subplot(2, 2, 3)
 hold on;
@@ -273,6 +289,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel(['\zeta (deg)']);
 
 subplot(2, 2, 4)
 hold on;
@@ -283,6 +301,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel('$\dot{\zeta} (deg/s)$', 'Interpreter','latex');
 
 set(f_thigh_error,'units','pixels','position',[900,900,900,900]);
 saveas(f_thigh_error,fullfile(fname,['output_feedback_' num2str(Mu_hgo) '_' num2str(k_noise(j)) '_thigh']),'epsc');
@@ -301,6 +321,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
+xlabel(['Time (s)']);
+ylabel(['u (Nm)']);
 
 subplot(1,2,2)
 hold on;
@@ -312,6 +334,8 @@ plot(u.Time, u.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 ylim([-300 400])
+xlabel(['Time (s)']);
+ylabel(['u (Nm)']);
 
 set(f_thigh_u,'units','pixels','position',[900,900,900,450]);
 saveas(f_thigh_u,fullfile(fname,['output_feedback_' num2str(Mu_hgo) '_' num2str(k_noise(j)) '_thigh']),'epsc');
@@ -381,6 +405,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel(['e (deg)']);
 
 subplot(2, 2, 2)
 hold on;
@@ -391,6 +417,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(dq_error.Time, dq_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(dq_error.Time, dq_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel('$\dot{e} (deg/s)$', 'Interpreter','latex');
 
 subplot(2, 2, 3)
 hold on;
@@ -401,6 +429,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel(['\zeta (deg)']);
 
 subplot(2, 2, 4)
 hold on;
@@ -411,6 +441,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel('$\dot{\zeta} (deg/s)$', 'Interpreter','latex');
 
 set(f_knee_error,'units','pixels','position',[900,900,900,900]);
 saveas(f_knee_error,fullfile(fname,['output_feedback_' num2str(Mu_hgo) '_' num2str(k_noise(j)) '_knee']),'epsc');
@@ -428,6 +460,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
+xlabel(['Time (s)']);
+ylabel(['u (Nm)']);
 
 subplot(1,2,2)
 hold on;
@@ -439,6 +473,8 @@ plot(u.Time, u.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 ylim([-100 100])
+xlabel(['Time (s)']);
+ylabel(['u (Nm)']);
 
 set(f_knee_u,'units','pixels','position',[900,900,900,450]);
 saveas(f_knee_u,fullfile(fname,['output_feedback_' num2str(Mu_hgo) '_' num2str(k_noise(j)) '_knee']),'epsc');
@@ -508,6 +544,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i)*converter)
+xlabel(['time (s)'])
+ylabel(['e (deg)']);
 
 subplot(2, 2, 2)
 hold on;
@@ -518,6 +556,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(dq_error.Time, dq_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(dq_error.Time, dq_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel('$\dot{e} (deg/s)$', 'Interpreter','latex');
 
 subplot(2, 2, 3)
 hold on;
@@ -528,6 +568,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel(['\zeta (deg)']);
 
 subplot(2, 2, 4)
 hold on;
@@ -538,6 +580,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
+xlabel(['Time(s)']);
+ylabel('$\dot{\zeta} (deg/s)$', 'Interpreter','latex');
 
 set(f_ankle_error,'units','pixels','position',[900,900,900,900]);
 saveas(f_ankle_error,fullfile(fname,['output_feedback_' num2str(Mu_hgo) '_' num2str(k_noise(j)) '_ankle']),'epsc');
@@ -556,6 +600,8 @@ load(['output_feedback_0.001_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
+xlabel(['Time (s)']);
+ylabel(['u (Nm)']);
 
 subplot(1,2,2)
 hold on;
@@ -567,6 +613,8 @@ plot(u.Time, u.Data(:,i))
 load(['output_feedback_0.0019_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 ylim([-15 15])
+xlabel(['Time (s)']);
+ylabel(['u (Nm)']);
 
 set(f_ankle_u,'units','pixels','position',[900,900,900,450]);
 saveas(f_ankle_u,fullfile(fname,['output_feedback_' num2str(Mu_hgo) '_' num2str(k_noise(j)) '_ankle']),'epsc');
