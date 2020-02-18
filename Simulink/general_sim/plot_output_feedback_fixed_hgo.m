@@ -132,7 +132,9 @@ plot(q_error.Time, q_error.Data(:,i))
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i))
 xlabel(['time (s)'])
-ylabel(['e (deg)']);
+ylabel(['e (m)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 % Zoomed e
 subplot(2, 2, 2)
@@ -158,7 +160,7 @@ plot(dq_error.Time, dq_error.Data(:,i))
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(dq_error.Time, dq_error.Data(:,i))
 xlabel(['Time(s)']);
-ylabel('$\dot{e} (deg/s)$', 'Interpreter','latex');
+ylabel('$\dot{e} (m/s)$', 'Interpreter','latex');
 
 % Zoomed de
 subplot(2, 2, 4)
@@ -193,7 +195,9 @@ plot(q_est_error.Time, q_est_error.Data(:,i))
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i))
 xlabel(['Time(s)']);
-ylabel(['\zeta (deg)']);
+ylabel(['\zeta (m)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 % Zoomed zeta
 subplot(2, 2, 2)
@@ -219,7 +223,7 @@ plot(dq_est_error.Time, dq_est_error.Data(:,i))
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i))
 xlabel(['Time(s)']);
-ylabel('$\dot{\zeta} (deg/s)$', 'Interpreter','latex');
+ylabel('$\dot{\zeta} (m/s)$', 'Interpreter','latex');
 
 % Zoomed dzeta
 subplot(2, 2, 4)
@@ -254,6 +258,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 xlabel(['Time (s)']);
 ylabel(['u (N)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 subplot(1,2,2)
 title('(b)', 'FontSize', 10);
@@ -346,6 +352,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
 ylabel(['e (deg)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 % Zoomed e
 subplot(2, 2, 2)
@@ -406,6 +414,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
 ylabel(['\zeta (deg)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 % Zoomed zeta
 subplot(2, 2, 2)
@@ -468,6 +478,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 xlabel(['Time (s)']);
 ylabel(['u (Nm)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 subplot(1,2,2)
 title('(b)', 'FontSize', 10);
@@ -560,6 +572,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
 ylabel(['e (deg)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 % Zoomed e
 subplot(2, 2, 2)
@@ -620,6 +634,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
 ylabel(['\zeta (deg)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 % Zoomed zeta
 subplot(2, 2, 2)
@@ -682,6 +698,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 xlabel(['Time (s)']);
 ylabel(['u (Nm)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 subplot(1,2,2)
 title('(b)', 'FontSize', 10);
@@ -774,6 +792,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_error.Time, q_error.Data(:,i)*converter)
 xlabel(['time (s)'])
 ylabel(['e (deg)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 % Zoomed e
 subplot(2, 2, 2)
@@ -835,6 +855,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
 ylabel(['\zeta (deg)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 % Zoomed zeta
 subplot(2, 2, 2)
@@ -894,6 +916,8 @@ load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(u.Time, u.Data(:,i))
 xlabel(['Time (s)']);
 ylabel(['u (Nm)']);
+lgd = legend({'4e-4','10e-4','19e-4'},'Location','northeast');
+lgd.FontSize = 8;
 
 subplot(1,2,2)
 title('(b)', 'FontSize', 10);
