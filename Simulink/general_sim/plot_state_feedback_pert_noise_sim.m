@@ -33,6 +33,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot q
     subplot(2,2,1);
+    title('(a)', 'FontSize', 10);
+    hold on;
     plot(q_ref.Time, q_ref.Data(:,i), q.Time, q.Data(:,i));
     grid on; grid minor;
     ylabel(['Displacement (m)']);
@@ -41,6 +43,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot dq
     subplot(2,2,2);
+    title('(b)', 'FontSize', 10);
+    hold on;
     plot(dq_ref.Time, dq_ref.Data(:,i), dq.Time, dq.Data(:,i));
     grid on; grid minor;
     ylabel(['Velocity (m/s)']);
@@ -48,6 +52,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
     
     % Plot tau
     subplot(2,2,3);
+    title('(c)', 'FontSize', 10);
+    hold on;
     plot(u.Time, u.Data(:,i));
     grid on; grid minor;
     ylabel(['Force (N)']);
@@ -55,6 +61,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot error
     subplot(2,2,4);
+    title('(d)', 'FontSize', 10);
+    hold on;
     plot(q_error.Time, q_error.Data(:,1));
     grid on; grid minor;
     ylabel(['Error (m)']);
@@ -70,6 +78,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot q
     subplot(2,2,1);
+    title('(a)', 'FontSize', 10);
+    hold on;
     plot(q_ref.Time, q_ref.Data(:,i)*converter, q.Time, q.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Angle (deg)']);
@@ -77,6 +87,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot dq
     subplot(2,2,2);
+    title('(b)', 'FontSize', 10);
+    hold on;
     plot(dq_ref.Time, dq_ref.Data(:,i)*converter, dq.Time, dq.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Velocity (deg/s)']);
@@ -85,6 +97,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
     
     % Plot tau
     subplot(2,2,3);
+    title('(c)', 'FontSize', 10);
+    hold on;
     plot(u.Time, u.Data(:,i));
     grid on; grid minor;
     ylabel(['Torque (N.m)']);
@@ -92,6 +106,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot error
     subplot(2,2,4);
+    title('(d)', 'FontSize', 10);
+    hold on;
     plot(q_error.Time, q_error.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Error (deg)']);
@@ -107,6 +123,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot q
     subplot(2,2,1);
+    title('(a)', 'FontSize', 10);
+    hold on;
     plot(q_ref.Time, q_ref.Data(:,i)*converter, q.Time, q.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Angle (deg)']);
@@ -114,6 +132,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot dq
     subplot(2,2,2);
+    title('(b)', 'FontSize', 10);
+    hold on;
     plot(dq_ref.Time, dq_ref.Data(:,i)*converter, dq.Time, dq.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Velocity (deg/s)']);
@@ -122,6 +142,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
     
     % Plot tau
     subplot(2,2,3);
+    title('(c)', 'FontSize', 10);
+    hold on;
     plot(u.Time, u.Data(:,i));
     grid on; grid minor;
     ylabel(['Torque (N.m)']);
@@ -129,6 +151,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot error
     subplot(2,2,4);
+    title('(d)', 'FontSize', 10);
+    hold on;
     plot(q_error.Time, q_error.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Error (deg)']);
@@ -144,6 +168,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot q
     subplot(2,2,1);
+    title('(a)', 'FontSize', 10);
+    hold on;
     plot(q_ref.Time, q_ref.Data(:,i)*converter, q.Time, q.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Angle (deg)']);
@@ -151,6 +177,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot dq
     subplot(2,2,2);
+    title('(b)', 'FontSize', 10);
+    hold on;
     plot(dq_ref.Time, dq_ref.Data(:,i)*converter, dq.Time, dq.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Velocity (deg/s)']);
@@ -159,6 +187,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
     
     % Plot tau
     subplot(2,2,3);
+    title('(c)', 'FontSize', 10);
+    hold on;
     plot(u.Time, u.Data(:,i));
     grid on; grid minor;
     ylabel(['Torque (N.m)']);
@@ -166,6 +196,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot error
     subplot(2,2,4);
+    title('(d)', 'FontSize', 10);
+    hold on;
     plot(q_error.Time, q_error.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Error (deg)']);
@@ -191,6 +223,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot q
     subplot(2,2,1);
+    title('(a)', 'FontSize', 10);
+    hold on;
     plot(q_ref.Time, q_ref.Data(:,i), q.Time, q.Data(:,i));
     grid on; grid minor;
     ylabel(['Displacement (m)']);
@@ -199,6 +233,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot dq
     subplot(2,2,2);
+    title('(b)', 'FontSize', 10);
+    hold on;
     plot(dq_ref.Time, dq_ref.Data(:,i), dq.Time, dq.Data(:,i));
     grid on; grid minor;
     ylabel(['Velocity (m/s)']);
@@ -206,6 +242,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
     
     % Plot tau
     subplot(2,2,3);
+    title('(c)', 'FontSize', 10);
+    hold on;
     plot(u.Time, u.Data(:,i));
     grid on; grid minor;
     ylabel(['Force (N)']);
@@ -213,6 +251,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot error
     subplot(2,2,4);
+    title('(d)', 'FontSize', 10);
+    hold on;
     plot(q_error.Time, q_error.Data(:,1));
     grid on; grid minor;
     ylabel(['Error (m)']);
@@ -228,6 +268,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot q
     subplot(2,2,1);
+    title('(a)', 'FontSize', 10);
+    hold on;
     plot(q_ref.Time, q_ref.Data(:,i)*converter, q.Time, q.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Angle (deg)']);
@@ -235,6 +277,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot dq
     subplot(2,2,2);
+    title('(b)', 'FontSize', 10);
+    hold on;
     plot(dq_ref.Time, dq_ref.Data(:,i)*converter, dq.Time, dq.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Velocity (deg/s)']);
@@ -243,6 +287,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
     
     % Plot tau
     subplot(2,2,3);
+    title('(c)', 'FontSize', 10);
+    hold on;
     plot(u.Time, u.Data(:,i));
     grid on; grid minor;
     ylabel(['Torque (N.m)']);
@@ -250,6 +296,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot error
     subplot(2,2,4);
+    title('(d)', 'FontSize', 10);
+    hold on;
     plot(q_error.Time, q_error.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Error (deg)']);
@@ -265,6 +313,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot q
     subplot(2,2,1);
+    title('(a)', 'FontSize', 10);
+    hold on;
     plot(q_ref.Time, q_ref.Data(:,i)*converter, q.Time, q.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Angle (deg)']);
@@ -272,6 +322,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot dq
     subplot(2,2,2);
+    title('(b)', 'FontSize', 10);
+    hold on;
     plot(dq_ref.Time, dq_ref.Data(:,i)*converter, dq.Time, dq.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Velocity (deg/s)']);
@@ -280,6 +332,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
     
     % Plot tau
     subplot(2,2,3);
+    title('(c)', 'FontSize', 10);
+    hold on;
     plot(u.Time, u.Data(:,i));
     grid on; grid minor;
     ylabel(['Torque (N.m)']);
@@ -287,6 +341,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot error
     subplot(2,2,4);
+    title('(d)', 'FontSize', 10);
+    hold on;
     plot(q_error.Time, q_error.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Error (deg)']);
@@ -302,6 +358,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot q
     subplot(2,2,1);
+    title('(a)', 'FontSize', 10);
+    hold on;
     plot(q_ref.Time, q_ref.Data(:,i)*converter, q.Time, q.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Angle (deg)']);
@@ -309,6 +367,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot dq
     subplot(2,2,2);
+    title('(b)', 'FontSize', 10);
+    hold on;
     plot(dq_ref.Time, dq_ref.Data(:,i)*converter, dq.Time, dq.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Velocity (deg/s)']);
@@ -317,6 +377,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
     
     % Plot tau
     subplot(2,2,3);
+    title('(c)', 'FontSize', 10);
+    hold on;
     plot(u.Time, u.Data(:,i));
     grid on; grid minor;
     ylabel(['Torque (N.m)']);
@@ -324,6 +386,8 @@ fname = '/home/ignacio/Documents/Msc/Tese_Mestrado/Simulink/general_sim/figs';
 
     % Plot error
     subplot(2,2,4);
+    title('(d)', 'FontSize', 10);
+    hold on;
     plot(q_error.Time, q_error.Data(:,i)*converter);
     grid on; grid minor;
     ylabel(['Error (deg)']);
