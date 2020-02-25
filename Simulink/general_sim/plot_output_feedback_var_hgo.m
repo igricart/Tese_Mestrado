@@ -73,7 +73,7 @@ saveas(f_hip,fullfile(fname,['output_feedback_var_' num2str(k_noise(j)) '_hip'])
 %-----------------------------------------------------------------------------------------------------------------
 % Plot 1.2 States tracking errors
 
-f_hip_track_error = figure('Name', 'Hip vertical displacement tracking error')
+f_hip_track_error = figure('Name', 'Hip vertical displacement tracking error');
 
 subplot(1, 1, 1)
 title('(a)', 'FontSize', 10);
@@ -123,7 +123,7 @@ plot(q_est_error.Time, q_est_error.Data(:,i))
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i))
 xlabel(['Time(s)']);
-ylabel('$\tilde{x}_{1}(q_1) (m)$', 'Interpreter','latex');
+ylabel('$\tilde{x}_{1} (m)$', 'Interpreter','latex');
 lgd = legend({'4e-4','var','19e-4'},'Location','northeast');
 lgd.FontSize = 8;
 
@@ -151,7 +151,7 @@ plot(dq_est_error.Time, dq_est_error.Data(:,i))
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i))
 xlabel(['Time(s)']);
-ylabel('$\tilde{x}_{2}(q_1) (m/s)$', 'Interpreter','latex');
+ylabel('$\tilde{x}_{5} (m/s)$', 'Interpreter','latex');
 
 % Zoomed dzeta
 subplot(2, 2, 4)
@@ -282,7 +282,7 @@ plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
-ylabel('$\tilde{x}_{1}(q_2) (deg)$', 'Interpreter','latex');
+ylabel('$\tilde{x}_{2} (deg)$', 'Interpreter','latex');
 lgd = legend({'4e-4','var','19e-4'},'Location','northeast');
 lgd.FontSize = 8;
 
@@ -311,7 +311,7 @@ plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
-ylabel('$\tilde{x}_{2}(q_2) (deg/s)$', 'Interpreter','latex');
+ylabel('$\tilde{x}_{6} (deg/s)$', 'Interpreter','latex');
 
 % Zoomed dzeta
 subplot(2, 2, 4)
@@ -443,7 +443,7 @@ plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
-ylabel('$\tilde{x}_{1}(q_3) (deg)$', 'Interpreter','latex');
+ylabel('$\tilde{x}_{3} (deg)$', 'Interpreter','latex');
 lgd = legend({'4e-4','var','19e-4'},'Location','northeast');
 lgd.FontSize = 8;
 
@@ -472,7 +472,7 @@ plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
-ylabel('$\tilde{x}_{2}(q_3) (deg/s)$', 'Interpreter','latex');
+ylabel('$\tilde{x}_{7} (deg/s)$', 'Interpreter','latex');
 
 % Zoomed dzeta
 subplot(2, 2, 4)
@@ -605,7 +605,7 @@ plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(q_est_error.Time, q_est_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
-ylabel('$\tilde{x}_{1}(q_4) (deg)$', 'Interpreter','latex');
+ylabel('$\tilde{x}_{4} (deg)$', 'Interpreter','latex');
 lgd = legend({'4e-4','var','19e-4'},'Location','northeast');
 lgd.FontSize = 8;
 
@@ -634,7 +634,7 @@ plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
 load(['output_feedback_2e-03_' num2str(k_noise(j)) '.mat']);
 plot(dq_est_error.Time, dq_est_error.Data(:,i)*converter)
 xlabel(['Time(s)']);
-ylabel('$\tilde{x}_{2}(q_4) (deg/s)$', 'Interpreter','latex');
+ylabel('$\tilde{x}_{8} (deg/s)$', 'Interpreter','latex');
 
 % Zoomed dzeta
 subplot(2, 2, 4)
